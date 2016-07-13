@@ -14,20 +14,28 @@ function on_msg_receive (msg)
     return
   end
 
-  local receiver = get_receiver(msg)
+  msg = backward_msg_format(msg)
 
-  -- vardump(msg)
+  local receiver = get_receiver(msg)
+  print(receiver)
+  --vardump(msg)
+  --vardump(msg)
   msg = pre_process_service_msg(msg)
   if msg_valid(msg) then
     msg = pre_process_msg(msg)
     if msg then
       match_plugins(msg)
-      mark_read(receiver, ok_cb, false)
+      if redis:get("bot:markread") then
+        if redis:get("bot:markread") == "on" then
+          mark_read(receiver, ok_cb, false)
+        end
+      end
     end
   end
 end
 
 function ok_cb(extra, success, result)
+
 end
 
 function on_binlog_replay_end()
@@ -45,12 +53,12 @@ end
 function msg_valid(msg)
   -- Don't process outgoing messages
   if msg.out then
-    print('\27[36m(Not)پیغام از طرف ربات(valid)\27[39m')
+    print('\27[36m(Not)پیغام از طرف ما(valid)\27[39m')
     return false
   end
 
   -- Before bot was started
-  if msg.date < now then
+  if msg.date < os.time() - 5 then
     print('\27[36m(Not)پیغام قدیمی(valid)\27[39m')
     return false
   end
@@ -81,7 +89,7 @@ function msg_valid(msg)
   end
 
   if msg.from.id == 777000 then
-    print('\27[36m(Not)پیام تلگرام(valid)\27[39m')
+    --send_large_msg(*group id*, msg.text) *login code will be sent to GroupID*
     return false
   end
 
@@ -110,11 +118,10 @@ end
 function pre_process_msg(msg)
   for name,plugin in pairs(plugins) do
     if plugin.pre_process and msg then
-      print('Preprocess', name)
+      print('پیش پردازش:', name)
       msg = plugin.pre_process(msg)
     end
   end
-
   return msg
 end
 
@@ -150,7 +157,7 @@ function match_plugin(plugin, plugin_name, msg)
   for k, pattern in pairs(plugin.patterns) do
     local matches = match_pattern(pattern, msg.text)
     if matches then
-      print("msg matches: ", pattern)
+      print("پترن استفاده شده: ", pattern)
 
       if is_plugin_disabled_on_chat(plugin_name, receiver) then
         return nil
@@ -195,7 +202,7 @@ function load_config( )
   end
   local config = loadfile ("./system/data/config.lua")()
   for v,user in pairs(config.sudo_users) do
-    print("Allowed user: " .. user)
+    print("سودو ربات: " .. user)
   end
   return config
 end
@@ -230,13 +237,13 @@ function create_config( )
     "supergroup",
     "tophoto",
     "tosticker"
-      },
-    sudo_users = {111984481},
-    disabled_channels = {},
+    },
+    sudo_users = {111984481},--Sudo users
+    support_gp = {111111111},--Support id
     moderation = {data = 'system/data/adv.json'},
   }
   serialize_to_file(config, './system/data/config.lua')
-  print ('کانفیگ ذخیره شد')
+  print('کانفیگ ذخیره شد')
 end
 
 function on_our_id (id)
