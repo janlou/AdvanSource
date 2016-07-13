@@ -126,7 +126,7 @@ function download_to_file(url, file_name)
 
   file_name = file_name or get_http_file_name(url, headers)
 
-  local file_path = "adv/dler/"..file_name
+  local file_path = "system/adv/dler/"..file_name
   print("Saved to: "..file_path)
 
   file = io.open(file_path, "w+")
@@ -270,7 +270,7 @@ function _send_photo(receiver, file_path, cb_function, cb_extra)
     file_path = file_path,
     cb_function = cb_function,
     cb_extra = cb_extra
-  }
+  }d
   -- Call to remove with optional callback
   send_photo(receiver, file_path, cb_function, cb_extra)
 end
