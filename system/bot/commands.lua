@@ -3,12 +3,12 @@ http = require "socket.http"
 https = require "ssl.https"
 ltn12 = require "ltn12"
 
-serpent = (loadfile "./libs/serpent.lua")()
-feedparser = (loadfile "./libs/feedparser.lua")()
-json = (loadfile "./libs/JSON.lua")()
-mimetype = (loadfile "./libs/mimetype.lua")()
-redis = (loadfile "./libs/redis.lua")()
-JSON = (loadfile "./libs/dkjson.lua")()
+serpent = (loadfile "./system/libs/serpent.lua")()
+feedparser = (loadfile "./system/libs/feedparser.lua")()
+json = (loadfile "./system/libs/JSON.lua")()
+mimetype = (loadfile "./system/libs/mimetype.lua")()
+redis = (loadfile "./system/libs/redis.lua")()
+JSON = (loadfile "./system/libs/dkjson.lua")()
 
 http.TIMEOUT = 10
 
@@ -268,15 +268,6 @@ end
 
 -- Send image to user and delete it when finished.
 -- cb_function and cb_extra are optionals callback
-function _send_photo(receiver, file_path, cb_function, cb_extra)
-  local cb_extra = {
-    file_path = file_path,
-    cb_function = cb_function,
-    cb_extra = cb_extra
-  }d
-  -- Call to remove with optional callback
-  send_photo(receiver, file_path, cb_function, cb_extra)
-end
 
 -- Download the image and send to receiver, it will be deleted.
 -- cb_function and cb_extra are optionals callback
