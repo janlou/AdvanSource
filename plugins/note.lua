@@ -6,14 +6,14 @@ local function run(msg, matches)
     text = text:trim()
     text,b = text:gsub('^!+','')
   end
-  local file = io.open("./adv/note/"..msg.from.id..".txt", "w")
+  local file = io.open("./system/adv/note/"..msg.from.id..".txt", "w")
   file:write(text)
   file:flush()
   file:close()
   return "You can use it:\n!mynote\n\nYour note has been changed to:\n"..text
  end
    
-   local note = io.open("./adv/note/"..msg.from.id..".txt", "r")
+   local note = io.open("./system/adv/note/"..msg.from.id..".txt", "r")
    local mn = note:read("*all")
    if matches[1] == "mynote" then
       return mn
