@@ -1,5 +1,4 @@
 
-
 Commands list :
 ⚓️!kick [username|id]
 اخراج افراد
@@ -11,6 +10,10 @@ Commands list :
 مشاهده لیست اعضا
 ⚓️!modlist
 لیست مدیران
+⚓️!note <text>
+ذخیره کردن یک یادداشت
+⚓️!mynote
+مشاهده یادداشت
 ⚓️!promote [username]
 ترفیع یک فرد
 ⚓️!demote [username]
