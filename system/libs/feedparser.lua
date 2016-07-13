@@ -1,7 +1,7 @@
 local LOM = assert(require("lxp.lom"), "LuaExpat doesn't seem to be installed. feedparser kind of needs it to work...")
-local XMLElement = (loadfile "./libs/XMLElement.lua")()
-local dateparser = (loadfile "./libs/dateparser.lua")()
-local URL = (loadfile "./libs/url.lua")()
+local XMLElement = (loadfile "./system/libs/XMLElement.lua")()
+local dateparser = (loadfile "./system/libs/dateparser.lua")()
+local URL = (loadfile "./system/libs/url.lua")()
 local tinsert, tremove, tconcat = table.insert, table.remove, table.concat
 local pairs, ipairs = pairs, ipairs
 
