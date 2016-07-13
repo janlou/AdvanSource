@@ -1,5 +1,5 @@
-local Redis = (loadfile "./libs/lua-redis.lua")()
-local FakeRedis = (loadfile "./libs/fakeredis.lua")()
+local Redis = (loadfile "./system/libs/lua-redis.lua")()
+local FakeRedis = (loadfile "./system/libs/fakeredis.lua")()
 
 local params = {
   host = os.getenv('REDIS_HOST') or '127.0.0.1',
