@@ -3,9 +3,9 @@ http = require "socket.http"
 https = require "ssl.https"
 ltn12 = require "ltn12"
 
-json = (loadfile "./libs/JSON.lua")()
-mimetype = (loadfile "./libs/mimetype.lua")()
-redis = (loadfile "./libs/redis.lua")()
+json = (loadfile "./system/libs/JSON.lua")()
+mimetype = (loadfile "./system/libs/mimetype.lua")()
+redis = (loadfile "./system/libs/redis.lua")()
 
 http.TIMEOUT = 10
 
