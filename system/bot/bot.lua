@@ -205,7 +205,31 @@ function create_config( )
   -- A simple config with basic plugins and ourselves as privileged user
   config = {
     enabled_plugins = {
-    
+    "all",
+    "anti_spam",
+    "banhammer",
+    "botphoto",
+    "broadcast",
+    "getplug",
+    "Groups",
+    "help",
+    "info",
+    "ingroup",
+    "invite",
+    "markread",
+    "msg_checks",
+    "note",
+    "onservice",
+    "plugins",
+    "pm",
+    "savefile",
+    "saveplug",
+    "setbye",
+    "setwlc",
+    "sudo",
+    "supergroup",
+    "tophoto",
+    "tosticker"
       },
     sudo_users = {111984481},
     disabled_channels = {},
@@ -237,8 +261,7 @@ end
 -- Enable plugins in config.json
 function load_plugins()
   for k, v in pairs(_config.enabled_plugins) do
-    print("Loading plugin", v)
-    print("مشکل در بارگذاری", v)
+    print("بارگذاری شد", v)
 
     local ok, err =  pcall(function()
       local t = loadfile("plugins/"..v..'.lua')()
@@ -246,12 +269,38 @@ function load_plugins()
     end)
 
     if not ok then
-      print('\27[31mError loading plugin '..v..'\27[39m')
+      print('\27[31mمشکل در بارگذاری '..v..'\27[39m')
+	  print(tostring(io.popen("lua plugins/"..v..".lua"):read('*all')))
       print('\27[31m'..err..'\27[39m')
     end
 
   end
 end
+
+-- custom add
+function load_data(filename)
+
+	local f = io.open(filename)
+	if not f then
+		return {}
+	end
+	local s = f:read('*all')
+	f:close()
+	local data = JSON.decode(s)
+
+	return data
+
+end
+
+function save_data(filename, data)
+
+	local s = JSON.encode(data)
+	local f = io.open(filename, 'w')
+	f:write(s)
+	f:close()
+
+end
+
 
 -- Call and postpone execution for cron plugins
 function cron_plugins()
@@ -263,8 +312,8 @@ function cron_plugins()
     end
   end
 
-  -- Called again in 5 mins
-  postpone (cron_plugins, false, 5*60.0)
+  -- Called again in 2 mins
+  postpone (cron_plugins, false, 120)
 end
 
 -- Start and load values
