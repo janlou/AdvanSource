@@ -1,9 +1,7 @@
 function run(msg, matches)
 	
     if is_realm(msg) and is_sudo(msg) then
-   	HelpRealm = io.open("./helps/HelpRealm.txt", "r")
-    	help_text_realm = HelpRealm:read("*all")
-	  return help_text_realm
+     return "Realm havent help text\nRealm is a place for sudo users"
 	end
 
 if is_momod(msg) or is_owner(msg) or is_sudo(msg) then
