@@ -1,9 +1,8 @@
-
 package.path = package.path .. ';.luarocks/share/lua/5.2/?.lua'
   ..';.luarocks/share/lua/5.2/?/init.lua'
 package.cpath = package.cpath .. ';.luarocks/lib/lua/5.2/?.so'
 
-require("./bot/utils")
+require("./system/bot/commands")
 
 local f = assert(io.popen('/usr/bin/git describe --tags', 'r'))
 VERSION = assert(f:read('*a'))
@@ -186,7 +185,7 @@ end
 -- Returns the config from config.lua file.
 -- If file doesn't exist, create it.
 function load_config( )
-  local f = io.open('./data/config.lua', "r")
+  local f = io.open('./system/data/config.lua', "r")
   -- If config.lua doesn't exist
   if not f then
     print ("فایل کانفیگ جدید ذخیره شد")
@@ -194,7 +193,7 @@ function load_config( )
   else
     f:close()
   end
-  local config = loadfile ("./data/config.lua")()
+  local config = loadfile ("./system/data/config.lua")()
   for v,user in pairs(config.sudo_users) do
     print("Allowed user: " .. user)
   end
@@ -209,7 +208,8 @@ function create_config( )
     
       },
     sudo_users = {111984481},
-    disabled_channels = {}
+    disabled_channels = {},
+    moderation = {data = 'system/data/adv.json'},
   }
   serialize_to_file(config, './system/data/config.lua')
   print ('کانفیگ ذخیره شد')
