@@ -101,15 +101,27 @@ elif [ "$1" = "update" ]; then
   update
 else
   if [ ! -f ./tg/telegram.h ]; then
-    echo "tg not found"
-    echo "Run $0 install"
-    exit 1
+    echo "فایل لانچ نصب نشده است آیا مایل به نصب آن هستید؟"
+	echo -e "\27[31m"
+    read -p "(yes/no):"
+	echo -e "\27[39m"
+	if [ "$REPLY" != "yes" ]; then
+	 exit 1
+	else
+	 $0 install
+	fi
   fi
 
   if [ ! -f ./tg/bin/telegram-cli ]; then
-    echo "tg binary not found"
-    echo "Run $0 install"
-    exit 1
+    echo "تغییراتی صورت گرفته است آیا مایل به نصب دوباره فایل لانچ هستید؟"
+	echo -e "\27[31m"
+    read -p "(yes/no):"
+	echo -e "\27[39m"
+	if [ "$REPLY" != "yes" ]; then
+	 exit 1
+	else
+	 $0 install
+	fi
   fi
   
   sudo service redis-server start redis-cli
