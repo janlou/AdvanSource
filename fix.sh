@@ -76,6 +76,7 @@ install_rocks() {
 }
 
 install() {
+  git clone --recursive https://github.com/vysheng/tg.git
   git pull
   git submodule update --init --recursive
   patch -i "system/bot/disable.patch" -p 0 --batch --forward
@@ -100,28 +101,15 @@ if [ "$1" = "install" ]; then
 elif [ "$1" = "update" ]; then
   update
 else
+  if [ "$1" = "install" ]; then
+  install
+elif [ "$1" = "update" ]; then
+  update
+else
   if [ ! -f ./tg/telegram.h ]; then
-    echo "فایل لانچ نصب نشده است آیا مایل به نصب آن هستید؟"
-	echo -e "\27[31m"
-    read -p "(yes/no):"
-	echo -e "\27[39m"
-	if [ "$REPLY" != "yes" ]; then
-	 exit 1
-	else
-	 $0 install
-	fi
-  fi
-
-  if [ ! -f ./tg/bin/telegram-cli ]; then
-    echo "تغییراتی صورت گرفته است آیا مایل به نصب دوباره فایل لانچ هستید؟"
-	echo -e "\27[31m"
-    read -p "(yes/no):"
-	echo -e "\27[39m"
-	if [ "$REPLY" != "yes" ]; then
-	 exit 1
-	else
-	 $0 install
-	fi
+    echo "فایل تیجی یافت نشد از دستور زیر استفاده کنید"
+    echo "$0 install"
+    exit 1
   fi
   
   sudo service redis-server start redis-cli
