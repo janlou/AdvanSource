@@ -4,11 +4,15 @@ THIS_DIR=$(cd $(dirname $0); pwd)
 cd $THIS_DIR
 
 update() {
+  chmod +x fix.sh
+  chmod +x steady.sh
+  chmod +x start.sh
+  git clone --recursive https://github.com/vysheng/tg.git
   git pull
   git submodule update --init --recursive
   install_rocks
 }
-
+#By: @AdvanTm
 # Will install luarocks on THIS_DIR/.luarocks
 install_luarocks() {
   git clone https://github.com/keplerproject/luarocks.git
@@ -93,22 +97,34 @@ install() {
   install_luarocks
   install_rocks
 }
-
+#By: @AdvanTm
 if [ "$1" = "install" ]; then
   install
 elif [ "$1" = "update" ]; then
   update
 else
   if [ ! -f ./tg/telegram.h ]; then
-    echo "tg not found"
-    echo "Run $0 install"
-    exit 1
+    echo "فایل لانچ نصب نشده است آیا مایل به نصب آن هستید؟"
+	echo -e "\27[31m"
+    read -p "(yes/no):"
+	echo -e "\27[39m"
+	if [ "$REPLY" != "yes" ]; then
+	 exit 1
+	else
+	 $0 install
+	fi
   fi
 
   if [ ! -f ./tg/bin/telegram-cli ]; then
-    echo "tg binary not found"
-    echo "Run $0 install"
-    exit 1
+    echo "تغییراتی صورت گرفته است آیا مایل به نصب دوباره فایل لانچ هستید؟"
+	echo -e "\27[31m"
+    read -p "(yes/no):"
+	echo -e "\27[39m"
+	if [ "$REPLY" != "yes" ]; then
+	 exit 1
+	else
+	 $0 install
+	fi
   fi
   
    echo -e "\033[38;5;208m"
@@ -118,7 +134,7 @@ else
    echo -e "  /_/   \_\|____/  \__//_/   \_\|| \__|       "
    echo -e "                                              \033[0;00m"
    echo -e "\e[36m"
-  
+   
   while true; do
    rm -r ../.telegram-cli/state
    sudo service redis-server start redis-cli
