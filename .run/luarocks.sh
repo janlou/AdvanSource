@@ -1,6 +1,8 @@
+#!/usr/bin/env bash
 
 THIS_DIR=$(cd $(dirname $0); pwd)
 cd $THIS_DIR
+
 
 luarocks() {
 cd $home
@@ -13,8 +15,11 @@ cd bin
 cd ..
 cd ..
 }
-  
-    echo -e "\27[31m"
-    echo -e "Godbye luarock :)"
-	echo -e "\27[39m"
+  if [ "$1" = "install" ]; then
+  luarocks
+ else
+  echo "Run $0 install"
+ #This is a helper for create anti spam bot.
+ #created by: @janlou and powered by: @AdvanTm
+  fi
 	
