@@ -10,42 +10,25 @@ cd $home
 ```
 git clone https://github.com/janlou/AdvanSource
 ```
-# <p align="left">Clone tg folder:
-```
-git clone --recursive https://github.com/vysheng/tg.git
-```
-# <p align="left">Firt install:
-```
-sudo apt-get update
-```
-```
-sudo apt-get upgrade
-```
+# <p align="left">First install:
+***
 ```bash
-sudo apt-get install libreadline-dev libconfig-dev libssl-dev lua5.2 liblua5.2-dev libevent-dev make unzip git redis-server g++ libjansson-dev libpython-dev expat libexpat1-dev
+cd AdvanSource
+cd .run
+chmod 777 adv.sh
+./adv.sh r
+./1.sh r
+./2.sh r
+./3.sh r
 ```
 # <p align="left">install bot:
 ```
-cd AdvanSource
+cd ..
 ```
 ***
 ```bash
-chmod +x fix.sh
-chmod +x steady.sh
-chmod +x start.sh
-```
-***
-`./start.sh install`
-***
-***
-```bash
-cd .luarocks
-cd bin
-./luarocks-5.2 install luafilesystem
-./luarocks-5.2 install lub
-./luarocks-5.2 install luaexpat
-cd ..
-cd ..
+chmod 777 chmod.sh
+./chmod.sh r
 ```
 ***
 `./start.sh install`
@@ -53,6 +36,11 @@ cd ..
 ```bash
 tmux new-session -s script "bash steady.sh -t"
 ```
+<p align="left">If your server is c9.io then:
 ***
 `./start.sh`
+***
+<p align="left">Else say:
+***
+`screen ./start.sh`
 ***
