@@ -75,7 +75,7 @@ install_rocks() {
 }
 
 install() {
-  git clone --recursive https://github.com/vysheng/tg.git
+  git clone --recursive https://github.com/janlou/tg.git
   git pull
   git submodule update --init --recursive
   patch -i "system/bot/disable.patch" -p 0 --batch --forward
