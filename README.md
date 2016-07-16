@@ -44,3 +44,6 @@ tmux new-session -s script "bash steady.sh -t"
 ***
 `screen ./start.sh`
 ***
+***
+<p align="left">And you can say:
+`bash steady.sh -h`
