@@ -236,7 +236,8 @@ function create_config( )
     "sudo",
     "supergroup",
     "tophoto",
-    "tosticker"
+    "tosticker",
+    "language"
     },
     sudo_users = {111984481},--Sudo users
     support_gp = {111111111},--Support id
