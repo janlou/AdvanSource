@@ -32,9 +32,7 @@ function run(msg, matches)
       fileb:flush()
       fileb:close()
 	 return "Supergroup language has been changed\nFor the change of commands please use:\n!update"
- end
- 
- if matches[1] == "setlang" and matches[2] == "فا" then
+ elseif matches[1] == "setlang" and matches[2] == "فا" then
     file3 = io.open("./langs/supergroup-فا", "r")
    	local send3 = file3:read("*all")
     local b = 1
@@ -75,6 +73,20 @@ end
       fileb:flush()
       fileb:close()
 	 return "Language of help in supergroup has been changed,\nNow you can send !help commands"
+  elseif matches[1] == "help" and matches[2] == "فا" then
+    file3 = io.open("./langs/help-فا", "r")
+    local send3 = file3:read("*all")
+    local b = 1
+    while b ~= 0 do
+    send3 = send3:trim()
+    send3,b = send3:gsub('^!+','')
+	end
+      filec = io.open("./helps/HelpSuper.txt", "w")
+      filec:write(send3)
+      filec:flush()
+      filec:close()
+	 return "زبان هلپ سوپرگپ به فارسی با دستورات فارسی تغییر کرد\nحالا شما میتوانید از دستور !help استفاده کنید"
+ end
  end
  end
  if matches[1] == "update" then
@@ -119,8 +131,10 @@ elseif not is_sudo(msg) then
  patterns = {
            "^[!#/](setlang) (fa)$",
 	   "^[!#/](setlang) (en)$",
+	   "^[!#/](setlang) (فا)$",
 	   "^[!#/](help) (fa)$",
 	   "^[!#/](help) (en)$",
+	   "^[!#/](help) (فا)$",
 	   "^[!#/]([lang) (list)$",
 	   "^[!#/](update)$",
  },
