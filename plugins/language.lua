@@ -134,7 +134,7 @@ end
 	   "^[!#/](help) (fa)$",
 	   "^[!#/](help) (en)$",
 	   "^[!#/](help) (فا)$",
-	   "^[!#/]([lang) (list)$",
+	   "^[!#/](lang) (list)$",
 	   "^[!#/](update)$",
  },
  run = run
