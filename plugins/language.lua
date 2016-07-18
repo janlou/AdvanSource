@@ -88,7 +88,6 @@ end
 	 return "زبان هلپ سوپرگپ به فارسی با دستورات فارسی تغییر کرد\nحالا شما میتوانید از دستور !help استفاده کنید"
  end
  end
- end
  if matches[1] == "update" then
   txt = "Updated!"
   send_msg("channel#id"..msg.to.id, txt, ok_cb, false)
@@ -117,11 +116,11 @@ end
  	⚓️ !help فا
  	تغییر زبان هلپ گروه به فارسی با دستورات فارسی
  	]]
- end
-elseif not is_sudo(msg) then
+end
+  elseif not is_sudo(msg) then
  return "You cant change language (just for sudo!)"
- end
- end
+end
+end
  return {
  advan = {
  "Created by: @janlou",
@@ -139,4 +138,4 @@ elseif not is_sudo(msg) then
 	   "^[!#/](update)$",
  },
  run = run
- }
+}
