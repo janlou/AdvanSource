@@ -1448,7 +1448,7 @@ local function run(msg, matches)
 				return
 			end
 			if not is_owner(msg) then
-				return "فقط مدیران می توانند مدیری را حذف کنند
+				return "فقط مدیران می توانند مدیری را حذف کنند"
 			end
 			if type(msg.reply_id) ~= "nil" then
 				local cbreply_extra = {
