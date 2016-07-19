@@ -1254,7 +1254,7 @@ local function run(msg, matches)
 			export_channel_link(receiver, callback_link, false)
 		end
 
-		if matches[1] == 'setlink' and is_owner(msg) then
+		if matches[1] == 'تنظیم لینک' and is_owner(msg) then
 			data[tostring(msg.to.id)]['settings']['set_link'] = 'waiting'
 			save_data(_config.moderation.data, data)
 			return 'لطفا لینک جدید را برای ذخیره ارسال نمایید'
@@ -1729,7 +1729,7 @@ local function run(msg, matches)
 					return "بی صدای متن در حال حاضر فعال است"
 				end
 			end
-			if matches[2] == 'chat' then
+			if matches[2] == 'all' then
 			local msg_type = 'All'
 				if not is_muted(chat_id, msg_type..': yes') then
 					mute(chat_id, msg_type)
@@ -1795,7 +1795,7 @@ local function run(msg, matches)
 					return "متن در حال حاضر با صدا است"
 				end
 			end
-			if matches[2] == 'chat' then
+			if matches[2] == 'all' then
 			local msg_type = 'All'
 				if is_muted(chat_id, msg_type..': yes') then
 					unmute(chat_id, msg_type)
