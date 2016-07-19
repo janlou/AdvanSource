@@ -46,4 +46,4 @@ tmux new-session -s script "bash steady.sh -t"
 ***
 ***
 <p align="left">And you can say:
-`bash steady.sh -h`
+`bash steady.sh -t`
