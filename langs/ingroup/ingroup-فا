@@ -770,7 +770,6 @@ local function setowner_by_reply(extra, success, result)
   local name_log = msg.from.print_name:gsub("_", " ")
   data[tostring(msg.to.id)]['set_owner'] = tostring(msg.from.id)
       save_data(_config.moderation.data, data)
-      savelog(msg.to.id, name_log.." ["..msg.from.id.."] set ["..msg.from.id.."] as owner")
       local text = msg.from.print_name:gsub("_", " ").." از الان صاحب گروه است"
       return send_large_msg(receiver, text)
 end
@@ -1144,7 +1143,6 @@ if msg.to.type == 'chat' then
         return "فقط صاحب گروه قادر به ارتقای اعضا به مدیری است"
       end
 	local member = matches[2]
-	savelog(msg.to.id, name_log.." ["..msg.from.id.."] promoted @".. member)
 	local cbres_extra = {
 		chat_id = msg.to.id,
         mod_cmd = 'promote',
@@ -1176,7 +1174,6 @@ if msg.to.type == 'chat' then
         return "شما قادر به تنزل خود نیستید"
       end
 	local member = matches[2]
-        savelog(msg.to.id, name_log.." ["..msg.from.id.."] demoted @".. member)
 	local cbres_extra = {
 	chat_id = msg.to.id,
         mod_cmd = 'demote',
@@ -1187,29 +1184,24 @@ if msg.to.type == 'chat' then
 	return resolve_username(username, promote_demote_res, cbres_extra)
     end
     if matches[1] == 'لیست مدیران' then
-      savelog(msg.to.id, name_log.." ["..msg.from.id.."] requested group modlist")
       return modlist(msg)
     end
     if matches[1] == 'توضیحات' then
-      savelog(msg.to.id, name_log.." ["..msg.from.id.."] requested group description")
       return get_description(msg, data)
     end
     if matches[1] == 'قوانین' then
-      savelog(msg.to.id, name_log.." ["..msg.from.id.."] requested group rules")
       return get_rules(msg, data)
     end
     if matches[1] == 'تنظیم' then
       if matches[2] == 'قوانین' then
         rules = matches[3]
         local target = msg.to.id
-        savelog(msg.to.id, name_log.." ["..msg.from.id.."] قوانین گروه را تغییر داد به ["..matches[3].."]")
         return set_rulesmod(msg, data, target)
       end
       if matches[2] == 'توضیحات' then
         local data = load_data(_config.moderation.data)
         local target = msg.to.id
         local about = matches[3]
-        savelog(msg.to.id, name_log.." ["..msg.from.id.."] توضیحات گروه را تغییر داد به ["..matches[3].."]")
         return set_descriptionmod(msg, data, target, about)
       end
     end
@@ -1493,7 +1485,6 @@ end
           save_data(_config.moderation.data, data)
         end
         local receiver = 'chat#'..msg.to.id
-        savelog(msg.to.id, name_log.." ["..msg.from.id.."] revoked group link ")
         return export_chat_link(receiver, callback, true)
       end
       if matches[1] == 'لینک' then
@@ -1504,7 +1495,6 @@ end
         if not group_link then
           return "ابتدا با دستور *لینک جدید* لینکی جدید بسازید"
         end
-         savelog(msg.to.id, name_log.." ["..msg.from.id.."] requested group link ["..group_link.."]")
         return "لینک گروهه "..msg.to.id..":\n"..group_link
       end
       if matches[1] == 'تنظیم سازنده' and matches[2] then
@@ -1513,7 +1503,6 @@ end
         end
         data[tostring(msg.to.id)]['set_owner'] = matches[2]
         save_data(_config.moderation.data, data)
-        savelog(msg.to.id, name_log.." ["..msg.from.id.."] تنظیم شد ["..matches[2].."] به عنوان صاحب گروه")
         local text = matches[2].." اضافه کرد به عنوان صاحب گروه"
         return text
       end
@@ -1554,7 +1543,6 @@ end
     local flood_max = matches[2]
     data[tostring(msg.to.id)]['settings']['flood_msg_max'] = flood_max
     save_data(_config.moderation.data, data)
-    savelog(msg.to.id, name_log.." ["..msg.from.id.."] set flood to ["..matches[2].."]")
     return 'حساسیت اسپم تنظیم شد روی  '..matches[2]
   end
 
@@ -1580,19 +1568,16 @@ if msg.to.type == 'chat' then
         data[tostring(msg.to.id)]['moderators'][tostring(k)] = nil
         save_data(_config.moderation.data, data)
       end
-      savelog(msg.to.id, name_log.." ["..msg.from.id.."] cleaned modlist")
     end
     if matches[2] == 'قوانین' then
       local data_cat = 'rules'
       data[tostring(msg.to.id)][data_cat] = nil
       save_data(_config.moderation.data, data)
-      savelog(msg.to.id, name_log.." ["..msg.from.id.."] cleaned rules")
     end
     if matches[2] == 'توضیحات' then
       local data_cat = 'description'
       data[tostring(msg.to.id)][data_cat] = nil
       save_data(_config.moderation.data, data)
-      savelog(msg.to.id, name_log.." ["..msg.from.id.."] cleaned about")
     end
   end
 if msg.to.type == 'chat' then
