@@ -1230,7 +1230,7 @@ end
 		if matches[2] == 'لینک' then
 			return lock_group_links(msg, data, target)
 		end
-		if matches[2]:lower() == 'اسم برعکس' then
+		if matches[2]:lower() == 'آر تی ال' then
 			return lock_group_rtl(msg, data, target)
 		end
 		if matches[2] == 'استیکر' then
@@ -1266,7 +1266,7 @@ end
 		if matches[2] == 'لینک' then
 			return unlock_group_links(msg, data, target)
 		end
-		if matches[2]:lower() == 'اسم برعکس' then
+		if matches[2]:lower() == 'آر تی ال' then
 			return unlock_group_rtl(msg, data, target)
 		end
 		if matches[2] == 'استیکر' then
