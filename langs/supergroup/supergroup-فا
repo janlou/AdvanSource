@@ -1729,7 +1729,7 @@ local function run(msg, matches)
 					return "بی صدای متن در حال حاضر فعال است"
 				end
 			end
-			if matches[2] == 'همه' then
+			if matches[2] == 'آل' then
 			local msg_type = 'All'
 				if not is_muted(chat_id, msg_type..': yes') then
 					mute(chat_id, msg_type)
@@ -1795,7 +1795,7 @@ local function run(msg, matches)
 					return "متن در حال حاضر با صدا است"
 				end
 			end
-			if matches[2] == 'همه' then
+			if matches[2] == 'آل' then
 			local msg_type = 'All'
 				if is_muted(chat_id, msg_type..': yes') then
 					unmute(chat_id, msg_type)
