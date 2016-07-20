@@ -7,7 +7,7 @@ function run(msg, matches)
  if is_sudo(msg) then
   if msg.to.type == 'channel' then
  if matches[1] == "setlang" and matches[2] == "fa" then
-    file1 = io.open("./langs/supergroup-fa", "r")
+    file1 = io.open("./langs/supergroup/supergroup-fa", "r")
    	local send1 = file1:read("*all")
     local b = 1
     while b ~= 0 do
@@ -20,7 +20,7 @@ function run(msg, matches)
       filea:close()
 	 return "زبان سوپرگپ با موفقیت تغییر کرد\nبرای اعمال تغییرات از دستور زیر استفاده کنید:\n!update"
  elseif matches[1] == "setlang" and matches[2] == "en" then
-    file2 = io.open("./langs/supergroup-en", "r")
+    file2 = io.open("./langs/supergroup/supergroup-en", "r")
     local send2 = file2:read("*all")
     local b = 1
     while b ~= 0 do
@@ -33,7 +33,7 @@ function run(msg, matches)
       fileb:close()
 	 return "Supergroup language has been changed\nFor the change of commands please use:\n!update"
  elseif matches[1] == "setlang" and matches[2] == "فا" then
-    file3 = io.open("./langs/supergroup-فا", "r")
+    file3 = io.open("./langs/supergroup/supergroup-فا", "r")
    	local send3 = file3:read("*all")
     local b = 1
     while b ~= 0 do
@@ -48,7 +48,7 @@ function run(msg, matches)
 end
 
   if matches[1] == "help" and matches[2] == "fa" then
-    file1 = io.open("./langs/helpSUPER-fa", "r")
+    file1 = io.open("./langs/helpSUPER/helpSUPER-fa", "r")
    	local send1 = file1:read("*all")
     local b = 1
     while b ~= 0 do
@@ -61,7 +61,7 @@ end
       filea:close()
 	 return "زبان هلپ ربات در سوپرگپ تغییر کرد\nحالا شما میتوانید از دستور !help استفاده کنید"
  elseif matches[1] == "help" and matches[2] == "en" then
-    file2 = io.open("./langs/helpSUPER-en", "r")
+    file2 = io.open("./langs/helpSUPER/helpSUPER-en", "r")
     local send2 = file2:read("*all")
     local b = 1
     while b ~= 0 do
@@ -74,7 +74,7 @@ end
       fileb:close()
 	 return "Language of help in supergroup has been changed,\nNow you can send !help commands"
   elseif matches[1] == "help" and matches[2] == "فا" then
-    file3 = io.open("./langs/helpSUPER-فا", "r")
+    file3 = io.open("./langs/helpSUPER/helpSUPER-فا", "r")
     local send3 = file3:read("*all")
     local b = 1
     while b ~= 0 do
@@ -91,7 +91,7 @@ end
 
 if msg.to.type == 'chat' then
  if matches[1] == "setlang" and matches[2] == "fa" then
-    file1 = io.open("./langs/ingroup-fa", "r")
+    file1 = io.open("./langs/ingroup/ingroup-fa", "r")
    	local send1 = file1:read("*all")
     local b = 1
     while b ~= 0 do
@@ -104,7 +104,7 @@ if msg.to.type == 'chat' then
       filea:close()
 	 return "زبان گپ معمولی با موفقیت تغییر کرد\nبرای اعمال تغییرات از دستور زیر استفاده کنید:\n!update"
  elseif matches[1] == "setlang" and matches[2] == "en" then
-    file2 = io.open("./langs/ingroup-en", "r")
+    file2 = io.open("./langs/ingroup/ingroup-en", "r")
     local send2 = file2:read("*all")
     local b = 1
     while b ~= 0 do
@@ -117,7 +117,7 @@ if msg.to.type == 'chat' then
       fileb:close()
 	 return "Chat language has been changed\nFor the change of commands please use:\n!update"
  elseif matches[1] == "setlang" and matches[2] == "فا" then
-    file3 = io.open("./langs/ingroup-فا", "r")
+    file3 = io.open("./langs/ingroup/ingroup-فا", "r")
    	local send3 = file3:read("*all")
     local b = 1
     while b ~= 0 do
@@ -132,7 +132,7 @@ if msg.to.type == 'chat' then
 end
 
   if matches[1] == "help" and matches[2] == "fa" then
-    file1 = io.open("./langs/helpCHAT-fa", "r")
+    file1 = io.open("./langs/helpCHAT/helpCHAT-fa", "r")
    	local send1 = file1:read("*all")
     local b = 1
     while b ~= 0 do
@@ -145,7 +145,7 @@ end
       filea:close()
 	 return "زبان هلپ ربات در گپ معمولی تغییر کرد\nحالا شما میتوانید از دستور !help استفاده کنید"
  elseif matches[1] == "help" and matches[2] == "en" then
-    file2 = io.open("./langs/helpCHAT-en", "r")
+    file2 = io.open("./langs/helpCHAT/helpCHAT-en", "r")
     local send2 = file2:read("*all")
     local b = 1
     while b ~= 0 do
@@ -158,7 +158,7 @@ end
       fileb:close()
 	 return "Language of help in chat has been changed,\nNow you can send !help commands"
   elseif matches[1] == "help" and matches[2] == "فا" then
-    file3 = io.open("./langs/helpCHAT-فا", "r")
+    file3 = io.open("./langs/helpCHAT/helpCHAT-فا", "r")
     local send3 = file3:read("*all")
     local b = 1
     while b ~= 0 do
