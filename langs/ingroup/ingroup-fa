@@ -1198,7 +1198,7 @@ if msg.to.type == 'chat' then
         local target = msg.to.id
         return set_rulesmod(msg, data, target)
       end
-      if matches[2] == 'setabout' then
+      if matches[2] == 'about' then
         local data = load_data(_config.moderation.data)
         local target = msg.to.id
         local about = matches[3]
