@@ -1,0 +1,74 @@
+
+Commands list :
+⚓️!kick [username|id]
+اخراج افراد
+⚓️!ban [ username|id]
+تحریم افراد از گروه
+⚓️!unban [id]
+حذف تحریم
+⚓️!modlist
+لیست مدیران
+⚓️!note <text>
+ذخیره کردن یک یادداشت
+⚓️!mynote
+مشاهده یادداشت
+⚓️!promote [username]
+ترفیع یک فرد
+⚓️!demote [username]
+تنزل درجه
+⚓️!kickme
+خروج از گروه
+⚓️!about
+توضیحات گروه
+⚓️!setphoto
+تنظیم عکس گروه
+⚓️!setname [name]
+تنظیم نام گروه
+⚓️!rules
+قوانین گروه
+⚓️!id
+مشاهده آیدی گروه
+⚓️!help
+متن راهنما
+⚓️!lock [links|flood|spam|member|rtl|sticker|contacts]
+قفل کردن موارد بالا
+*rtl: حذف سریع پیام های ورود و خروج کاربران*
+⚓️!unlock [links|flood|spam|member|rtl|sticker|contacts]
+بازکردن قفل موارد بالا
+⚓️!mute [all|audio|gifs|photo|video]
+ساکت کردن یکی از موارد(میوت)
+*وقتی کسی یا چیزی میوت شود پیام های او بلافاصله توسط ربات حذف میشود*
+⚓️!unmute [all|audio|gifs|photo|video]
+خروج از سکوت(آنمیوت)
+*کاربر یا چیزی که میوت شده بود به حالت عادی بازمیگردد*
+⚓️!set rules <text>
+تنظیم قوانین گروه
+⚓️!set about <text>
+تنظیم توضیحات گروه
+⚓️!settings
+مشاهده تنظیمات
+⚓️!muteslist
+لیست چیز های میوت شده
+⚓️!muteuser [username]
+ساکت کردن یک فرد
+*پیام های او پاک خواهد شد*
+⚓️!mutelist
+لیست افراد میوت شده
+⚓️!newlink
+لینک جدید
+⚓️!link
+لینک گروه
+⚓️!owner
+سازنده کیست؟
+⚓️!setowner [id]
+تنظیم سازنده گروه
+⚓️!setflood [value]
+تنظیم مقدار فلود
+⚓️!clear [modlist|rules|about]
+پاک کردن کلی موارد بالا
+⚓️!banlist
+لیست تحریم شدگان
+**You can use "#", "!", or "/" to begin all commands
+*Only owner and mods can add bots in group
+*Only moderators and owner can use kick,ban,unban,newlink,link,setphoto,setname,lock,unlock,set rules,set about and settings commands
+*Only owner can use res,setowner,promote,demote and log commands
