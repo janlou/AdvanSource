@@ -107,7 +107,7 @@ echo -e "\033[38;5;208m        \  \::/        \  \:\/:/   \  \:\|  |:|  \  \::/ 
 echo -e "\033[38;5;208m         \  \:\         \  \::/     \  \:\__|:|   \  \:\        \  \:\       \033[0;00m"
 echo -e "\033[38;5;208m          \  \:\         \__\/       \__\::::/     \  \:\        \  \:\      \033[0;00m"
 echo -e "\033[38;5;208m           \__\/                         ~~~~       \__\/         \__\/      \033[0;00m"
-echo -e "\033[38;5;208m               \e[01;34m             AdvanSource by @janlou             \e[00;37;40m"
+echo -e "\033[38;5;208m               \e[01;34m       https://github.com/janlou/AdvanSource             \e[00;37;40m"
 echo ""
 cat << EOF
  $bld$f1▄ ▀▄   ▄▀ ▄   $f2 ▄▄▄████▄▄▄    $f3  ▄██▄     $f4▄ ▀▄   ▄▀ ▄   $f5 ▄▄▄████▄▄▄    $f6  ▄██▄  $rst
@@ -120,38 +120,40 @@ EOF
 sleep 1.2
 
 # Checking if the bot folder is in HOME
-echo -e "$bld$f4 CHECKING INSTALLED BOT...$rst"
+echo -e "$bld$f4 در حال چک کردن...$rst"
 sleep 0.5
 ls ../ | grep $BOT > /dev/null
 if [ $? != 0 ]; then
-  echo -e "$f1 ERROR: BOT: $BOT NOT FOUND IN YOUR HOME DIRECTORY$rst"
+  echo -e "$f1 مشکلی به وجود آمد: پوشه ربات با نام اورجینال یافت نمیشود$rst"
   sleep 4
   exit 1
 fi
-echo -e "$f2 $BOT FOUND IN YOUR HOME DIRECTORY$rst"
+echo -e "$f2 $BOT در سرور شما یافت شد$rst"
 sleep 0.5
 
 
 echo ""
-echo -e "\033[38;5;208m @GPMod    :)      @cruel_channel \033[0;00m"
-echo -e "\033[38;5;208m @GPMod    :)      @cruel_channel \033[0;00m"
-echo -e "\033[38;5;208m @GPMod    :)      @cruel_channel \033[0;00m"
-echo -e "\033[38;5;208m @GPMod    :)      @cruel_channel \033[0;00m"
-echo -e "\033[38;5;208m @GPMod    :)      @cruel_channel \033[0;00m"
+echo -e "\033[38;5;208m 𝓟𝓸𝔀𝒆𝓻𝒆𝓭 𝓫𝔂: \033[0;00m"
+echo -e "\033[38;5;208m Ａｄｖａｎ Ｔｅａｍ \033[0;00m"
+echo ""
+echo -e "\033[38;5;208m 𝓣𝓻𝓪𝓷𝓼𝓵𝓪𝓽𝒆𝓭 𝓫𝔂 \033[0;00m"
+echo -e "\033[38;5;208m @ｋａｍｒａｎｙａ \033[0;00m"
+echo -e "\033[38;5;208m @ｊａｎｌｏｕ \033[0;00m"
+echo ""
 
 sleep 1.5
-echo -e "$bld$f4 CHECKING PROCESSES...$rst"
+echo -e "$bld$f4 در حال چک کردن فرآیندها...$rst"
 sleep 0.7
 
 # Looks for the number of screen/telegram-cli processes
 CLINUM=`ps -e | grep -c telegram-cli`
-echo "$f2 RUNNING $CLINUM TELEGRAM-CLI PROCESS$rst"
+echo "$f2 $CLINUM با موفقیت ران شد$rst"
 sleep 0.9
 
 # =====Setup ends===== #
 
 # Opening new tmux in a daemon
-echo -e "$bld$f4 ATTACHING TMUX AS DAEMON...$rst"
+echo -e "$bld$f4 تلاش برای اتصال...$rst"
 # It is recommended to clear cli status always before starting the bot
 rm ../.telegram-cli/state  > /dev/null 
 # Nested TMUX sessions trick 
@@ -159,7 +161,7 @@ TMUX= tmux new-session -d -s $BOT "./start.sh"
 sleep 1.3
 
 CLIPID=`ps -e | grep telegram-cli | head -1 | sed 's/^[[:space:]]*//' | cut -f 1 -d" "`
-echo -e "$f2 NEW TELEGRAM-CLI PROCESS: $CLIPID$rst"
+echo -e "$f2 عمل جدید: $CLIPID$rst"
 echo ""
 echo ""
 
@@ -175,8 +177,8 @@ sleep 3
 
 while true; do
   
-	echo -e "$f2 TIMES CHECKED AND RUNNING:$f5 $OK $rst"
-	echo -e "$f2 TIMES FAILED AND RECOVERED:$f5 $BAD $rst"
+	echo -e "$f2 تعداد دفعات چک شده:$f5 $OK $rst"
+	echo -e "$f2 دفعات بازیافت کرش:$f5 $BAD $rst"
 	echo ""
 	
 	cat /proc/$CLIPID/task/$CLIPID/status > CHECK
@@ -198,11 +200,11 @@ while true; do
 	NONVOLUNTARYCHECK=`grep nonvoluntary CHECK | cut -f 2 -d":" | sed 's/^[[:space:]]*//'`
 	
 	if [ $NONVOLUNTARY != $NONVOLUNTARYCHECK ] || [ $VOLUNTARY != $VOLUNTARYCHECK ]; then
-		echo -e "$f5 BOT RUNNING!$rst"
+		echo -e "$f5 ربات با موفقیت اجرا شد!$rst"
 		OK=$(( $OK + 1 ))
 
 	else
-		echo -e "$f5 BOT NOT RUNING, TRYING TO RELOAD IT...$rst"
+		echo -e "$f5 ربات اجرا نشده است در حال تلاش برای اجرا...$rst"
 		BAD=$(( $BAD + 1 ))
 		sleep 1
 		
@@ -217,8 +219,8 @@ while true; do
 		CLIPID=`ps -e | grep telegram-cli | head -1 | sed 's/^[[:space:]]*//' | cut -f 1 -d" "`
 		
 		if [ -z "${CLIPID}" ]; then
-			echo -e "$f1 ERROR: TELEGRAM-CLI PROCESS NOT RUNNING$rst"
-			echo -e "$f1 FAILED TO RECOVER BOT$rst"
+			echo -e "$f1 مشکلی رخ داد$rst"
+			echo -e "$f1 مشکلی در بازیافت ربات رخ داد$rst"
 			sleep 3
 			exit 1
 		fi
@@ -270,7 +272,7 @@ echo -e "\033[38;5;208m        \  \::/        \  \:\/:/   \  \:\|  |:|  \  \::/ 
 echo -e "\033[38;5;208m         \  \:\         \  \::/     \  \:\__|:|   \  \:\        \  \:\       \033[0;00m"
 echo -e "\033[38;5;208m          \  \:\         \__\/       \__\::::/     \  \:\        \  \:\      \033[0;00m"
 echo -e "\033[38;5;208m           \__\/                         ~~~~       \__\/         \__\/      \033[0;00m"
-echo -e "\033[38;5;208m               \e[01;34m             AdvanSource by @janlou             \e[00;37;40m"
+echo -e "\033[38;5;208m               \e[01;34m       https://github.com/janlou/AdvanSource             \e[00;37;40m"
 echo ""
 cat << EOF
  $bld$f1▄ ▀▄   ▄▀ ▄   $f2 ▄▄▄████▄▄▄    $f3  ▄██▄     $f4▄ ▀▄   ▄▀ ▄   $f5 ▄▄▄████▄▄▄    $f6  ▄██▄  $rst
@@ -296,11 +298,14 @@ sleep 0.5
 
 
 echo ""
-echo -e "\033[38;5;208m @GPMod    :)      @cruel_channel \033[0;00m"
-echo -e "\033[38;5;208m @GPMod    :)      @cruel_channel \033[0;00m"
-echo -e "\033[38;5;208m @GPMod    :)      @cruel_channel \033[0;00m"
-echo -e "\033[38;5;208m @GPMod    :)      @cruel_channel \033[0;00m"
-echo -e "\033[38;5;208m @GPMod    :)      @cruel_channel \033[0;00m"
+echo -e "\033[38;5;208m 𝓟𝓸𝔀𝒆𝓻𝒆𝓭 𝓫𝔂: \033[0;00m"
+echo -e "\033[38;5;208m Ａｄｖａｎ Ｔｅａｍ \033[0;00m"
+echo ""
+echo -e "\033[38;5;208m 𝓣𝓻𝓪𝓷𝓼𝓵𝓪𝓽𝒆𝓭 𝓫𝔂 \033[0;00m"
+echo -e "\033[38;5;208m @ｋａｍｒａｎｙａ \033[0;00m"
+echo -e "\033[38;5;208m @ｊａｎｌｏｕ \033[0;00m"
+echo ""
+
 # Starting preliminar setup
 sleep 1.5
 echo -e "$bld$f4 CHECKING PROCESSES...$rst"
@@ -311,18 +316,18 @@ SCREENNUM=`ps -e | grep -c screen`
 CLINUM=`ps -e | grep -c telegram-cli`
 
 if [ $SCREENNUM -ge 3 ]; then
-  echo -e "$f1 ERROR: MORE THAN 2 PROCESS OF SCREEN RUNNING.$rst"
-  echo -e "$f1 THESE PROCESSES HAVE BE KILLED. THEN RESTART THE SCRIPT$rst"
-  echo -e '$f1 RUN: "killall screen" $rst'
+  echo -e "$f1 خطا: بیش از 2 روند از صفحه نمایش در حال اجرا است $rst"
+  echo -e "$f1 این فرآیندها کشته خواهند شد. سپس راه اندازی مجدد کنید اسکریپت را $rst"
+  echo -e '$f1 اجرا: "از بین بردن تمام صفحه نمایش" $rst'
   if [ $CLINUM -ge 2 ]; then
-    echo -e "$f1 ERROR: MORE THAN 1 PROCESS OF TELEGRAM-CLI RUNNING.$rst"
-    echo -e "$f1 THESE PROCESSES WILL BE KILLED. THEN RESTART THE SCRIPT$rst"
-	echo -e "$f1 RUN: killall telegram-cli $rst"
+    echo -e "$f1 خطا : بيش از 1 فرايند تلگرام اجرا می شود $rst"
+    echo -e "$f1 این فرآیندها کشته خواهد شد. سپس راه اندازی مجدد کنید اسکریپت را $rst"
+	echo -e "$f1 اجرا: از بین بردن تمام تلگرام - سی ال آی $rst"
   fi
   sleep 4
   exit 1
 fi
-echo "$f2 SCREEN NUMBER AND CLI NUMBER UNDER THE SUPPORTED LIMIT"
+echo "$f2 شماره صفحه و شماره  تحت محدوده پشتیبانی"
 sleep 0.7
 echo "$f2 RUNNING $SCREENNUM SCREEN PROCESS$rst"
 echo "$f2 RUNNING $CLINUM TELEGRAM-CLI PROCESS$rst"
@@ -418,8 +423,8 @@ sleep 5
 
   while true; do
   
-	echo -e "$f2 TIMES CHECKED AND RUNNING:$f5 $OK $rst"
-	echo -e "$f2 TIMES FAILED AND RECOVERED:$f5 $BAD $rst"
+	echo -e "$f2 تعداد دفعات چک شده:$f5 $OK $rst"
+	echo -e "$f2 دفعات بازیافت کرش:$f5 $BAD $rst"
 	echo ""
 	
 	cat /proc/$CLIPID/task/$CLIPID/status > CHECK
@@ -433,7 +438,7 @@ sleep 5
 		OK=$(( $OK + 1 ))
 
 	else
-		echo -e "$f5 BOT NOT RUNING, TRYING TO RELOAD IT...$rst"
+		echo -e "$f5 ربات اجرا نشده است درحال تلاش برای اتصال مجدد...$rst"
 		BAD=$(( $BAD + 1 ))
 		sleep 1
 		
@@ -495,7 +500,7 @@ clear
 screen -d -m bash start.sh
 echo -e "\e[1m"
 echo -e ""
-echo "Bot running in the backgroud with SCREEN"
+echo "ربات با اسکرین در حال اجراست!"
 echo ""
 echo -e "\e[0m"
 sleep 3
@@ -509,8 +514,8 @@ if [ $# -eq 0 ]
 then
 	echo -e "\e[1m"
 	echo -e ""
-	echo "Missing options!"
-	echo "Run: bash steady.sh -h  for help!"
+	echo "چنین دستوری وجود ندارد! از دستور زیر برای مشاهده راهنما استفاده کنید"
+	echo "bash steady.sh -h"
 	echo ""
 	echo -e "\e[0m"
     sleep 1
@@ -522,8 +527,8 @@ while getopts ":tsTSih" opt; do
     t)
 	echo -e "\e[1m"
 	echo -e ""
-	echo "TMUX multiplexer option has been triggered." >&2
-	echo "Starting script..."
+	echo "در حال پاکسازی ترمینال" >&2
+	echo "اسکریپت درحال اجرا شدن میباشد..."
 	sleep 1.5
 	echo -e "\e[0m"
 	tmux_mode
@@ -532,8 +537,8 @@ while getopts ":tsTSih" opt; do
 	s)
 	echo -e "\e[1m"
 	echo -e ""
-	echo "SCREEN multiplexer option has been triggered." >&2
-	echo "Starting script..."
+	echo "در حال پاکسازی ترمینال" >&2
+	echo "اسکریپت درحال اجرا شدن میباشد..."
 	sleep 1.5
 	echo -e "\e[0m"
 	screen_mode
@@ -542,8 +547,8 @@ while getopts ":tsTSih" opt; do
     T)
 	echo -e "\e[1m"
 	echo -e ""
-	echo "TMUX multiplexer option has been triggered." >&2
-	echo "Starting script..."
+	echo "در حال پاکسازی ترمینال" >&2
+	echo "اسکریپت درحال اجرا شدن میباشد..."
 	sleep 1.5
 	echo -e "\e[0m"
 	tmux_detached
@@ -552,8 +557,8 @@ while getopts ":tsTSih" opt; do
 	S)
 	echo -e "\e[1m"
 	echo -e ""
-	echo "SCREEN multiplexer option has been triggered." >&2
-	echo "Starting script..."
+	echo "درحال پاکسازی و اجرا توسط اسکرین" >&2
+	echo "اسکریپت درحال اجرا شدن میباشد..."
 	sleep 1.5
 	echo -e "\e[0m"
 	screen_detached
@@ -562,15 +567,15 @@ while getopts ":tsTSih" opt; do
 	i)
 	echo -e "\e[1m"
 	echo -e ""
-	echo "steady.sh bash script v1 CRUEL 2016 GPMOD" >&2
+	echo "steady.sh bash script v1 CRUEL 2016 GPMOD (original) & translation by @AdvanTm" >&2
 	echo ""
 	echo -e "\e[0m"
 
-echo -e "\033[38;5;208m @GPMod    :)      @cruel_channel \033[0;00m"
-echo -e "\033[38;5;208m @GPMod    :)      @cruel_channel \033[0;00m"
-echo -e "\033[38;5;208m @GPMod    :)      @cruel_channel \033[0;00m"
-echo -e "\033[38;5;208m @GPMod    :)      @cruel_channel \033[0;00m"
-echo -e "\033[38;5;208m @GPMod    :)      @cruel_channel \033[0;00m"
+echo -e "\033[38;5;208m ▂▃▅▇█▓▒░𝓪𝓓𝓿𝓐𝓷𝓣𝓶░▒▓█▇▅▃▂ \033[0;00m"
+echo -e "\033[38;5;208m ▂▃▅▇█▓▒░𝓪𝓓𝓿𝓐𝓷𝓣𝓶░▒▓█▇▅▃▂ \033[0;00m"
+echo -e "\033[38;5;208m ▂▃▅▇█▓▒░𝓪𝓓𝓿𝓐𝓷𝓣𝓶░▒▓█▇▅▃▂ \033[0;00m"
+echo -e "\033[38;5;208m ▂▃▅▇█▓▒░𝓪𝓓𝓿𝓐𝓷𝓣𝓶░▒▓█▇▅▃▂ \033[0;00m"
+echo -e "\033[38;5;208m ▂▃▅▇█▓▒░𝓪𝓓𝓿𝓐𝓷𝓣𝓶░▒▓█▇▅▃▂ \033[0;00m"
 echo ""
 	exit 1
       ;;
