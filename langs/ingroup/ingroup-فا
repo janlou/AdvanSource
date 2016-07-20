@@ -1186,7 +1186,7 @@ if msg.to.type == 'chat' then
     if matches[1] == 'لیست مدیران' then
       return modlist(msg)
     end
-    if matches[1] == 'توضیحات' then
+    if matches[1] == 'درباره' then
       return get_description(msg, data)
     end
     if matches[1] == 'قوانین' then
@@ -1198,7 +1198,7 @@ if msg.to.type == 'chat' then
         local target = msg.to.id
         return set_rulesmod(msg, data, target)
       end
-      if matches[2] == 'توضیحات' then
+      if matches[2] == 'درباره' then
         local data = load_data(_config.moderation.data)
         local target = msg.to.id
         local about = matches[3]
@@ -1574,7 +1574,7 @@ if msg.to.type == 'chat' then
       data[tostring(msg.to.id)][data_cat] = nil
       save_data(_config.moderation.data, data)
     end
-    if matches[2] == 'توضیحات' then
+    if matches[2] == 'درباره' then
       local data_cat = 'description'
       data[tostring(msg.to.id)][data_cat] = nil
       save_data(_config.moderation.data, data)
@@ -1647,7 +1647,7 @@ return {
   "^(صلب)$",
   "^(صلب) (ریلم)$",
   "^(قوانین)$",
-  "^(توضیحات)$",
+  "^(درباره)$",
   "^(تنظیم اسم) (.*)$",
   "^(تنظیم عکس)$",
   "^(ترفیع) (.*)$",
