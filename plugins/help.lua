@@ -21,10 +21,36 @@ if is_momod(msg) or is_owner(msg) or is_sudo(msg) then
  elseif not is_momod(msg) or not is_owner(msg) then
 	  return "You cant see /help text"
 end
-	
+
+ if msg.to.type == 'channel' and matches[1] == "sethelp" and matches[2] then
+    text = matches[2]
+    local b = 1
+    while b ~= 0 do
+    text = text:trim()
+    text,b = text:gsub('^!+','')
+  end
+  file = io.open("./helps/HelpSuper.txt", "w")
+  file:write(text)
+  file:flush()
+  file:close()
+  return "HelpSuper text has been changed to:\n"..matches[2]
+ end
+ if msg.to.type == 'chat' and matches[1] == "sethelp" and matches[2] then
+    text = matches[2]
+    local b = 1
+    while b ~= 0 do
+    text = text:trim()
+    text,b = text:gsub('^!+','')
+  end
+  file = io.open("./helps/HelpChat.txt", "w")
+  file:write(text)
+  file:flush()
+  file:close()
+  return "HelpChat text has been changed to:\n"..matches[2] 
+ end
 end
 return {
 advan = "http://github.com/janlou",
-patterns = {"^[!#/](help)$"},
+patterns = {"^[!#/](help)$","^[!#/]([Ss]ethelp) (.*)$"},
 run = run,
 }
