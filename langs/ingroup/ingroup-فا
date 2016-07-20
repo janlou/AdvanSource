@@ -1240,7 +1240,7 @@ end
 			return lock_group_contacts(msg, data, target)
 		end
 	end
-    if matches[1] == 'رهایی' then
+    if matches[1] == 'بازکردن' then
 		local target = msg.to.id
 		if matches[2] == 'اسم' then
 			return unlock_group_namemod(msg, data, target)
@@ -1279,7 +1279,7 @@ end
 	--End chat settings
 	
   --Begin Chat mutes
-  if matches[1] == 'حذف' and is_owner(msg) then
+  if matches[1] == 'میوت' and is_owner(msg) then
 			local chat_id = msg.to.id
 			if matches[2] == 'صدا' then
 			local msg_type = 'Audio'
@@ -1345,7 +1345,7 @@ end
 				end
 			end
 		end
-		if matches[1] == 'آزادی' and is_owner(msg) then
+		if matches[1] == 'آنمیوت' and is_owner(msg) then
 			local chat_id = msg.to.id
 			if matches[2] == 'صدا' then
 			local msg_type = 'Audio'
@@ -1414,7 +1414,7 @@ end
 
 	--Begin chat muteuser
   --Begin chat muteuser
-		if matches[1] == "میوت" and is_momod(msg) then
+		if matches[1] == "میوت یوزر and is_momod(msg) then
 		local chat_id = msg.to.id
 		local hash = "mute_user"..chat_id
 		local user_id = ""
@@ -1422,7 +1422,7 @@ end
 				local receiver = get_receiver(msg)
 				local get_cmd = "mute_user"
 				get_message(msg.reply_id, mute_user_callback, {receiver = receiver, get_cmd = get_cmd})
-			elseif matches[1] == "میوت" and string.match(matches[2], '^%d+$') then
+			elseif matches[1] == "میوت یوزر" and string.match(matches[2], '^%d+$') then
 				local user_id = matches[2]
 				if is_muted_user(chat_id, user_id) then
 					mute_user(chat_id, user_id)
@@ -1431,7 +1431,7 @@ end
 					unmute_user(chat_id, user_id)
 					return "["..user_id.."] به لیست افراد ساکت شده اضافه شد"
 				end
-			elseif matches[1] == "میوت" and not string.match(matches[2], '^%d+$') then
+			elseif matches[1] == "میوت یوزر" and not string.match(matches[2], '^%d+$') then
 				local receiver = get_receiver(msg)
 				local get_cmd = "mute_user"
 				local username = matches[2]
@@ -1664,17 +1664,17 @@ return {
   "^(سازنده)$",
   "^(درمورد) (.*)$",
   "^(تنظیم سازنده گروه) (%d+) (%d+)$",-- (group id) (owner id)
-  "^(رهایی) (.*)$",
+  "^(بازکردن) (.*)$",
   "^(تنظیم فلود) (%d+)$",
   "^(تنظیمات)$",
   "^(عمومی) (.*)$",
   "^(لیست مدیران)$",
   "^(لینک جدید)$",
   "^(لینک)$",
-  "^(حذف) ([^%s]+)$",
-  "^(آزادی) ([^%s]+)$",
-  "^(میوت)$",
-  "^(میوت) (.*)$",
+  "^(میوت) ([^%s]+)$",
+  "^(آنمیوت) ([^%s]+)$",
+  "^(میوت یوزر)$",
+  "^(میوت یوزر) (.*)$",
   "^(لیست میوت ها)$",
   "^(لیست میوت)$",
   "^(اخراج غیر فعال)$",
