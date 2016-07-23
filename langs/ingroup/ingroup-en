@@ -958,7 +958,7 @@ if msg.to.type == 'chat' then
 		return modadd(msg)
 	  end
 	   if matches[1] == 'add' and matches[2] == 'realm' then
-		if not is_sudo(msg) then-- Admin only
+		if not is_creator(msg) then-- Admin only
 			return
 		end
 		if is_group(msg) then
@@ -978,7 +978,7 @@ if msg.to.type == 'chat' then
 		return modrem(msg)
 	  end
 	  if matches[1] == 'rem' and matches[2] == 'realm' then
-		if not is_sudo(msg) then-- Sudo only
+		if not is_creator(msg) then-- Sudo only
 			return
 		end
 		if not is_realm(msg) then
