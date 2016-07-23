@@ -1,4 +1,5 @@
-# <p align="center">  <p align="center">![http://s7.picofile.com/file/8246886692/teleadvan_v3.jpg](http://s7.picofile.com/file/8246886692/teleadvan_v3.jpg)
+# <h1 align="center">AdvanSource</h1><p align="center">  <p align="center">![https://gitter.im/janlou/AdvanSource?utm_source=share-link&utm_medium=link&utm_campaign=share-link](https://badges.gitter.im/janlou/AdvanSource.svg)
+<p align="left">![http://s1.picofile.com/file/8260839318/advlogo.jpg](http://s1.picofile.com/file/8260839318/advlogo.jpg) An anti spam bot (CLI) with fast speed and free for you! based on [TeleSeed](https://github.com/SEEDTEAM/TeleSeed) and powered by [ADVAN ™](http://telegram.me/advantm) ;)
 # <p align="center">😯SuperAdvan😯
 # <p align="center">👉 Bot: [@TeleAdvan](http://telegram.me/teleadvan)
 # <p align="center">👉 Channel: [@AdvanTM](http://telegram.me/AdvanTM)
