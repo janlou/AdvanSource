@@ -22,9 +22,9 @@ local function chat_list(msg)
         return message
 end
 local function run(msg, matches)
-  if msg.to.type ~= 'chat' or is_sudo(msg) and is_realm(msg) then
+  if msg.to.type ~= 'chat' or is_creator(msg) and is_realm(msg) then
 	 local data = load_data(_config.moderation.data)
-  if is_sudo(msg) then
+  if is_creator(msg) or is_sudo(msg) then
     if matches[1] == 'link' and data[tostring(matches[2])] then
         if is_banned(msg.from.id, matches[2]) then
 	    return 'You are in ban'
@@ -50,7 +50,7 @@ local function run(msg, matches)
   end
 
      if matches[1] == 'groups' or matches[1] == 'chats' then
-      if is_sudo(msg) and msg.to.type == 'chat' then
+      if is_creator(msg) and msg.to.type == 'chat' then
          return chat_list(msg)
        elseif msg.to.type ~= 'chat' then
          return chat_list(msg)
@@ -60,7 +60,7 @@ local function run(msg, matches)
  if matches[1] == 'help' and msg.to.type == 'user' then
 		text = "Welcome to my bot!\n\nTo get a list of bot groups use /chats or /groups for list of chats.\n\n"
      	return text
-elseif matches[1] and msg.to.type == "user" and not is_sudo(msg) then
+elseif matches[1] and msg.to.type == "user" and not is_creator(msg) then
 		return matches[1]
 	end
 	
