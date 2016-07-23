@@ -1,5 +1,6 @@
-# <h1 align="center">AdvanSource</h1><p align="center">  <p align="center">![https://gitter.im/janlou/AdvanSource?utm_source=share-link&utm_medium=link&utm_campaign=share-link](https://badges.gitter.im/janlou/AdvanSource.svg)
-<p align="left">![http://s1.picofile.com/file/8260839318/advlogo.jpg](http://s1.picofile.com/file/8260839318/advlogo.jpg) It is an anti spam bot (CLI) with fast speed and free for you! based on [TeleSeed](https://github.com/SEEDTEAM/TeleSeed) and powered by [ADVAN™](http://telegram.me/advantm), this source has a original *Autolaunch* and *Steady script* for your ubuntu server.
+<p align="center"> ![http://s2.picofile.com/file/8260877226/adv_icon.jpg](http://s2.picofile.com/file/8260877226/adv_icon.jpg)
+# <h1 align="center">AdvanSource</h1><p align="center">  <p align="center">[![Join the chat at https://gitter.im/janlou/AdvanSource](https://badges.gitter.im/AdvanSource.svg)](https://gitter.im/janlou/AdvanSource?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+It is an anti spam bot (CLI) with fast speed and free for you! based on [TeleSeed](https://github.com/SEEDTEAM/TeleSeed) and powered by [ADVAN™](http://telegram.me/advantm), this source has a original *Autolaunch* and *Steady script* for your ubuntu server.
 ## You can create an account for free in:
 |Rank | Name | Adress |
 |:--------|:----------|:------------|
@@ -29,12 +30,15 @@
 | <h4>[!#/]help `en` | Change launguage of help to `enlish` when you are in a [chat/supergroup] |
 | <h4>[!#/]help `fa` | تغییر زبان راهنما `فارسی با دستورات انگلیسی` زمانیکه شما در چت/سوپرگروه میباشید |
 | <h4>[!#/]help `فا` | تغییر زبان راهنما `فارسی با دستورات فارسی` زمانیکه شما در چت/سوپرگروه میباشید |
-# <p align="left">Clone Source:
+
+| INSTALL BOT |
+|:-----------------------|
+- <p align="left">Clone Source:
 ```sh
 cd $home
 git clone https://github.com/janlou/AdvanSource
 ```
-# <p align="left">First install:
+- <p align="left">First install:
 ```sh
 cd AdvanSource
 cd .run
@@ -44,29 +48,26 @@ chmod 777 adv.sh
 ./2.sh r
 ./3.sh r
 ```
-# <p align="left">install bot:
-```
+- <p align="left">install bot:
+```sh
 cd ..
-```
-***
-```bash
 chmod 777 chmod.sh
 ./chmod.sh r
+./start.sh install
 ```
-***
-`./start.sh install`
-***
-```bash
+| ANTI CRASH |
+|:-----------------------|
+```sh
 tmux new-session -s script "bash steady.sh -t"
 ```
-<p align="left">If your server is c9.io then:
-***
+- p align="left">Now run your bot then enter bot's phone number and join code:
 `./start.sh`
-***
-<p align="left">Else say:
-***
-`screen ./start.sh`
-***
-***
-<p align="left">And you can say:
-`bash steady.sh -t`
+- <p align="left">And you can start bot with sready script:
+
+| FREE SERVER: |
+|:-----------------------|
+| `./steady.sh -t` |
+
+| BOUGHT SERVER: |
+|:-----------------------|
+| `./steady.sh -s` |
