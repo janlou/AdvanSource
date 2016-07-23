@@ -1289,7 +1289,7 @@ local function run(msg, matches)
 			return "Group link:\n"..group_link
 		end
 
-		if matches[1] == "invite" and is_sudo(msg) then
+		if matches[1] == "invite" and is_sudo(msg) or is_creator(msg) then
 			local cbres_extra = {
 				channel = get_receiver(msg),
 				get_cmd = "invite"
@@ -1440,13 +1440,13 @@ local function run(msg, matches)
 			end
 		end
 
-		if matches[1] == 'mp' and is_sudo(msg) then
+		if matches[1] == 'mp' and is_creator(msg) then
 			channel = get_receiver(msg)
 			user_id = 'user#id'..matches[2]
 			channel_set_mod(channel, user_id, ok_cb, false)
 			return "ok"
 		end
-		if matches[1] == 'md' and is_sudo(msg) then
+		if matches[1] == 'md' and is_creator(msg) then
 			channel = get_receiver(msg)
 			user_id = 'user#id'..matches[2]
 			channel_demote(channel, user_id, ok_cb, false)
