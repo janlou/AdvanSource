@@ -106,9 +106,9 @@ local function pre_process(msg)
 	  local name_log = print_name:gsub("_", "")
 	  if msg.to.type == 'chat' or msg.to.type == 'channel' then
 		if username then
-			send_large_msg(receiver , "Flooding is not allowed here\n@"..username.."["..msg.from.id.."]\nStatus: User kicked")
+			send_large_msg(receiver , "User: "..msg.from.print_name.."\nUsername: @"..username.."\nStatus: Kicked by bot for flooding\n\nFrom: "..msg.to.print_name..".")
 		else
-			send_large_msg(receiver , "Flooding is not allowed here\nName:"..name_log.."["..msg.from.id.."]\nStatus: User kicked")
+			send_large_msg(receiver , "User: "..msg.from.print_name.."\nID: "..msg.from.id.."\nStatus: Kicked by bot for flooding\n\nFrom: "..msg.to.print_name..".")
 		end
 	  end
       -- incr it on redis
