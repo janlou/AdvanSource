@@ -184,6 +184,17 @@ function is_admin(msg)
   return var
 end
 
+function is_creator(msg)
+  local var = false
+  -- Check users id in config
+  for v,user in pairs(_config.creator_user) do
+    if user == msg.from.id then
+      var = true
+    end
+  end
+  return var
+end
+
 function is_support(msg)
   local var = false
   -- Check users id in config
