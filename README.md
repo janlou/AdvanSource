@@ -3,6 +3,8 @@
 # <p align="center">👉 Bot: [@TeleAdvan](http://telegram.me/teleadvan)
 # <p align="center">👉 Channel: [@AdvanTM](http://telegram.me/AdvanTM)
 
+[![Join the chat at https://gitter.im/janlou/AdvanSource](https://badges.gitter.im/janlou/AdvanSource.svg)](https://gitter.im/janlou/AdvanSource?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 # <p align="left">Clone Source:
 ```
 cd $home
