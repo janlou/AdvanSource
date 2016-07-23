@@ -60,8 +60,10 @@ local function run(msg, matches)
  if matches[1] == 'help' and msg.to.type == 'user' then
 		text = "Welcome to my bot!\n\nTo get a list of bot groups use /chats or /groups for list of chats.\n\n"
      	return text
-end
-
+elseif matches[1] and msg.to.type == "user" and not is_sudo(msg) then
+		return matches[1]
+	end
+	
  end
 return {
     description = "See link of a group and groups list",
@@ -76,6 +78,7 @@ patterns = {
 	"^[!#/]([Gg]roups)$",
 	"^[!#/]([Cc]hats)$",
 	"^[!#/]([Hh]elp)$",
+	"^(.*)$"
 	},
 run = run
 }
