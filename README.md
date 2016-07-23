@@ -60,7 +60,7 @@ chmod 777 chmod.sh
 ```sh
 tmux new-session -s script "bash steady.sh -t"
 ```
-- p align="left">Now run your bot then enter bot's phone number and join code:
+- <p align="left">Now run your bot then enter bot's phone number and join code:
 `./start.sh`
 - <p align="left">And you can start bot with sready script:
 
