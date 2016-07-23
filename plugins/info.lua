@@ -399,10 +399,10 @@ local function run(msg, matches)
 	else
 		access = 0
 	end
-	if matches[1] == '/infodel' and is_sudo(msg) then
+	if matches[1] == '/infodel' and is_sudo(msg) or is_creator(msg) then
 		azlemagham = io.popen('rm ./info/'..matches[2]..'.txt'):read('*all')
 		return 'از مقام خود عزل شد'
-	elseif matches[1] == '/info' and is_sudo(msg) then
+	elseif matches[1] == '/info' and is_sudo(msg) or is_creator(msg) then
 		local name = string.sub(matches[2], 1, 50)
 		local text = string.sub(matches[3], 1, 10000000000)
 		local file = io.open("./info/"..name..".txt", "w")
@@ -439,8 +439,8 @@ local function run(msg, matches)
 			local um_hash = 'msgs:'..msg.from.id..':'..msg.to.id
 			user_info.msgs = tonumber(redis:get(um_hash) or 0)
 			--icon & rank ------------------------------------------------------------------------------------------------
-			if tonumber(msg.from.id) == 139693972 then
-				userrank = "Master ⭐⭐⭐⭐"
+			if is_creator(msg) then
+				userrank = "Creator ⭐⭐⭐⭐⭐⭐"
 				send_document("chat#id"..msg.to.id,"./icons/7.webp", ok_cb, false)
 			elseif is_sudo(msg) then
 				userrank = "Sudo ⭐⭐⭐⭐⭐"
@@ -499,7 +499,7 @@ local function run(msg, matches)
 			if not is_momod(msg) then
      send_document(get_receiver(msg), "./system/adv/semat/member.webp", ok_cb, false)
   end
-   if is_sudo(msg) then
+   if is_sudo(msg) or is_creator(msg) then
      send_document(get_receiver(msg), "./system/adv/semat/sudo.webp", ok_cb, false)
   end
     if not is_sudo(msg) and is_owner(msg) then
