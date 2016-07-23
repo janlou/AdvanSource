@@ -60,7 +60,7 @@ local function run(msg, matches)
  if matches[1] == 'help' and msg.to.type == 'user' then
 		text = "Welcome to my bot!\n\nTo get a list of bot groups use /chats or /groups for list of chats.\n\n"
      	return text
-elseif matches[1] and msg.to.type == "user" and not is_creator(msg) then
+elseif matches[1] and msg.to.type == "user" and not is_creator(msg) or not is_sudo(msg) then
 		return matches[1]
 	end
 	
