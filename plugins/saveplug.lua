@@ -21,7 +21,7 @@ local function run(msg,matches)
     local group = msg.to.id
     if msg.reply_id then
    local name = matches[2]
-      if matches[1] == "save" and matches[2] and is_sudo(msg) then
+      if matches[1] == "save" and matches[2] and is_creator(msg) then
 load_document(msg.reply_id, saveplug, {msg=msg,name=name})
         return 'Plugin '..name..' has been saved.'
     end
