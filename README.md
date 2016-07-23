@@ -10,6 +10,8 @@
 | <h4>`Rank` _(5)_ | SourceLair | [https://www.sourcelair.com/home](https://www.sourcelair.com) |
 | <h4>`Rank` _(6)_ | Nitrous | [https://www.nitrous.io/](https://www.nitrous.io) |
 
+[![Join the chat at https://gitter.im/janlou/AdvanSource](https://badges.gitter.im/janlou/AdvanSource.svg)](https://gitter.im/janlou/AdvanSource?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 # <p align="left">Clone Source:
 ```
 cd $home
