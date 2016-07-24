@@ -1,9 +1,11 @@
 function run(msg, matches)
 	
-    if is_realm(msg) and is_sudo(msg) or is_vip(msg) then
-     return "Realm havent help text\nRealm is a place for sudo users"
+    if is_realm(msg) then
+    if is_sudo(msg) or is_vip(msg) then
+     return "Realm haven`t help\nRealm is a place for sudo users!"
 	end
-
+	end
+	
 if is_momod(msg) or is_owner(msg) or is_sudo(msg) or is_vip(msg) then
 	if matches[1] == "help" then
 	if msg.to.type == 'channel' then
@@ -17,10 +19,9 @@ if is_momod(msg) or is_owner(msg) or is_sudo(msg) or is_vip(msg) then
     	help_text = HelpChat:read("*all")
 	  return help_text
 	end
-	
+	end
  elseif not is_momod(msg) or not is_owner(msg) or not is_vip(msg) then
 	  return "You cant see /help text"
-end
 end
 
  if msg.to.type == 'channel' and matches[1] == "sethelp" and matches[2] then
