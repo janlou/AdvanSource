@@ -123,7 +123,6 @@ fi
    
   while true; do
    rm -r ../.telegram-cli/state
-   sudo service redis-server start redis-cli
    ./tg/bin/telegram-cli -k ./tg/tg-server.pub -s ./system/bot/bot.lua -l 1 -E $@
    sleep 3
   done
