@@ -2,7 +2,7 @@ do
 
 local function create_group(msg)
      -- superuser and admins only (because sudo are always has privilege)
-    if is_creator(msg) or is_realm(msg) and is_admin1(msg) then
+    if is_sudo(msg) or is_realm(msg) and is_admin1(msg) then
 		local group_creator = msg.from.print_name
 		create_group_chat (group_creator, group_name, ok_cb, false)
 		return 'Group [ '..string.gsub(group_name, '_', ' ')..' ] has been created.'
@@ -11,7 +11,7 @@ end
 
 local function create_realm(msg)
         -- superuser and admins only (because sudo are always has privilege)
-	if is_creator(msg) or is_realm(msg) and is_admin1(msg) then
+	if is_sudo(msg) or is_realm(msg) and is_admin1(msg) then
 		local group_creator = msg.from.print_name
 		create_group_chat (group_creator, group_name, ok_cb, false)
 		return 'Realm [ '..string.gsub(group_name, '_', ' ')..' ] has been created.'
@@ -46,7 +46,7 @@ if matches[1] == 'creategroup' and matches[2] then
 end
 
 if matches[1] == 'createsuper' and matches[2] then
-	if not is_creator(msg) or is_admin1(msg) and is_realm(msg) then
+	if not is_sudo(msg) or is_admin1(msg) and is_realm(msg) then
 		return "You cant create groups!"
 	end
         group_name = matches[2]
@@ -55,7 +55,7 @@ if matches[1] == 'createsuper' and matches[2] then
     end
     
  if matches[1] == 'createrealm' and matches[2] then
-			if not is_creator(msg) then
+			if not is_sudo(msg) then
 				return "Sudo users only !"
 			end
         group_name = matches[2]
@@ -104,7 +104,7 @@ if matches[1] == 'kill' and matches[2] == 'chat' and matches[3] then
 end
 
 if matches[1] == 'addadmin' then
-		    if not is_creator(msg) then-- Sudo only
+		    if not is_sudo(msg) then-- Sudo only
 				return
 			end
 			if string.match(matches[2], '^%d+$') then
@@ -118,7 +118,7 @@ if matches[1] == 'addadmin' then
 			end
 		end
 		if matches[1] == 'removeadmin' then
-		    if not is_creator(msg) then-- Sudo only
+		    if not is_sudo(msg) then-- Sudo only
 				return
 			end
 			if string.match(matches[2], '^%d+$') then
