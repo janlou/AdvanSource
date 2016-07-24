@@ -237,7 +237,8 @@ function create_config( )
     "supergroup",
     "tophoto",
     "tosticker",
-    "language"
+    "language",
+    "whitelist"
     },
     vip_users = {111111111}, --vipe users
     sudo_users = {111984481},--Sudo users
