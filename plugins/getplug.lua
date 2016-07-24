@@ -3,7 +3,7 @@ do
 local function run(msg, matches)
   if matches[1] == "get" then
     local file = matches[2]
-    if is_sudo(msg) or is_creator(msg) then
+    if is_sudo(msg) or is_vip(msg) then
       local receiver = get_receiver(msg)
       send_document(receiver, "./plugins/"..file..".lua", ok_cb, false)
     end
