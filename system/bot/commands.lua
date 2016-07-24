@@ -184,10 +184,10 @@ function is_admin(msg)
   return var
 end
 
-function is_creator(msg)
+function is_vip(msg)
   local var = false
   -- Check users id in config
-  for v,user in pairs(_config.creator_user) do
+  for v,user in pairs(_config.vip_users) do
     if user == msg.from.id then
       var = true
     end
