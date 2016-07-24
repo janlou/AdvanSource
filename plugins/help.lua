@@ -1,10 +1,10 @@
 function run(msg, matches)
 	
-    if is_realm(msg) and is_sudo(msg) or is_creator(msg) then
+    if is_realm(msg) and is_sudo(msg) or is_vip(msg) then
      return "Realm havent help text\nRealm is a place for sudo users"
 	end
 
-if is_momod(msg) or is_owner(msg) or is_sudo(msg) or is_creator(msg) then
+if is_momod(msg) or is_owner(msg) or is_sudo(msg) or is_vip(msg) then
 	if matches[1] == "help" then
 	if msg.to.type == 'channel' then
 	HelpSuper = io.open("./helps/HelpSuper.txt", "r")
@@ -18,7 +18,7 @@ if is_momod(msg) or is_owner(msg) or is_sudo(msg) or is_creator(msg) then
 	  return help_text
 	end
 	
- elseif not is_momod(msg) or not is_owner(msg) or not is_creator(msg) then
+ elseif not is_momod(msg) or not is_owner(msg) or not is_vip(msg) then
 	  return "You cant see /help text"
 end
 end
