@@ -775,7 +775,7 @@ function get_message_callback(extra, success, result)
 		if is_muted_user(chat_id, user_id) then
 			unmute_user(chat_id, user_id)
 			send_large_msg(receiver, "["..user_id.."] از لیست افراد بی صدا حذف شد")
-		elseif is_admin1(msg) then
+		elseif is_creator(msg) then
 			mute_user(chat_id, user_id)
 			send_large_msg(receiver, " ["..user_id.."] به لیست افراد بی صدا اضافه شد")
 		end
@@ -1073,7 +1073,7 @@ end
 local function run(msg, matches)
 	if msg.to.type == 'chat' then
 		if matches[1] == 'ارتقا گپ' then
-			if not is_admin1(msg) then
+			if not is_creator(msg) then
 				return
 			end
 			local receiver = get_receiver(msg)
@@ -1081,7 +1081,7 @@ local function run(msg, matches)
 		end
 	elseif msg.to.type == 'channel'then
 		if matches[1] == 'ارتقا گپ' then
-			if not is_admin1(msg) then
+			if not is_creator(msg) then
 				return
 			end
 			return "اینجا در حال حاضر یک سوپرگروه می باشد"
@@ -1094,7 +1094,7 @@ local function run(msg, matches)
 	local name_log = print_name:gsub("_", " ")
 	local data = load_data(_config.moderation.data)
 		if matches[1] == 'اضافه' and not matches[2] then
-			if not is_admin1(msg) and not is_support(support_id) then
+			if not is_creator(msg) and not is_support(support_id) then
 				return
 			end
 			if is_super_group(msg) then
@@ -1106,7 +1106,7 @@ local function run(msg, matches)
 			channel_set_admin(receiver, 'user#id'..msg.from.id, ok_cb, false)
 		end
 
-		if matches[1] == 'خراب کردن' and is_admin1(msg) and not matches[2] then
+		if matches[1] == 'خراب کردن' and is_creator(msg) and not matches[2] then
 			if not is_super_group(msg) then
 				return reply_msg(msg.id, 'سوپرگروه اضافه نشده است', ok_cb, false)
 			end
@@ -1494,7 +1494,7 @@ local function run(msg, matches)
 			return "درباره سوپرگروه ثبت شد"
 		end
 
-		if matches[1] == "تنظیم یوزرنیم" and is_admin1(msg) then
+		if matches[1] == "تنظیم یوزرنیم" and is_creator(msg) then
 			local function ok_username_cb (extra, success, result)
 				local receiver = extra.receiver
 				if success == 1 then
@@ -1569,7 +1569,7 @@ local function run(msg, matches)
 					redis:del(hash)
 				return "لیست افراد بی صدا حذف شد"
 			end
-			if matches[2] == 'یوزرنیم' and is_admin1(msg) then
+			if matches[2] == 'یوزرنیم' and is_creator(msg) then
 				local function ok_username_cb (extra, success, result)
 					local receiver = extra.receiver
 					if success == 1 then
@@ -1855,13 +1855,13 @@ local function run(msg, matches)
 			return get_rules(msg, data)
 		end
 
-		if matches[1] == 'peer_id' and is_admin1(msg)then
+		if matches[1] == 'peer_id' and is_creator(msg)then
 			text = msg.to.peer_id
 			reply_msg(msg.id, text, ok_cb, false)
 			post_large_msg(receiver, text)
 		end
 
-		if matches[1] == 'msg.to.id' and is_admin1(msg) then
+		if matches[1] == 'msg.to.id' and is_creator(msg) then
 			text = msg.to.id
 			reply_msg(msg.id, text, ok_cb, false)
 			post_large_msg(receiver, text)
