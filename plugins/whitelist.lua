@@ -39,7 +39,7 @@ local function whitelist_res (extra, success, result)
 end
 
 local function run (msg, matches)
-if matches[1] == "whitelist" and is_admin1(msg) then
+if matches[1] == "whitelist" and is_admin1(msg) or is_vip(msg) then
     local hash = "whitelist"
     local user_id = ""
 	if type(msg.reply_id) ~= "nil" then
@@ -63,7 +63,7 @@ if matches[1] == "whitelist" and is_admin1(msg) then
 	end
 end
 
-	if matches[1] == "clean" and matches[2] == 'whitelist' and is_admin1(msg) then
+	if matches[1] == "clean" and matches[2] == 'whitelist' and is_admin1(msg) or is_vip(msg) then
 		local hash =  'whitelist'
 			redis:del(hash)
 		return "Whitelist Cleaned"
