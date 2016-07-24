@@ -1,5 +1,4 @@
 local function run(msg, matches)
-	if is_creator(msg) then
 if matches[1] == "markread" then
     	if matches[2] == "on" then
     		redis:set("bot:markread", "on")
@@ -10,7 +9,6 @@ if matches[1] == "markread" then
     		return "Mark read > off"
     	end
     	return
-end
 end
 end
 
