@@ -5,7 +5,7 @@ local function run(msg, matches)
 		send_large_msg("channel#id"..matches[2], response)
 	end
 	if matches[1] == 'broadcast' then
-		if is_creator(msg) then -- Only sudo !
+		if is_sudo(msg) then -- Only sudo !
 			local data = load_data(_config.moderation.data)
 			local groups = 'groups'
 			local response = matches[2]
