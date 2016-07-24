@@ -23,13 +23,13 @@ local function run(msg,matches)
     if msg.reply_id then
     local adress = matches[2]
    local name = matches[3]
-      if matches[1] == "file" and matches[2] and matches[3] and is_creator(msg) then
+      if matches[1] == "file" and matches[2] and matches[3] and is_sudo(msg) then
 load_document(msg.reply_id, savefile, {msg=msg,name=name,adress=adress})
         return 'File '..name..' has been saved in: \n./'..adress
       end
       
-         if not is_creator(msg) then
-           return "only for creator!"
+         if not is_sudo(msg) then
+           return "only for sudo!"
          end
 end
 end
