@@ -4,7 +4,7 @@ local function chat_list(msg)
         if not data[tostring(groups)] then
                 return 'No groups at the moment'
         end
-        local message = 'List of your bot Groups:\n\n '
+        local message = 'List of your bots Group:\n\n '
         for k,v in pairs(data[tostring(groups)]) do
                 local settings = data[tostring(v)]['settings']
                 for m,n in pairsByKeys(settings) do
@@ -22,9 +22,9 @@ local function chat_list(msg)
         return message
 end
 local function run(msg, matches)
-  if msg.to.type ~= 'chat' or is_creator(msg) and is_realm(msg) then
+  if msg.to.type ~= 'chat' or is_sudo(msg) and is_realm(msg) then
 	 local data = load_data(_config.moderation.data)
-  if is_creator(msg) or is_sudo(msg) then
+  if is_sudo(msg) then
     if matches[1] == 'link' and data[tostring(matches[2])] then
         if is_banned(msg.from.id, matches[2]) then
 	    return 'You are in ban'
@@ -78,7 +78,6 @@ patterns = {
 	"^[!#/]([Gg]roups)$",
 	"^[!#/]([Cc]hats)$",
 	"^[!#/]([Hh]elp)$",
-	"^(.*)$"
 	},
 run = run
 }
