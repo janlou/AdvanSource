@@ -4,7 +4,7 @@ local function reload_plugins( )
 end
 
 function run(msg, matches)
- if is_creator(msg) then
+ if is_sudo(msg) then
   if msg.to.type == 'channel' then
  if matches[1] == "setlang" and matches[2] == "fa" then
     file1 = io.open("./langs/supergroup/supergroup-fa", "r")
@@ -202,8 +202,8 @@ end
  	تغییر زبان هلپ گروه به فارسی با دستورات فارسی
  	]]
 end
-  elseif not is_creator(msg) then
- return "You cant change language (just for creator!)"
+  elseif not is_sudo(msg) then
+ return "You cant change language (just for sudo!)"
 end
 end
  return {
