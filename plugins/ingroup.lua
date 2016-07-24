@@ -626,7 +626,7 @@ local function modadd(msg)
    if not is_momod(msg) then
 	return
   end
-  if not is_admin1(msg) then
+  if not is_creator(msg) then
     return "You're not admin"
   end
   local data = load_data(_config.moderation.data)
@@ -641,7 +641,7 @@ local function realmadd(msg)
   if not is_momod(msg) then
 	return
   end
-  if not is_admin1(msg) then
+  if not is_creator(msg) then
     return "You're not admin"
   end
   local data = load_data(_config.moderation.data)
@@ -654,7 +654,7 @@ end
 -- Global functions
 function modrem(msg)
   -- superuser and admins only (because sudo are always has privilege)
-  if not is_admin1(msg) then
+  if not is_creator(msg) then
     return "You're not admin"
   end
   local data = load_data(_config.moderation.data)
@@ -667,7 +667,7 @@ end
 
 function realmrem(msg)
   -- superuser and admins only (because sudo are always has privilege)
-  if not is_admin1(msg) then
+  if not is_creator(msg) then
     return "You're not admin"
   end
   local data = load_data(_config.moderation.data)
@@ -946,9 +946,9 @@ local function run(msg, matches)
     end
   end
 if msg.to.type == 'chat' then
-  if is_admin1(msg) or not is_support(msg.from.id) then-- Admin only
+  if is_creator(msg) or not is_support(msg.from.id) then-- Admin only
 	  if matches[1] == 'add' and not matches[2] then
-		if not is_admin1(msg) and not is_support(msg.from.id) then-- Admin only
+		if not is_creator(msg) and not is_support(msg.from.id) then-- Admin only
 			return
 		end
 		if is_realm(msg) then
@@ -968,7 +968,7 @@ if msg.to.type == 'chat' then
 		return realmadd(msg)
 	  end
 	  if matches[1] == 'rem' and not matches[2] then
-		if not is_admin1(msg) and not is_support(msg.from.id) then-- Admin only
+		if not is_creator(msg) and not is_support(msg.from.id) then-- Admin only
 			return
 		end
 		if not is_group(msg) then
@@ -1523,7 +1523,7 @@ end
     end
     if matches[1] == 'setgpowner' then
       local receiver = "chat#id"..matches[2]
-      if not is_admin1(msg) then
+      if not is_creator(msg) then
         return "For admins only!"
       end
       data[tostring(matches[2])]['set_owner'] = matches[3]
@@ -1581,7 +1581,7 @@ if msg.to.type == 'chat' then
     end
 if msg.to.type == 'chat' then
     if matches[1] == 'kill' and matches[2] == 'chat' then
-      if not is_admin1(msg) then
+      if not is_creator(msg) then
           return nil
       end
       if not is_realm(msg) then
@@ -1594,7 +1594,7 @@ if msg.to.type == 'chat' then
       end
    end
     if matches[1] == 'kill' and matches[2] == 'realm' then
-     if not is_admin1(msg) then
+     if not is_creator(msg) then
          return nil
      end
      if not is_group(msg) then
