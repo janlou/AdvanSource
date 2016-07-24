@@ -20,7 +20,7 @@ function run(msg, matches)
   if not is_momod(msg) then
 	return
   end
-  if not is_admin1(msg) then -- For admins only !
+  if not is_admin1(msg) or not is_vip(msg) then -- For admins only !
 		return 'Only admins can invite.'
   end
   if not is_realm(msg) then
