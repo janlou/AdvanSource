@@ -1,4 +1,4 @@
-﻿--Begin supergrpup.lua
+--Begin supergrpup.lua
 --Check members #Add supergroup
 local function check_member_super(cb_extra, success, result)
   local receiver = cb_extra.receiver
@@ -785,7 +785,7 @@ function get_message_callback(extra, success, result)
 		if is_muted_user(chat_id, user_id) then
 			unmute_user(chat_id, user_id)
 			send_large_msg(receiver, "["..user_id.."] removed from the muted user list")
-		elseif is_creator(msg) then
+		elseif is_admin1(msg) then
 			mute_user(chat_id, user_id)
 			send_large_msg(receiver, " ["..user_id.."] added to the muted user list")
 		end
@@ -1083,7 +1083,7 @@ end
 local function run(msg, matches)
 	if msg.to.type == 'chat' then
 		if matches[1] == 'tosuper' then
-			if not is_creator(msg) then
+			if not is_admin1(msg) then
 				return
 			end
 			local receiver = get_receiver(msg)
@@ -1091,7 +1091,7 @@ local function run(msg, matches)
 		end
 	elseif msg.to.type == 'channel'then
 		if matches[1] == 'tosuper' then
-			if not is_creator(msg) then
+			if not is_admin1(msg) then
 				return
 			end
 			return "Already a SuperGroup"
@@ -1104,7 +1104,7 @@ local function run(msg, matches)
 	local name_log = print_name:gsub("_", " ")
 	local data = load_data(_config.moderation.data)
 		if matches[1] == 'add' and not matches[2] then
-			if not is_creator(msg) and not is_support(support_id) then
+			if not is_admin1(msg) and not is_support(support_id) then
 				return
 			end
 			if is_super_group(msg) then
@@ -1116,7 +1116,7 @@ local function run(msg, matches)
 			channel_set_admin(receiver, 'user#id'..msg.from.id, ok_cb, false)
 		end
 
-		if matches[1] == 'rem' and is_creator(msg) and not matches[2] then
+		if matches[1] == 'rem' and is_admin1(msg) and not matches[2] then
 			if not is_super_group(msg) then
 				return reply_msg(msg.id, 'SuperGroup is not added.', ok_cb, false)
 			end
@@ -1238,6 +1238,7 @@ local function run(msg, matches)
 				local username = username:gsub("@","")
 				resolve_username(username,  callbackres, cbres_extra)
 			else
+			
 				return "SuperGroup ID for " ..string.gsub(msg.to.print_name, "_", " ").. ":\n\n"..msg.to.id
 			end
 		end
@@ -1289,7 +1290,7 @@ local function run(msg, matches)
 			return "Group link:\n"..group_link
 		end
 
-		if matches[1] == "invite" and is_sudo(msg) or is_creator(msg) then
+		if matches[1] == "invite" and is_sudo(msg) then
 			local cbres_extra = {
 				channel = get_receiver(msg),
 				get_cmd = "invite"
@@ -1440,13 +1441,13 @@ local function run(msg, matches)
 			end
 		end
 
-		if matches[1] == 'mp' and is_creator(msg) then
+		if matches[1] == 'mp' and is_sudo(msg) then
 			channel = get_receiver(msg)
 			user_id = 'user#id'..matches[2]
 			channel_set_mod(channel, user_id, ok_cb, false)
 			return "ok"
 		end
-		if matches[1] == 'md' and is_creator(msg) then
+		if matches[1] == 'md' and is_sudo(msg) then
 			channel = get_receiver(msg)
 			user_id = 'user#id'..matches[2]
 			channel_demote(channel, user_id, ok_cb, false)
@@ -1504,7 +1505,7 @@ local function run(msg, matches)
 			return "Description has been set.\n\nSelect the chat again to see the changes."
 		end
 
-		if matches[1] == "setusername" and is_creator(msg) then
+		if matches[1] == "setusername" and is_admin1(msg) then
 			local function ok_username_cb (extra, success, result)
 				local receiver = extra.receiver
 				if success == 1 then
@@ -1579,7 +1580,7 @@ local function run(msg, matches)
 					redis:del(hash)
 				return "Mutelist Cleaned"
 			end
-			if matches[2] == 'username' and is_creator(msg) then
+			if matches[2] == 'username' and is_admin1(msg) then
 				local function ok_username_cb (extra, success, result)
 					local receiver = extra.receiver
 					if success == 1 then
@@ -1869,13 +1870,13 @@ local function run(msg, matches)
 		end
 
 
-		if matches[1] == 'peer_id' and is_creator(msg)then
+		if matches[1] == 'peer_id' and is_admin1(msg)then
 			text = msg.to.peer_id
 			reply_msg(msg.id, text, ok_cb, false)
 			post_large_msg(receiver, text)
 		end
 
-		if matches[1] == 'msg.to.id' and is_creator(msg) then
+		if matches[1] == 'msg.to.id' and is_admin1(msg) then
 			text = msg.to.id
 			reply_msg(msg.id, text, ok_cb, false)
 			post_large_msg(receiver, text)
