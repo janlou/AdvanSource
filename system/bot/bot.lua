@@ -202,7 +202,10 @@ function load_config( )
   end
   local config = loadfile ("./system/data/config.lua")()
   for v,user in pairs(config.sudo_users) do
-    print("سودو ربات: " .. user)
+    print("Sudo: " .. user)
+  end
+  for v,VIP in pairs(config.vip_users) do
+    print("VIP: " .. VIP)
   end
   return config
 end
