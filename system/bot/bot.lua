@@ -244,7 +244,7 @@ function create_config( )
     "whitelist"
     },
     vip_users = {111111111}, --vipe users
-    sudo_users = {111984481},--Sudo users
+    sudo_users = {@sina_bzxx},--Sudo users
     support_gp = {111111111},--Support id
     moderation = {data = 'system/data/adv.json'},
   }
