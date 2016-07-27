@@ -641,7 +641,7 @@ function get_message_callback(extra, success, result)
 	local data = load_data(_config.moderation.data)
 	local print_name = user_print_name(msg.from):gsub("‮", "")
 	local name_log = print_name:gsub("_", " ")
-    if get_cmd == "ایدی" and not result.action then
+    if get_cmd == "id" and not result.action then
 		local channel = 'channel#id'..result.to.peer_id
 		id1 = send_large_msg(channel, result.from.peer_id)
 	elseif get_cmd == 'id' and result.action then
@@ -686,7 +686,7 @@ function get_message_callback(extra, success, result)
 		kick_user(user_id, channel_id)
 	elseif get_cmd == "del" then
 		delete_msg(result.id, ok_cb, false)
-	elseif get_cmd == "تنظیم ادمین" then
+	elseif get_cmd == "setadmin" then
 		local user_id = result.from.peer_id
 		local channel_id = "channel#id"..result.to.peer_id
 		channel_set_admin(channel_id, "user#id"..user_id, ok_cb, false)
@@ -839,7 +839,7 @@ local function callbackres(extra, success, result)
 		local channel = 'channel#id'..extra.channelid
 		send_large_msg(channel, user..'\n'..name)
 		return user
-	elseif get_cmd == "ایدی" then
+	elseif get_cmd == "id" then
 		local user = result.peer_id
 		local channel = 'channel#id'..extra.channelid
 		send_large_msg(channel, user)
