@@ -6,14 +6,14 @@ local function run(msg, matches)
     text = text:trim()
     text,b = text:gsub('^!+','')
   end
-  local file = io.open("./system/adv/bye/"..msg.to.id..".txt", "w")
+  local file = io.open("./system/chats/logs/"..msg.to.id..".txt", "w")
   file:write(text)
   file:flush()
   file:close()
   return "متن خروج کاربر تغییر کرد به:\n"..text
  end
    
-   local bye = io.open("./system/adv/bye/"..msg.to.id..".txt", "r")
+   local bye = io.open("./system/chats/logs/"..msg.to.id..".txt", "r")
    local send = bye:read("*all")
  if is_momod(msg) or is_owner(msg) or is_sudo(msg) then
    if matches[1] == "chat_del_user" or matches[1] == "channel_kick" then
