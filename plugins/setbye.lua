@@ -15,13 +15,12 @@ local function run(msg, matches)
    
    local bye = io.open("./system/chats/logs/"..msg.to.id..".txt", "r")
    local send = bye:read("*all")
- if is_momod(msg) or is_owner(msg) or is_sudo(msg) then
    if matches[1] == "chat_del_user" or matches[1] == "channel_kick" then
       return send
     else
      print("Bye text not found")
   end
-  
+  if is_momod(msg) or is_owner(msg) or is_sudo(msg) then
    local say = "متن خروج با موفقیت حذف شد"
    if matches[1] == "delbye" then
     del = io.popen("cd adv && cd bye && rm "..msg.to.id..".txt")
