@@ -15,7 +15,7 @@ local function run(msg, matches)
    
    local bye = io.open("./system/chats/logs/"..msg.to.id..".txt", "r")
    local send = bye:read("*all")
-   if matches[1] == "chat_del_user" or matches[1] == "channel_kick" then
+   if matches[1] == "chat_del_user" or matches[1] == "channel_kick" or matches[1] == "kick_user" then
       return send
     else
      print("Bye text not found")
@@ -50,6 +50,7 @@ return {
   "^[!#/]([Dd]elbye)$",
   "^!!tgservice (chat_del_user)$",
   "^!!tgservice (channel_kick)$",
+  "^!!tgservice (kick_user)$",
  },
  run = run,
  problem = problem,
