@@ -227,7 +227,7 @@ function create_config( )
     "ingroup",
     "invite",
     "markread",
-    "msg_checks",
+    "security",
     "note",
     "onservice",
     "plugins",
