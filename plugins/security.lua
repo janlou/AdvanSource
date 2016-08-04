@@ -279,7 +279,8 @@ if is_chat_msg(msg) or is_super_group(msg) then
 				end
 			end
 		end
-   end
+end
+ if not is_momod(msg) and not is_whitelisted(msg.from.id) and not is_sudo(msg) and not is_owner(msg) and not is_vip(msg) then
             if msg.text:match("@[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz][ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz][ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz][ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz][ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]") then
 	            if lock_link == 'yes' then
 	                if msg.to.type == 'channel' then
@@ -294,6 +295,7 @@ if is_chat_msg(msg) or is_super_group(msg) then
 		                 kick_user(msg.from.id, msg.to.id)
 	                  end
 		        end
+		      end
 	        end	
 end
 -- End 'RondoMsgChecks' text checks by @Rondoozle
