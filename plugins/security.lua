@@ -1,7 +1,7 @@
---Begin security.lua
-local function run(msg, matches)
--- Begin 'RondoMsgChecks' text checks by @rondoozle
--- Edited by @janlou
+--Begin scurity.lua
+--Begin pre_process function
+local function pre_process(msg)
+-- Begin 'RondoMsgChecks' text checks by @rondoozle and Edited by @janlou
 -- Powered by @AdvanTm
 -- CopyRight all right reserved
 if is_chat_msg(msg) or is_super_group(msg) then
@@ -176,7 +176,7 @@ if is_chat_msg(msg) or is_super_group(msg) then
 						kick_user(msg.from.id, msg.to.id)
 					end
 				end
-	     	end
+			end
 			if msg.media.type:match("contact") and lock_contacts == "yes" then
 				delete_msg(msg.id, ok_cb, false)
 				if strict == "yes" or to_chat then
@@ -306,7 +306,7 @@ return {
         "[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/",
         "?[Ss][Tt][Aa][Rr][Tt]=",
 	},
-	run = run
+	pre_process = pre_process
 }
 --End scurity.lua
---By @Rondoozle & @janlou
+--By @Rondoozle
