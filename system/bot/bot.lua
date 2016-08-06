@@ -243,10 +243,18 @@ function create_config( )
     "language",
     "whitelist"
     },
-    vip_users = {111111111}, --vipe users
+    vip_users = {111111111}, --vip users
     sudo_users = {111984481},--Sudo users
     support_gp = {111111111},--Support id
     moderation = {data = 'system/data/adv.json'},
+    about_text = [[*IN THE NAME OF ALLAH*
+This is an original bot and based on (AdvanSource).
+Copyright all right reserved and you must respect all laws.
+
+Source: https://github.com/janlou/AdvanSource
+Channel: @AdvanTm
+Creator: @Advanbot
+]]
   }
   serialize_to_file(config, './system/data/config.lua')
   print('کانفیگ ذخیره شد')
