@@ -51,8 +51,7 @@ chmod 777 adv.sh
 - <p align="left">install bot:
 ```sh
 cd ..
-chmod 777 chmod.sh
-./chmod.sh r
+chmod 777 start.sh
 ./start.sh install
 ```
 | ANTI CRASH |
@@ -61,7 +60,7 @@ chmod 777 chmod.sh
 tmux new-session -s script "bash steady.sh -t"
 ```
 - <p align="left">Now run your bot then enter bot's phone number and join code:
-`./start.sh`
+`./start.sh -q`
 - <p align="left">And you can start bot with sready script:
 
 | FREE SERVER: |
