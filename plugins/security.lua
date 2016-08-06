@@ -1,4 +1,4 @@
---Begin scurity.lua
+--Begin security.lua
 --Begin pre_process function
 local function pre_process(msg)
 -- Begin 'RondoMsgChecks' text checks by @rondoozle and Edited by @janlou
@@ -279,8 +279,8 @@ if is_chat_msg(msg) or is_super_group(msg) then
 				end
 			end
 		end
-end
- if not is_momod(msg) and not is_whitelisted(msg.from.id) and not is_sudo(msg) and not is_owner(msg) and not is_vip(msg) then
+   end
+   if not is_momod(msg) and not is_whitelisted(msg.from.id) and not is_sudo(msg) and not is_owner(msg) and not is_vip(msg) then
             if msg.text:match("@[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz][ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz][ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz][ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz][ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]") then
 	            if lock_link == 'yes' then
 	                if msg.to.type == 'channel' then
@@ -295,20 +295,28 @@ end
 		                 kick_user(msg.from.id, msg.to.id)
 	                  end
 		        end
-		      end
-	        end	
+            end	
+   end
 end
 -- End 'RondoMsgChecks' text checks by @Rondoozle
 	return msg
 end
+ function run(msg, matches)
+ 	if msg.text:match("^[!/#][Aa][Dd][Vv][Aa][Nn]$") then
+    	txt = _config.about_text
+    	return txt
+    end
+ end
 --End pre_process function
 return {
 	patterns = {
         "@[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz][ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz][ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz][ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz][ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]",
         "[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/",
         "?[Ss][Tt][Aa][Rr][Tt]=",
+        "^[!/#][Aa][Dd][Vv][Aa][Nn]$",
 	},
-	pre_process = pre_process
+	pre_process = pre_process,
+	run = run
 }
---End scurity.lua
+--End security.lua
 --By @Rondoozle
