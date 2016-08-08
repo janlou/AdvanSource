@@ -175,8 +175,7 @@ end
 
  if matches[1] == "update" then
   txt = "Updated!"
-  send_msg("channel#id"..msg.to.id, txt, ok_cb, false)
-  send_msg("chat#id"..msg.to.id, txt, ok_cb, false)
+  send_msg(get_receiver(msg), txt, ok_cb, false)
   return reload_plugins( )
  end
  if matches[1] == "lang" and matches[2] == "list" then
