@@ -53,38 +53,38 @@ end
 function msg_valid(msg)
   -- Don't process outgoing messages
   if msg.out then
-    print('\27[36m(Not)پیغام از طرف ما(valid)\27[39m')
+    print('\27[36mNot valid: msg from us\27[39m')
     return false
   end
 
   -- Before bot was started
   if msg.date < os.time() - 5 then
-    print('\27[36m(Not)پیغام قدیمی(valid)\27[39m')
+    print('\27[36mNot valid: old msg\27[39m')
     return false
   end
 
   if msg.unread == 0 then
-    print('\27[36m(Not)پیغام خوانده شده(valid)\27[39m')
+    print('\27[36mNot valid: readed\27[39m')
     return false
   end
 
   if not msg.to.id then
-    print('\27[36m(Not)دریافت کننده پیام ناشناس(valid)\27[39m')
+    print('\27[36mNot valid: To id not provided\27[39m')
     return false
   end
 
   if not msg.from.id then
-    print('\27[36m(Not)ارسال کننده پیام ناشناس(valid)\27[39m')
+    print('\27[36mNot valid: From id not provided\27[39m')
     return false
   end
 
   if msg.from.id == our_id then
-    print('\27[36m(Not)پیغام از طرف آیدی ما است(valid)\27[39m')
+    print('\27[36mNot valid: Msg from our id\27[39m')
     return false
   end
 
   if msg.to.type == 'encr_chat' then
-    print('\27[36m(Not)چت رمزگذاری شده است(valid)\27[39m')
+    print('\27[36mNot valid: Encrypted chat\27[39m')
     return false
   end
 
@@ -157,7 +157,7 @@ function match_plugin(plugin, plugin_name, msg)
   for k, pattern in pairs(plugin.patterns) do
     local matches = match_pattern(pattern, msg.text)
     if matches then
-      print("پترن استفاده شده: ", pattern)
+      print("msg matches: ", pattern)
 
       if is_plugin_disabled_on_chat(plugin_name, receiver) then
         return nil
@@ -186,7 +186,7 @@ end
 -- Save the content of _config to config.lua
 function save_config( )
   serialize_to_file(_config, './system/data/config.lua')
-  print ('کانفیگ ذخیره شد')
+  print ('saved config into ./system/data/config.lua')
 end
 
 -- Returns the config from config.lua file.
@@ -195,7 +195,7 @@ function load_config( )
   local f = io.open('./system/data/config.lua', "r")
   -- If config.lua doesn't exist
   if not f then
-    print ("فایل کانفیگ جدید ذخیره شد")
+    print ("Created new config file: system/data/config.lua")
     create_config()
   else
     f:close()
@@ -254,10 +254,11 @@ Copyright all right reserved and you must respect all laws.
 Source: https://github.com/janlou/AdvanSource
 Channel: @AdvanTm
 Creator: @Advanbot
+Site: http://StoreVps.ir
 ]]
   }
   serialize_to_file(config, './system/data/config.lua')
-  print('کانفیگ ذخیره شد')
+  print('saved config into ./system/data/config.lua')
 end
 
 function on_our_id (id)
@@ -282,7 +283,7 @@ end
 -- Enable plugins in config.json
 function load_plugins()
   for k, v in pairs(_config.enabled_plugins) do
-    print("بارگذاری شد", v)
+    print("Loading plugin", v)
 
     local ok, err =  pcall(function()
       local t = loadfile("plugins/"..v..'.lua')()
@@ -290,7 +291,7 @@ function load_plugins()
     end)
 
     if not ok then
-      print('\27[31mمشکل در بارگذاری '..v..'\27[39m')
+      print('\27[31mError loading plugin '..v..'\27[39m')
 	  print(tostring(io.popen("lua plugins/"..v..".lua"):read('*all')))
       print('\27[31m'..err..'\27[39m')
     end
