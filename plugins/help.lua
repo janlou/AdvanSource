@@ -24,8 +24,10 @@ if is_momod(msg) or is_owner(msg) or is_sudo(msg) or is_vip(msg) then
 	  return "Group is not added!"
 	end
 	end
- elseif not is_momod(msg) or not is_owner(msg) or not is_vip(msg) then
+elseif not is_momod(msg) or not is_owner(msg) or not is_vip(msg) then
+ if is_group(msg) or is_super_group(msg) then
 	  return "You cant see /help text"
+ end
 end
 
  if msg.to.type == 'channel' and matches[1] == "sethelp" and matches[2] then
