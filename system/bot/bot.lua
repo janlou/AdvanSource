@@ -253,7 +253,8 @@ Copyright all right reserved and you must respect all laws.
 
 Source: https://github.com/janlou/AdvanSource
 Channel: @AdvanTm
-Creator: @Advanbot
+Messenger: @Advanbot
+Creator: @janlou
 Site: http://StoreVps.ir
 ]]
   }
