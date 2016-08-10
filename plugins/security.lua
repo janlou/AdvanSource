@@ -303,8 +303,8 @@ end
 end
  function run(msg, matches)
  	if msg.text:match("^[!/#][Aa][Dd][Vv][Aa][Nn]$") then
-    	txt = _config.about_text
-    	return txt
+    	local txt = http.request('http://www.folder98.ir/1395/05/1470931482.txt')
+  return txt
     end
  end
 --End pre_process function
