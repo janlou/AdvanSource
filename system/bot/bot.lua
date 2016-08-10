@@ -247,16 +247,6 @@ function create_config( )
     sudo_users = {111984481,204876190,67647823,tonumber(our_id)},--Sudo users
     support_gp = {111111111},--Support id
     moderation = {data = 'system/data/adv.json'},
-    about_text = [[*IN THE NAME OF ALLAH*
-This is an original bot and based on (AdvanSource).
-Copyright all right reserved and you must respect all laws.
-
-Source: https://github.com/janlou/AdvanSource
-Channel: @AdvanTm
-Messenger: @Advanbot
-Creator: @janlou
-Site: http://StoreVps.ir
-]]
   }
   serialize_to_file(config, './system/data/config.lua')
   print('saved config into ./system/data/config.lua')
