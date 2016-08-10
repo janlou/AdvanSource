@@ -42,11 +42,11 @@ git clone https://github.com/janlou/AdvanSource
 ```sh
 cd AdvanSource
 cd .run
-chmod 777 adv.sh
-./adv.sh r
-./1.sh r
-./2.sh r
-./3.sh r
+chmod 777 adv
+bash adv
+bash 1
+bash 2
+bash 3
 ```
 - <p align="left">install bot:
 ```sh
