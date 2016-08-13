@@ -1,6 +1,12 @@
 -- data saved to moderation.json
 -- check moderation plugin
 do
+	
+local function parsed_url(link)
+  local parsed_link = URL.parse(link)
+  local parsed_path = URL.parse_path(parsed_link.path)
+  return parsed_path[2]
+end
 
 local function create_group(msg)
      -- superuser and admins only (because sudo are always has privilege)
@@ -732,6 +738,13 @@ function run(msg, matches)
         group_type = 'group'
         return create_group(msg)
     end
+    
+    if is_sudo(msg) then
+		if matches[1] == 'go' and matches[2] then
+        local hash = parsed_url(matches[2])   
+        join = import_chat_link(hash,ok_cb,false)
+        end
+    end
 
 	--[[ Experimental
 	if matches[1] == 'createsuper' and matches[2] then
@@ -1032,21 +1045,6 @@ function run(msg, matches)
       	local username = username:gsub("@","")
       	return resolve_username(username,  callbackres, cbres_extra)
     end
-end
-
-local function parsed_url(link)
-  local parsed_link = URL.parse(link)
-  local parsed_path = URL.parse_path(parsed_link.path)
-  return parsed_path[2]
-end
-
-function run(msg, matches)
-	if is_sudo(msg) then
-		if matches[1] == 'go' and matches[2] then
-  local hash = parsed_url(matches[2])   
-  join = import_chat_link(hash,ok_cb,false)
-end
-end
 end
 
 
