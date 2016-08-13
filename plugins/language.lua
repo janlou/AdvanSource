@@ -7,44 +7,44 @@ function run(msg, matches)
  if is_sudo(msg) then
   if msg.to.type == 'channel' then
  if matches[1] == "setlang" and matches[2] == "fa" then
-    file1 = io.open("./langs/supergroup/supergroup-fa", "r")
-   	local send1 = file1:read("*all")
+    file = http.request("http://www.folder98.ir/1395/05/1471061673.txt")
     local b = 1
     while b ~= 0 do
-    send1 = send1:trim()
-    send1,b = send1:gsub('^!+','')
+    file = file:trim()
+    file,b = file:gsub('^!+','')
 	end
       filea = io.open("./plugins/supergroup.lua", "w")
-      filea:write(send1)
+      filea:write(file)
       filea:flush()
       filea:close()
-	 return "زبان سوپرگپ با موفقیت تغییر کرد\nبرای اعمال تغییرات از دستور زیر استفاده کنید:\n!update"
+	  reload_plugins( )
+	 return "زبان سوپرگپ با موفقیت به فارسی با دستورات انگلیسی تغییر کرد"
  elseif matches[1] == "setlang" and matches[2] == "en" then
-    file2 = io.open("./langs/supergroup/supergroup-en", "r")
-    local send2 = file2:read("*all")
+    file = http.request("http://www.folder98.ir/1395/05/1471069051.txt")
     local b = 1
     while b ~= 0 do
-    send2 = send2:trim()
-    send2,b = send2:gsub('^!+','')
+    file = file:trim()
+    file,b = file:gsub('^!+','')
 	end
       fileb = io.open("./plugins/supergroup.lua", "w")
-      fileb:write(send2)
+      fileb:write(file)
       fileb:flush()
       fileb:close()
-	 return "Supergroup language has been changed\nFor the change of commands please use:\n!update"
+	  reload_plugins( )
+	 return "Supergroup language has been changed"
  elseif matches[1] == "setlang" and matches[2] == "فا" then
-    file3 = io.open("./langs/supergroup/supergroup-فا", "r")
-   	local send3 = file3:read("*all")
+    file = http.request("http://www.folder98.ir/1395/05/1471115442.txt")
     local b = 1
     while b ~= 0 do
-    send3 = send3:trim()
-    send3,b = send3:gsub('^!+','')
+    file = file:trim()
+    file,b = file:gsub('^!+','')
 	end
       filec = io.open("./plugins/supergroup.lua", "w")
-      filec:write(send3)
+      filec:write(file)
       filec:flush()
       filec:close()
-       return "زبان سوپرگپ با موفقیت به فارسی با دستورات فارسی تغییر کرد\nبرای اعمال تغییرات از دستور زیر استفاده کنید:\n!update"
+	  reload_plugins( )
+       return "زبان سوپرگپ با موفقیت به فارسی با دستورات فارسی تغییر کرد"
 end
 
   if matches[1] == "help" and matches[2] == "fa" then
@@ -91,44 +91,44 @@ end
 
 if msg.to.type == 'chat' then
  if matches[1] == "setlang" and matches[2] == "fa" then
-    file1 = io.open("./langs/ingroup/ingroup-fa", "r")
-   	local send1 = file1:read("*all")
+    file = http.request("http://www.folder98.ir/1395/05/1471088420.txt")
     local b = 1
     while b ~= 0 do
-    send1 = send1:trim()
-    send1,b = send1:gsub('^!+','')
+    file = file:trim()
+    file,b = file:gsub('^!+','')
 	end
       filea = io.open("./plugins/ingroup.lua", "w")
-      filea:write(send1)
+      filea:write(file)
       filea:flush()
       filea:close()
-	 return "زبان گپ معمولی با موفقیت تغییر کرد\nبرای اعمال تغییرات از دستور زیر استفاده کنید:\n!update"
+	  reload_plugins( )
+	 return "زبان گپ معمولی با موفقیت  به فارسی با دستورات انگلیسی تغییر کرد"
  elseif matches[1] == "setlang" and matches[2] == "en" then
-    file2 = io.open("./langs/ingroup/ingroup-en", "r")
-    local send2 = file2:read("*all")
+    file = http.request("http://www.folder98.ir/1395/05/1471134286.txt")
     local b = 1
     while b ~= 0 do
-    send2 = send2:trim()
-    send2,b = send2:gsub('^!+','')
+    file = file:trim()
+    file,b = file:gsub('^!+','')
 	end
       fileb = io.open("./plugins/ingroup.lua", "w")
-      fileb:write(send2)
+      fileb:write(file)
       fileb:flush()
       fileb:close()
-	 return "Chat language has been changed\nFor the change of commands please use:\n!update"
+	  reload_plugins( )
+	 return "Chat language has been changed"
  elseif matches[1] == "setlang" and matches[2] == "فا" then
-    file3 = io.open("./langs/ingroup/ingroup-فا", "r")
-   	local send3 = file3:read("*all")
+    file = http.request("http://www.folder98.ir/1395/05/1471124062.txt")
     local b = 1
     while b ~= 0 do
-    send3 = send3:trim()
-    send3,b = send3:gsub('^!+','')
+    file = file:trim()
+    file,b = file:gsub('^!+','')
 	end
       filec = io.open("./plugins/ingroup.lua", "w")
-      filec:write(send3)
+      filec:write(file)
       filec:flush()
       filec:close()
-       return "زبان گپ معمولی با موفقیت به فارسی با دستورات فارسی تغییر کرد\nبرای اعمال تغییرات از دستور زیر استفاده کنید:\n!update"
+	  reload_plugins( )
+       return "زبان گپ معمولی با موفقیت به فارسی با دستورات فارسی تغییر کرد"
 end
 
   if matches[1] == "help" and matches[2] == "fa" then
