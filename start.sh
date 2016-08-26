@@ -94,6 +94,20 @@ install() {
   cd ..
   install_luarocks
   install_rocks
+  
+  sleep 0.9
+  echo ""
+  echo ""
+  echo "Bot has been installed! you can run bot with:"
+  echo ""
+  echo "RUN BOT WITH NORMAL MOD:"
+  echo "$0 bot"
+  sleep 0.9
+  echo ""
+  echo "RUN BOT WITH SELF MOD:"
+  echo "$0 self"
+  echo ""
+  echo ""
 }
 #By: @AdvanTm
 if [ "$1" = "install" ]; then
@@ -102,22 +116,89 @@ elif [ "$1" = "update" ]; then
   update
 else
   if [ ! -f ./tg/telegram.h ]; then
-    echo "فایل تیجی یافت نشد از دستور زیر استفاده کنید"
+    echo "Tg not found, use:"
     echo "$0 install"
     exit 1
   fi
 
   if [ ! -f ./tg/bin/telegram-cli ]; then
-    echo "تغییراتی صورت گرفته است از دستور زیر استفاده کنید"
+    echo "Tg not found, use:"
     echo "$0 install"
     exit 1
 fi
   
+if [ "$1" = "api" ]; then
    echo -e "\033[38;5;208m"
+   echo -e "----------------------------------------------"
    echo -e "     ___    ____ __    __ ___    _   _        "
    echo -e "    / _ \  |  _ \\ \  / // _ \  | \  ||       "
    echo -e "   / /_\ \ | |_| |\ \/ // /_\ \ ||\\_||       "
    echo -e "  /_/   \_\|____/  \__//_/   \_\|| \__|       "
+   echo -e "                                              "
+   echo -e "----------------------------------------------"
+   echo -e "                  API MOD                     "
+   echo -e "         ----------------------------         "
+   echo -e "         CopyRight all right reserved         "
+   echo -e "----------------------------------------------"
+   echo -e "                                              \033[0;00m"
+   echo -e "\e[36m"
+   
+  while true; do
+   rm -r ../.telegram-cli/state
+   ./tg/bin/telegram-cli -b ./tg/tg-server.pub -s ./system/bot/bot.lua -l 1 -E $@
+   sleep 3
+  done
+elif [ "$1" = "self" ]; then
+  git clone https://gitlab.com/antispam/plugins-self
+   echo -e "\033[38;5;208m"
+   echo -e "----------------------------------------------"
+   echo -e "     ___    ____ __    __ ___    _   _        "
+   echo -e "    / _ \  |  _ \\ \  / // _ \  | \  ||       "
+   echo -e "   / /_\ \ | |_| |\ \/ // /_\ \ ||\\_||       "
+   echo -e "  /_/   \_\|____/  \__//_/   \_\|| \__|       "
+   echo -e "                                              "
+   echo -e "----------------------------------------------"
+   echo -e "                   SELF MOD                   "
+   echo -e "         ----------------------------         "
+   echo -e "         CopyRight all right reserved         "
+   echo -e "----------------------------------------------"
+   echo -e "                                              \033[0;00m"
+   echo -e "\e[36m"
+   
+  while true; do
+   rm -r ../.telegram-cli/state
+   ./tg/bin/telegram-cli -k ./tg/tg-server.pub -s ./system/bot/self.lua -l 1 -E $@
+   sleep 3
+  done
+elif [ "$1" = "help" ]; then
+  echo ""
+  echo "You can use:"
+  sleep 0.5
+  echo ""
+  echo "$0 api"
+  echo "Api mod for your bot"
+  sleep 2
+  echo ""
+  echo "$0 self"
+  echo "Self mod for your account"
+  sleep 2
+  echo ""
+  echo "$0"
+  echo "Cli mod for your bot's account"
+  echo ""
+fi
+   echo -e "\033[38;5;208m"
+   echo -e "----------------------------------------------"
+   echo -e "     ___    ____ __    __ ___    _   _        "
+   echo -e "    / _ \  |  _ \\ \  / // _ \  | \  ||       "
+   echo -e "   / /_\ \ | |_| |\ \/ // /_\ \ ||\\_||       "
+   echo -e "  /_/   \_\|____/  \__//_/   \_\|| \__|       "
+   echo -e "                                              "
+   echo -e "----------------------------------------------"
+   echo -e "                   CLI MOD                    "
+   echo -e "         ----------------------------         "
+   echo -e "         CopyRight all right reserved         "
+   echo -e "----------------------------------------------"
    echo -e "                                              \033[0;00m"
    echo -e "\e[36m"
    
