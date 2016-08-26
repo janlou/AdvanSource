@@ -100,12 +100,17 @@ install() {
   echo ""
   echo "Bot has been installed! you can run bot with:"
   echo ""
-  echo "RUN BOT WITH NORMAL MOD:"
-  echo "$0 bot"
+  echo "RUN BOT WITH CLI MOD:"
+  echo "$0"
   sleep 0.9
   echo ""
   echo "RUN BOT WITH SELF MOD:"
   echo "$0 self"
+  echo ""
+  sleep 0.9
+  echo ""
+  echo "RUN BOT WITH API MOD:"
+  echo "$0 api"
   echo ""
   echo ""
 }
