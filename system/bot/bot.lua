@@ -256,7 +256,7 @@ Channel: @AdvanTm
 Messenger: @Advanbot
 Creator: @janlou
 Site: http://StoreVps.ir
-]]
+]],
     --Start rate:
     Group_rate = [[]],
     Supergroup_rate = [[]]
