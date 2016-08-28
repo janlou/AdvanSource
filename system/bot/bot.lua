@@ -257,6 +257,10 @@ Messenger: @Advanbot
 Creator: @janlou
 Site: http://StoreVps.ir
 ]]
+    --Start rate:
+    Group_rate = [[]],
+    Supergroup_rate = [[]]
+    --Finish rate.
   }
   serialize_to_file(config, './system/data/config.lua')
   print('saved config into ./system/data/config.lua')
