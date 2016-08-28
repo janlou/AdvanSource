@@ -302,10 +302,22 @@ end
 	return msg
 end
  function run(msg, matches)
- 	if msg.text:match("^[!/#][Aa][Dd][Vv][Aa][Nn]$") then
+      if msg.text:match("^[!/#][Aa][Dd][Vv][Aa][Nn]$") then
     	txt = _config.about_text
     	return txt
-    end
+      end
+          if msg.text:match("^[!/#][Rr][Aa][Tt][Ee]$") then
+          Group_rate = _config.Group_rate
+    	    Supergroup_rate = _config.Supergroup_rate
+    	    price = "Rial"
+		if Group_rate ~= "" or Supergroup_rate ~= "" then
+    	         rate = "Rate of:\n\nChat: "..Group_rate.." "..price.."\nSuperGroup: "..Supergroup_rate.." "..price
+    	         send_msg(get_receiver(msg), rate, ok_cb, false)
+		else
+		 rate = "Erore: Rate is not set!"
+    	         send_msg(get_receiver(msg), rate, ok_cb, false)
+                end
+	  end
  end
 --End pre_process function
 return {
@@ -314,6 +326,7 @@ return {
         "[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/",
         "?[Ss][Tt][Aa][Rr][Tt]=",
         "^[!/#][Aa][Dd][Vv][Aa][Nn]$",
+        "^[!/#][Rr][Aa][Tt][Ee]$",
 	},
 	pre_process = pre_process,
 	run = run
