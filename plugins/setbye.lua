@@ -1,5 +1,6 @@
 local function run(msg, matches)
  local text = matches[2]
+ if is_momod(msg) or is_owner(msg) or is_sudo(msg) then
  if matches[1] == "setbye" and matches[2] then
    local b = 1
   while b ~= 0 do
@@ -12,6 +13,9 @@ local function run(msg, matches)
   file:close()
   return "متن خروج کاربر تغییر کرد به:\n"..text
  end
+elseif not is_momod(msg) or not is_owner(msg) or not is_sudo(msg) then
+ return "فقط مخصوص ادمین ها"
+end
    
    local bye = io.open("./system/chats/logs/"..msg.to.id..".txt", "r")
    local send = bye:read("*all")
@@ -19,7 +23,8 @@ local function run(msg, matches)
       return send
     else
      print("Bye text not found")
-  end
+   end
+   
   if is_momod(msg) or is_owner(msg) or is_sudo(msg) then
    local say = "متن خروج با موفقیت حذف شد"
    if matches[1] == "delbye" then
@@ -28,7 +33,7 @@ local function run(msg, matches)
    return del
    end
    
-  else
+  elseif not is_momod(msg) or not is_owner(msg) or not is_sudo(msg) then
    return "فقط مخصوص ادمین ها"
  end
 end
