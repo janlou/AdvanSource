@@ -226,6 +226,7 @@ function create_config( )
     "info",
     "ingroup",
     "invite",
+    "locks",
     "markread",
     "security",
     "note",
