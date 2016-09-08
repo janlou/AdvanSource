@@ -353,7 +353,7 @@ local function run(msg, matches)
          end
 			--Bots lock.
 			--Number lock:
-		 if msg.text:match("^%d+$") then
+		 if msg.text:match("%d+") then
           if lock_number == "yes" then
 		   if msg.to.type == channel then
            delete_msg(msg.id, ok_cb, true)
@@ -486,7 +486,7 @@ return {
 "(رایتل)",
 "(تالیا)",
 "#",
-"^%d+$",
+"%d+",
 "^[!/#](lock) (.*)$",
 "^[!/#](unlock) (.*)$",
 "%[(photo)%]",
