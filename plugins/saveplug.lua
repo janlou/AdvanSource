@@ -7,31 +7,16 @@ local function plugin_enabled( name )
   return false
 end
 
-local function disable_plugin( name, chat )
+local function enable_plugin( plugin_name )
+if plugin_enabled(plugin_name) then
   local k = plugin_enabled(name)
-  if not k then
-    return
-  end
   table.remove(_config.enabled_plugins, k)
   save_config( )
 end
-
-local function enable_plugin( plugin_name )
-  if plugin_enabled(plugin_name) then
-    return disable_plugin( name, chat )
-  end
     table.insert(_config.enabled_plugins, plugin_name)
     save_config()
 end
 
-local function plugin_exists( name )
-  for k,v in pairs(plugins_names()) do
-    if name..'.lua' == v then
-      return true
-    end
-  end
-  return false
-end
   
 local function reload_plugins( )
   plugins = {}
@@ -43,7 +28,7 @@ local function saveplug(extra, success, result)
   local name = extra.name
   local receiver = get_receiver(msg)
   if success then
-    local file = 'plugins-self/'..name..'.lua'
+    local file = 'plugins/'..name..'.lua'
     print('File saving to:', result)
     os.rename(result, file)
     print('File moved to:', file)
@@ -54,17 +39,18 @@ local function saveplug(extra, success, result)
     send_large_msg(receiver, 'Failed, please try again!', ok_cb, false)
   end
 end
-local function run(msg,matches)
+  local function run(msg,matches)
     local receiver = get_receiver(msg)
     local group = msg.to.id
     if msg.reply_id then
    local name = matches[2]
       if matches[1] == "save" and matches[2] and is_sudo(msg) then
-load_document(msg.reply_id, saveplug, {msg=msg,name=name})
-        return 'Plugin '..name..' has been saved.'
+        load_document(msg.reply_id, saveplug, {msg=msg,name=name})
+        reply_msg(msg['id'], 'Plugin '..name..' has been saved.', ok_cb, false)
+      end
     end
-end
-end
+  end
+
 return {
   advan = {
     "Created by: @janlou & @Alirezame",
