@@ -1,3 +1,8 @@
+local function reload_plugins( )
+  plugins = {}
+  load_plugins()
+end
+
 local function plugin_enabled( name )
   for k,v in pairs(_config.enabled_plugins) do
     if name == v then
@@ -9,18 +14,10 @@ end
 
 local function enable_plugin( plugin_name )
 if plugin_enabled(plugin_name) then
-  local k = plugin_enabled(name)
-  table.remove(_config.enabled_plugins, k)
-  save_config( )
-end
-    table.insert(_config.enabled_plugins, plugin_name)
+  reload_plugins( )
+else table.insert(_config.enabled_plugins, plugin_name)
     save_config()
 end
-
-  
-local function reload_plugins( )
-  plugins = {}
-  load_plugins()
 end
 
 local function saveplug(extra, success, result)
@@ -33,6 +30,7 @@ local function saveplug(extra, success, result)
     os.rename(result, file)
     print('File moved to:', file)
     enable_plugin(name)
+    print('Reloading...')
     reload_plugins( )
   else
     print('Error downloading: '..msg.id)
