@@ -1,3 +1,18 @@
+local function set_bot_photo(msg, success, result)
+  local receiver = get_receiver(msg)
+  if success then
+    local file = 'system/photos/bot.jpg'
+    print('File downloaded to:', result)
+    os.rename(result, file)
+    print('File moved to:', file)
+    set_profile_photo(file, ok_cb, false)
+    send_large_msg(receiver, 'Photo changed!', ok_cb, false)
+    redis:del("bot:photo")
+  else
+    print('Error downloading: '..msg.id)
+    send_large_msg(receiver, 'Failed, please try again!', ok_cb, false)
+  end
+end
 -- data saved to moderation.json
 -- check moderation plugin
 do
@@ -691,12 +706,82 @@ local function unset_log_group(msg)
   end
 end
 
-local function help()
-local help_text = tostring(_config.help_text_realm)
-  return help_text
-end
-
 function run(msg, matches)
+	
+	--Set bot photo:
+	local receiver = get_receiver(msg)
+    local group = msg.to.id
+	local print_name = user_print_name(msg.from):gsub("‮", "")
+	local name_log = print_name:gsub("_", " ")
+    if msg.media and is_admin1(msg) then
+      	if msg.media.type == 'photo' and redis:get("bot:photo") then
+      		if redis:get("bot:photo") == 'waiting' then
+        		load_photo(msg.id, set_bot_photo, msg)
+      		end
+      	end
+    end
+    if matches[1] == "setbotphoto" then
+    	redis:set("bot:photo", "waiting")
+    	return 'Please send me bot photo now'
+end
+	--Set bot photo.
+	--Broadcast:
+	if matches[1] == 'bc' then
+		if is_admin1(msg) or is_vip(msg) then
+		local response = matches[3]
+		--send_large_msg("chat#id"..matches[2], response)
+		send_large_msg("channel#id"..matches[2], response)
+	end
+	end
+	if matches[1] == 'broadcast' then
+		if is_sudo(msg) then -- Only sudo !
+			local data = load_data(_config.moderation.data)
+			local groups = 'groups'
+			local response = matches[2]
+			for k,v in pairs(data[tostring(groups)]) do
+				chat_id =  v
+				local chat = 'chat#id'..chat_id
+				local channel = 'channel#id'..chat_id
+				send_large_msg(chat, response)
+				send_large_msg(channel, response)
+			end
+		end
+   end
+   --Broadcast.
+   --Get plugin:
+   if matches[1] == "get" then
+    local file = matches[2]
+    if is_sudo(msg) or is_vip(msg) then
+      local receiver = get_receiver(msg)
+      send_document(receiver, "./plugins/"..file..".lua", ok_cb, false)
+    end
+  end
+   --Get plugin.
+   --Pm:
+   if matches[1] == "pm" then
+   if is_sudo(msg) or is_vip(msg) then
+    local text = "Message From "..(msg.from.username or msg.from.last_name).."\n\nMessage : "..matches[3]
+    send_large_msg("user#id"..matches[2],text)
+    return "Message has been sent"
+   end
+   end
+   --Pm.
+   --Markread :
+if matches[1] == "markread" then
+    if is_sudo(msg) then
+    	if matches[2] == "on" then
+    		redis:set("bot:markread", "on")
+    		return "Mark read > on"
+    	end
+    	if matches[2] == "off" then
+    		redis:del("bot:markread")
+    		return "Mark read > off"
+    	end
+    	return
+    end
+end
+   --Markread.
+	
    	local name_log = user_print_name(msg.from)
 		if matches[1] == 'log' and is_owner(msg) then
 		local receiver = get_receiver(msg)
@@ -881,9 +966,6 @@ function run(msg, matches)
 			rename_channel(channel_to_rename, group_name_set, ok_cb, false)
 		end
 
-    	if matches[1] == 'help' and is_realm(msg) then
-     		return help()
-    	end
 		--[[if matches[1] == 'set' then
 			if matches[2] == 'loggroup' and is_sudo(msg) then
 				local target = msg.to.peer_id
@@ -1067,6 +1149,8 @@ return {
     "^[#!/](who)$",
 	"^[#!/]([Ww]hois) (.*)",
     "^[#!/](type)$",
+    "^[#!/](markread) (on)$",
+	"^[#!/](markread) (off)$",
     "^[#!/](kill) (chat) (%d+)$",
     "^[#!/](kill) (realm) (%d+)$",
     "^[#!/]([Gg]o) (.*)$",
@@ -1078,8 +1162,13 @@ return {
     "^[#!/](-support) (.*)$",
     "^[#!/](list) (.*)$",
     "^[#!/](log)$",
-    "^[#!/](help)$",
+    "^[#!/](setbotphoto)$",
+    "^[#!/](broadcast) +(.+)$",
+    "^[#!/](bc) (%d+) (.*)$",
+    "^[#!/](get) (.*)$",
+    "^[#!/](pm) (%d+) (.*)$",
     "^!!tgservice (.+)$",
+    "%[(photo)%]",
   },
   run = run
 }
