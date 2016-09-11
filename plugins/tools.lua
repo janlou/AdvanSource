@@ -119,10 +119,6 @@ function run(msg, matches)
         reply_msg(msg['id'], 'Plugin '..name..' has been saved.', ok_cb, false)
       end
  end
-         if not is_sudo(msg) then
-           return "only for sudo!"
-         end
-         
          --tosticker && tophoto:
          if msg.media then
       	if msg.media.type == 'document' and is_momod(msg) and redis:get("sticker:photo") then
