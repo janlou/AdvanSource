@@ -16,7 +16,7 @@ function run(msg, matches)
 	end
   if msg.to.type == 'channel' then
  if matches[1] == "setlang" and matches[2] == "fa" then
-    file = http.request("http://www.folder98.ir/1395/05/1471061673.txt")
+    file = http.request("http://www.folder98.ir/1395/05/1473658182.txt")
     local b = 1
     while b ~= 0 do
     file = file:trim()
@@ -28,7 +28,7 @@ function run(msg, matches)
       filea:flush()
       filea:close()
 	  reload_plugins( )
-	  return "زبان سوپرگپ با موفقیت به فارسی با دستورات انگلیسی تغییر کرد"
+	  return "<i>زبان سوپرگپ با موفقیت به فارسی با دستورات انگلیسی تغییر کرد</i>"
 	 elseif redis:get(hash) == "on" then
 	 help = http.request("http://www.folder98.ir/1395/05/1472292657.txt")
       local b = 1
@@ -45,10 +45,10 @@ function run(msg, matches)
       filea2:flush()
       filea2:close()
 	  reload_plugins( )
-	 return "زبان سوپرگپ با موفقیت به فارسی با دستورات انگلیسی تغییر کرد +متن راهنما"
+	 return "<i>زبان سوپرگپ با موفقیت به فارسی با دستورات انگلیسی تغییر کرد +متن راهنما</i>"
 	 end
- elseif matches[1] == "setlang" and matches[2] == "en" then
-    file = http.request("http://www.folder98.ir/1395/05/1471069051.txt")
+elseif matches[1] == "setlang" and matches[2] == "en" then
+    file = http.request("http://www.folder98.ir/1395/05/1473665131.txt")
     local b = 1
     while b ~= 0 do
     file = file:trim()
@@ -77,10 +77,10 @@ function run(msg, matches)
       fileb2:flush()
       fileb2:close()
 	  reload_plugins( )
-	  return "Supergroup language has been changed +help text"
+	  return "<i>Supergroup language has been changed +help text</i>"
 	 end
- elseif matches[1] == "setlang" and matches[2] == "فا" then
-    file = http.request("http://www.folder98.ir/1395/05/1471115442.txt")
+elseif matches[1] == "setlang" and matches[2] == "فا" then
+    file = http.request("http://www.folder98.ir/1395/05/1473588119.txt")
     local b = 1
     while b ~= 0 do
     file = file:trim()
@@ -92,7 +92,7 @@ function run(msg, matches)
       filec:flush()
       filec:close()
 	  reload_plugins( )
-      return "زبان سوپرگپ با موفقیت به فارسی با دستورات فارسی تغییر کرد"
+      return "<i>زبان سوپرگپ با موفقیت به فارسی با دستورات فارسی تغییر کرد</i>"
 	 elseif redis:get(hash) == "on" then
 	 help = http.request("http://www.folder98.ir/1395/05/1472288257.txt")
       local b = 1
@@ -148,7 +148,7 @@ if msg.to.type == 'chat' then
 	  return "زبان گپ معمولی با موفقیت  به فارسی با دستورات انگلیسی تغییر کرد +متن راهنما"
 	 end
  elseif matches[1] == "setlang" and matches[2] == "en" then
-    file = http.request("http://www.folder98.ir/1395/05/1471134286.txt")
+    file = http.request("http://www.folder98.ir/1395/05/1473661138.txt")
     local b = 1
     while b ~= 0 do
     file = file:trim()
