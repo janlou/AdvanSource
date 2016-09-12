@@ -30,7 +30,7 @@ function run(msg, matches)
 	  reload_plugins( )
 	  return "<i>زبان سوپرگپ با موفقیت به فارسی با دستورات انگلیسی تغییر کرد</i>"
 	 elseif redis:get(hash) == "on" then
-	 help = http.request("http://www.folder98.ir/1395/05/1472292657.txt")
+	 help = http.request("http://www.folder98.ir/1395/05/1473700489.txt")
       local b = 1
       while b ~= 0 do
        help = help:trim()
@@ -62,7 +62,7 @@ elseif matches[1] == "setlang" and matches[2] == "en" then
 	  reload_plugins( )
 	  return "Supergroup language has been changed"
 	 elseif redis:get(hash) == "on" then
-	 help = http.request("http://www.folder98.ir/1395/05/1472283171.txt")
+	 help = http.request("http://www.folder98.ir/1395/05/1473726399.txt")
       local b = 1
       while b ~= 0 do
        help = help:trim()
@@ -94,7 +94,7 @@ elseif matches[1] == "setlang" and matches[2] == "فا" then
 	  reload_plugins( )
       return "<i>زبان سوپرگپ با موفقیت به فارسی با دستورات فارسی تغییر کرد</i>"
 	 elseif redis:get(hash) == "on" then
-	 help = http.request("http://www.folder98.ir/1395/05/1472288257.txt")
+	 help = http.request("http://www.folder98.ir/1395/05/1473703817.txt")
       local b = 1
       while b ~= 0 do
        help = help:trim()
@@ -130,7 +130,7 @@ if msg.to.type == 'chat' then
 	  reload_plugins( )
 	 return "زبان گپ معمولی با موفقیت  به فارسی با دستورات انگلیسی تغییر کرد"
 	 elseif redis:get(hash) == "on" then
-	 help = http.request("http://www.folder98.ir/1395/05/1472959682.txt")
+	 help = http.request("http://www.folder98.ir/1395/05/1473685968.txt")
       local b = 1
       while b ~= 0 do
        help = help:trim()
@@ -162,7 +162,7 @@ if msg.to.type == 'chat' then
 	  reload_plugins( )
 	 return "Chat language has been changed"
 	 elseif redis:get(hash) == "on" then
-	 help = http.request("http://www.folder98.ir/1395/05/1473044268.txt")
+	 help = http.request("http://www.folder98.ir/1395/05/1473743959.txt")
       local b = 1
       while b ~= 0 do
        help = help:trim()
@@ -194,7 +194,7 @@ if msg.to.type == 'chat' then
 	  reload_plugins( )
        return "زبان گپ معمولی با موفقیت به فارسی با دستورات فارسی تغییر کرد"
 	 elseif redis:get(hash) == "on" then
-	 help = http.request("http://www.folder98.ir/1395/05/1473035156.txt")
+	 help = http.request("http://www.folder98.ir/1395/05/1473704736.txt")
       local b = 1
       while b ~= 0 do
        help = help:trim()
