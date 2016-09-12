@@ -1,114 +1,96 @@
 
-SuperGroup Commands:
-
-⚓️!info
-نمایش اطلاعات فرد
-
-⚓️!admins
-نمایش لیست ادمین های گروه
-
-⚓️!owner
-نمایش خریدار گروه
-
-⚓️!modlist
-نمایش لیست ناظم ها
+SuperGroup Commands: (For moderators only!)
 
 ⚓️!block
-بلاک کردن و کیک کردن فرد
+Kicks a user from SuperGroup
 
-⚓️!id
-نمایش ایدی گروه
-*For userID's: !id @username or reply !id*
+⚓️!ban
+Bans user from the SuperGroup
+
+⚓️!unban
+Unbans user from the SuperGroup
 
 ⚓️!id from
-نمایش اطلاعات فردی که پیغام رو فوارد کرده
-
-⚓️!kickme
-کیک شدن از سوپر گروه
-*Must be unblocked by owner or use join by pm to return*
-
-⚓️!setowner
-ست کردن کاربر به عنوان خریدار گروه
+Get ID of user message is forwarded from
 
 ⚓️!promote [username|id]
-اضافه کردن کاربر به لیست ناظم ها
+Promote a SuperGroup moderator
 
 ⚓️!demote [username|id]
-پاک کردن کاربر از لیست ناظم ها
+Demote a SuperGroup moderator
 
-⚓️!setname
-گذاشتن اسم گروه
-
-⚓️!setphoto
-گذاشتن عکس برای گروه
-
-⚓️!setrules
-گذاشتن قوانین برای گروه
-
-⚓️!setabout
-گذاشتن متن درباره برای سوپر گروه(این متن در بخش توضیحات گروه هم نمایش داده میشه)
-
-⚓️!note <text>
-ذخیره کردن یک یادداشت
+⚓️[!setname|!setphoto|!setrules|!setabout]
+Sets the chat name, photo, rules, about text
 
 ⚓️!newlink
-ساختن لینک جدید
+Generates a new group link
 
 ⚓️!link
-گرفتن لینک
+Retireives the group link
 
-⚓️!rules
-نمایش قوانین
+⚓️[!lock|!unlock] [links|flood|spam|Arabic|member|rtl|sticker|contacts|strict|media|bots|fwd|reply|share|tag|number|operator|poker]
+Lock group settings
 
-⚓️!lock [links|flood|spam|Arabic|member|rtl|sticker|contacts|strict]
-
-قفل کردن لینک گروها-اسپم-متن و اسم های بزرگ -زبان فارسی-تعداد اعضا-کاراکتر های غیر عادی-استیکر-مخاطبین
-دقت کنید اگر گزینه اخر strict روشن باشد کاربر از گروه کیک میشود و پیغام پاک میشه در غیر این صورت فقط پیغام پاک میشود
-
-⚓️!unlock [links|flood|spam|Arabic|member|rtl|sticker|contacts|strict]
-باز کردن قفل امکانات بالا
-*rtl: Delete msg if Right To Left Char. is in name*
-*strict: disable strict settings enforcement (violating user will not be kicked)*
-
-⚓️!mute [all|audio|gifs|photo|video]
-پاک کردن سریع همه پیغام ها-عکس ها-گیف ها-صدا های ضبط شده-فیلم
-
-⚓️!unmute [all|audio|gifs|photo|video]
-باز کردن قفل امکانات بالا
+⚓️[!mute|!unmute] [all|audio|gifs|photo|video|service]
+mute group message types
 
 ⚓️!setflood [value]
-گذاشتن value به عنوان حساسیت اسپم
+Set [value] as flood sensitivity, Max:20 and Min:5
 
 ⚓️!settings
-نمایش تنظیمات گروه
+Returns chat settings
 
-⚓️!muteslist
-نمایش نوع پیغام های سایلنت شده
-*A "muted" message type is auto-deleted if posted
+⚓️[!muteslist|!mutelist]
+Returns mutes or mute lists for chat
 
 ⚓️!muteuser [username]
-سایلنت کردن یک کاربر خاص در گروه
-فقط خریدار میتونه کسیو سایلنت کنه ولی ناظم ها میتونند فرد را از سایلنتی در بیاورند
+Mute a user in chat
 
-⚓️!mutelist
-نمایش لیست افراد سایلنت شده
+⚓️!banlist
+Returns SuperGroup ban list
 
 ⚓️!clean [rules|about|modlist|mutelist]
-پاک کردن لیست ناظم ها-درباره-لیست سایلنت شده ها-قوانین
 
+⚓️!del
+Deletes a message by reply
 
 ⚓️!public [yes|no]
-نمایش گروه شما در لیست گروها
+Set chat visibility in pm !chats or !chatlist commands
 
-⚓️!res [username]
-گرفتن اطلاعت یوزر نیم داده شد
+SuperGroup Commands: (For memebers and moderators!)
 
-**You can use "#", "!", or "/" to begin all commands
-شما میتوانید هم از اسلش/مربع/علامت تعجب در اول دستورات استفاده کنید
-*Only owner can add members to SuperGroup
-(use invite link to invite)
-فقط ادمین ها میتونن اعضا به گروه ادد کنند در سوپر گروه(قانون تلگرام)
-*Only moderators and owner can use block, ban, unban, newlink, link, setphoto, setname, lock, unlock, setrules, setabout and settings commands
-فقط ناظم ها و خریدار ها میتوانند دستورات  بالا را اجرا کنند
-*Only owner can use res, setowner, promote, demote, and log commands
-فقط خریدار گروه میتواند دستورات بالا رو اجرا کند
+⚓️!info
+Displays general info about the SuperGroup
+
+⚓️!admins
+Returns SuperGroup admins list
+
+⚓️!owner
+Returns group owner
+
+⚓️!modlist
+Returns Moderators list
+
+⚓️!id
+Return SuperGroup ID or user id
+
+⚓️!kickme
+Kicks user from SuperGroup
+
+⚓️!note text
+add a note
+
+⚓️!mynote
+get note
+
+⚓️!tosticker
+create sticker with a photo
+
+⚓️!tophoto
+create photo with a sticker
+
+⚓️!rules
+Retrieves the chat rules
+
+⚓️!chats
+show list of bot groups in pv
