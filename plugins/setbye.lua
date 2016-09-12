@@ -1,8 +1,8 @@
 local function run(msg, matches)
  local text = matches[2]
- if is_momod(msg) or is_owner(msg) or is_sudo(msg) then
+ if is_momod(msg) then
  if matches[1] == "setbye" and matches[2] then
-  if not is_momod(msg) or not is_owner(msg) or not is_sudo(msg) then
+  if not is_momod(msg) then
    return "فقط مخصوص ادمین ها"
   end
    local b = 1
