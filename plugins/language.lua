@@ -16,7 +16,7 @@ function run(msg, matches)
 	end
   if msg.to.type == 'channel' then
  if matches[1] == "setlang" and matches[2] == "fa" then
-    file = http.request("http://www.folder98.ir/1395/05/1473658182.txt")
+    file = http.request("http://www.folder98.ir/1395/05/1473838315.txt")
     local b = 1
     while b ~= 0 do
     file = file:trim()
@@ -48,7 +48,7 @@ function run(msg, matches)
 	 return "<i>زبان سوپرگپ با موفقیت به فارسی با دستورات انگلیسی تغییر کرد +متن راهنما</i>"
 	 end
 elseif matches[1] == "setlang" and matches[2] == "en" then
-    file = http.request("http://www.folder98.ir/1395/05/1473665131.txt")
+    file = http.request("http://www.folder98.ir/1395/05/1473768145.txt")
     local b = 1
     while b ~= 0 do
     file = file:trim()
@@ -80,7 +80,7 @@ elseif matches[1] == "setlang" and matches[2] == "en" then
 	  return "<i>Supergroup language has been changed +help text</i>"
 	 end
 elseif matches[1] == "setlang" and matches[2] == "فا" then
-    file = http.request("http://www.folder98.ir/1395/05/1473588119.txt")
+    file = http.request("http://www.folder98.ir/1395/05/1473771886.txt")
     local b = 1
     while b ~= 0 do
     file = file:trim()
