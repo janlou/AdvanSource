@@ -260,6 +260,234 @@ local function unlock_group_poker(msg, data, target)
   end
 end
 
+	local function lock_group_audio(msg, data, target)
+		local msg_type = 'Audio'
+		local chat_id = msg.to.id
+  if not is_momod(msg) then
+    return
+  end
+  local group_audio_lock = data[tostring(target)]['settings']['lock_audio']
+  if group_audio_lock == 'yes' and is_muted(chat_id, msg_type..': yes') then
+    return 'audio posting is already locked'
+  else
+    if not is_muted(chat_id, msg_type..': yes') then
+		mute(chat_id, msg_type)
+    data[tostring(target)]['settings']['lock_audio'] = 'yes'
+    save_data(_config.moderation.data, data)
+    return 'audio posting has been locked'
+    end
+  end
+end
+
+local function unlock_group_audio(msg, data, target)
+	local chat_id = msg.to.id
+	local msg_type = 'Audio'
+  if not is_momod(msg) then
+    return
+  end
+  local group_audio_lock = data[tostring(target)]['settings']['lock_audio']
+  if group_audio_lock == 'no' and not is_muted(chat_id, msg_type..': yes') then
+    return 'audio posting is not locked'
+  else
+  	if is_muted(chat_id, msg_type..': yes') then
+		unmute(chat_id, msg_type)
+    data[tostring(target)]['settings']['lock_audio'] = 'no'
+    save_data(_config.moderation.data, data)
+    return 'audio posting has been unlocked'
+    end
+  end
+end
+
+	local function lock_group_photo(msg, data, target)
+		local msg_type = 'Photo'
+		local chat_id = msg.to.id
+  if not is_momod(msg) then
+    return
+  end
+  local group_photo_lock = data[tostring(target)]['settings']['lock_photo']
+  if group_photo_lock == 'yes' and is_muted(chat_id, msg_type..': yes') then
+    return 'photo posting is already locked'
+  else
+    if not is_muted(chat_id, msg_type..': yes') then
+		mute(chat_id, msg_type)
+    data[tostring(target)]['settings']['lock_photo'] = 'yes'
+    save_data(_config.moderation.data, data)
+    return 'photo posting has been locked'
+    end
+  end
+end
+
+local function unlock_group_photo(msg, data, target)
+	local chat_id = msg.to.id
+	local msg_type = 'Photo'
+  if not is_momod(msg) then
+    return
+  end
+  local group_photo_lock = data[tostring(target)]['settings']['lock_photo']
+  if group_photo_lock == 'no' and not is_muted(chat_id, msg_type..': yes') then
+    return 'photo posting is not locked'
+  else
+  	if is_muted(chat_id, msg_type..': yes') then
+		unmute(chat_id, msg_type)
+    data[tostring(target)]['settings']['lock_photo'] = 'no'
+    save_data(_config.moderation.data, data)
+    return 'photo posting has been unlocked'
+    end
+  end
+end
+
+	local function lock_group_video(msg, data, target)
+		local msg_type = 'Video'
+		local chat_id = msg.to.id
+  if not is_momod(msg) then
+    return
+  end
+  local group_video_lock = data[tostring(target)]['settings']['lock_video']
+  if group_video_lock == 'yes' and is_muted(chat_id, msg_type..': yes') then
+    return 'video posting is already locked'
+  else
+    if not is_muted(chat_id, msg_type..': yes') then
+		mute(chat_id, msg_type)
+    data[tostring(target)]['settings']['lock_video'] = 'yes'
+    save_data(_config.moderation.data, data)
+    return 'video posting has been locked'
+    end
+  end
+end
+
+local function unlock_group_video(msg, data, target)
+	local chat_id = msg.to.id
+	local msg_type = 'Video'
+  if not is_momod(msg) then
+    return
+  end
+  local group_video_lock = data[tostring(target)]['settings']['lock_video']
+  if group_video_lock == 'no' and not is_muted(chat_id, msg_type..': yes') then
+    return 'video posting is not locked'
+  else
+  	if is_muted(chat_id, msg_type..': yes') then
+		unmute(chat_id, msg_type)
+    data[tostring(target)]['settings']['lock_video'] = 'no'
+    save_data(_config.moderation.data, data)
+    return 'video posting has been unlocked'
+    end
+  end
+end
+
+	local function lock_group_documents(msg, data, target)
+		local msg_type = 'Documents'
+		local chat_id = msg.to.id
+  if not is_momod(msg) then
+    return
+  end
+  local group_documents_lock = data[tostring(target)]['settings']['lock_documents']
+  if group_documents_lock == 'yes' and is_muted(chat_id, msg_type..': yes') then
+    return 'documents posting is already locked'
+  else
+    if not is_muted(chat_id, msg_type..': yes') then
+		mute(chat_id, msg_type)
+    data[tostring(target)]['settings']['lock_documents'] = 'yes'
+    save_data(_config.moderation.data, data)
+    return 'documents posting has been locked'
+    end
+  end
+end
+
+local function unlock_group_documents(msg, data, target)
+	local chat_id = msg.to.id
+	local msg_type = 'Documents'
+  if not is_momod(msg) then
+    return
+  end
+  local group_documents_lock = data[tostring(target)]['settings']['lock_documents']
+  if group_documents_lock == 'no' and not is_muted(chat_id, msg_type..': yes') then
+    return 'documents posting is not locked'
+  else
+  	if is_muted(chat_id, msg_type..': yes') then
+		unmute(chat_id, msg_type)
+    data[tostring(target)]['settings']['lock_documents'] = 'no'
+    save_data(_config.moderation.data, data)
+    return 'documents posting has been unlocked'
+    end
+  end
+end
+
+	local function lock_group_text(msg, data, target)
+		local msg_type = 'Text'
+		local chat_id = msg.to.id
+  if not is_momod(msg) then
+    return
+  end
+  local group_text_lock = data[tostring(target)]['settings']['lock_text']
+  if group_text_lock == 'yes' and is_muted(chat_id, msg_type..': yes') then
+    return 'text posting is already locked'
+  else
+    if not is_muted(chat_id, msg_type..': yes') then
+		mute(chat_id, msg_type)
+    data[tostring(target)]['settings']['lock_text'] = 'yes'
+    save_data(_config.moderation.data, data)
+    return 'text posting has been locked'
+    end
+  end
+end
+
+local function unlock_group_text(msg, data, target)
+	local chat_id = msg.to.id
+	local msg_type = 'Text'
+  if not is_momod(msg) then
+    return
+  end
+  local group_text_lock = data[tostring(target)]['settings']['lock_text']
+  if group_text_lock == 'no' and not is_muted(chat_id, msg_type..': yes') then
+    return 'text posting is not locked'
+  else
+  	if is_muted(chat_id, msg_type..': yes') then
+		unmute(chat_id, msg_type)
+    data[tostring(target)]['settings']['lock_text'] = 'no'
+    save_data(_config.moderation.data, data)
+    return 'text posting has been unlocked'
+    end
+  end
+end
+
+	local function lock_group_all(msg, data, target)
+		local msg_type = 'All'
+		local chat_id = msg.to.id
+  if not is_momod(msg) then
+    return
+  end
+  local group_all_lock = data[tostring(target)]['settings']['lock_all']
+  if group_all_lock == 'yes' and is_muted(chat_id, msg_type..': yes') then
+    return 'all posting is already locked'
+  else
+    if not is_muted(chat_id, msg_type..': yes') then
+		mute(chat_id, msg_type)
+    data[tostring(target)]['settings']['lock_all'] = 'yes'
+    save_data(_config.moderation.data, data)
+    return 'all posting has been locked'
+    end
+  end
+end
+
+local function unlock_group_all(msg, data, target)
+	local chat_id = msg.to.id
+	local msg_type = 'All'
+  if not is_momod(msg) then
+    return
+  end
+  local group_all_lock = data[tostring(target)]['settings']['lock_all']
+  if group_all_lock == 'no' and not is_muted(chat_id, msg_type..': yes') then
+    return 'all posting is not locked'
+  else
+  	if is_muted(chat_id, msg_type..': yes') then
+		unmute(chat_id, msg_type)
+    data[tostring(target)]['settings']['lock_all'] = 'no'
+    save_data(_config.moderation.data, data)
+    return 'all posting has been unlocked'
+    end
+  end
+end
+
     local function isABotBadWay (user)
       local username = user.username or ''
       return username:match("[Bb]ot$")
@@ -581,6 +809,7 @@ end
 -- End 'RondoMsgChecks' text checks by @Rondoozle
 	return msg
 end
+
  function run(msg, matches)
       if msg.text:match("^[!/#][Aa][Dd][Vv][Aa][Nn]$") then
     	txt = _config.about_text
@@ -743,6 +972,24 @@ end
 			if matches[2] == 'poker' then
 				return lock_group_poker(msg, data, target)
 			end
+			if matches[2] == 'audio' then
+				return lock_group_audio(msg, data, target)
+			end
+			if matches[2] == 'photo' then
+				return lock_group_photo(msg, data, target)
+			end
+			if matches[2] == 'video' then
+				return lock_group_video(msg, data, target)
+			end
+			if matches[2] == 'documents' then
+				return lock_group_documents(msg, data, target)
+			end
+			if matches[2] == 'text' then
+				return lock_group_text(msg, data, target)
+			end
+			if matches[2] == 'all' then
+				return lock_group_all(msg, data, target)
+			end
         end
 		
 		if matches[1] == 'unlock' then
@@ -773,6 +1020,24 @@ end
 			end
 			if matches[2] == 'poker' then
 				return unlock_group_poker(msg, data, target)
+			end
+			if matches[2] == 'audio' then
+				return unlock_group_audio(msg, data, target)
+			end
+			if matches[2] == 'photo' then
+				return unlock_group_photo(msg, data, target)
+			end
+			if matches[2] == 'video' then
+				return unlock_group_video(msg, data, target)
+			end
+			if matches[2] == 'documents' then
+				return unlock_group_documents(msg, data, target)
+			end
+			if matches[2] == 'text' then
+				return unlock_group_text(msg, data, target)
+			end
+			if matches[2] == 'all' then
+				return unlock_group_all(msg, data, target)
 			end
         end
 	end
