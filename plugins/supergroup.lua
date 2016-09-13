@@ -31,6 +31,12 @@ local function check_member_super(cb_extra, success, result)
 		  lock_number = 'no',
 		  lock_operator = 'no',
 		  lock_poker = 'no',
+		  lock_audio = 'no',
+		  lock_photo = 'no',
+		  lock_video = 'no',
+		  lock_documents = 'no',
+		  lock_text = 'no',
+		  lock_all = 'no',
 		  lock_sticker = 'no',
 		  member = 'no',
 		  public = 'no',
@@ -574,8 +580,47 @@ end
 		end
 	end
   local settings = data[tostring(target)]['settings']
-   local text = "SuperGroup settings for ["..msg.to.print_name.."]:\n\n[🔐] Default locks :\nLock links 👉 "..settings.lock_link.."\nLock flood 👉 "..settings.flood.."\nLock spam 👉 "..settings.lock_spam.."\nLock Arabic 👉 "..settings.lock_arabic.."\nLock Member 👉 "..settings.lock_member.."\nLock RTL 👉 "..settings.lock_rtl.."\nLock Tgservice  👉 "..settings.lock_tgservice.."\nLock sticker 👉 "..settings.lock_sticker.."\n\n[🔏] New locks :\nLock media 👉 "..settings.lock_media.."\nLock fwd 👉 "..settings.lock_fwd.."\nLock reply 👉 "..settings.lock_reply.."\nLock bots 👉 "..settings.lock_bots.."\nLock share 👉 "..settings.lock_share.."\nLock tag 👉 "..settings.lock_tag.."\nLock number 👉 "..settings.lock_number.."\nLock operator 👉 "..settings.lock_operator.."\nLock poker 👉 "..settings.lock_poker.."\n\n[🔧] OTHER:\n[👥] Public 👉 "..settings.public.."\n[📛] Strict settings 👉 "..settings.strict.."\n[👀]Flood sensitivity 👉 "..NUM_MSG_MAX.."\n\n[👥] About SuperGroup:\nName: "..msg.to.print_name.."\nId: "..msg.to.id.."\n\n[📋] SuperGroup "..mutes_list(msg.to.id).."\n[😶] "..muted_user_list(msg.to.id)
+   local text = "SuperGroup settings for ["..msg.to.print_name.."]:\n\n[🔐] Default locks :\nLock links 👉 "..settings.lock_link.."\nLock flood 👉 "..settings.flood.."\nLock spam 👉 "..settings.lock_spam.."\nLock Arabic 👉 "..settings.lock_arabic.."\nLock Member 👉 "..settings.lock_member.."\nLock RTL 👉 "..settings.lock_rtl.."\nLock Tgservice  👉 "..settings.lock_tgservice.."\nLock sticker 👉 "..settings.lock_sticker.."\n\n[🔏] New locks :\nLock media 👉 "..settings.lock_media.."\nLock fwd 👉 "..settings.lock_fwd.."\nLock reply 👉 "..settings.lock_reply.."\nLock bots 👉 "..settings.lock_bots.."\nLock share 👉 "..settings.lock_share.."\nLock tag 👉 "..settings.lock_tag.."\nLock number 👉 "..settings.lock_number.."\nLock operator 👉 "..settings.lock_operator.."\nLock poker 👉 "..settings.lock_poker.."\nLock audio 👉 "..settings.lock_audio.."\nLock photo 👉 "..settings.lock_photo.."\nLock video 👉 "..settings.lock_video.."\nLock documents 👉 "..settings.lock_documents.."\nLock text 👉 "..settings.lock_text.."\nLock all 👉 "..settings.lock_all.."\n\n[🔧] OTHER:\n[👥] Public 👉 "..settings.public.."\n[📛] Strict settings 👉 "..settings.strict.."\n[👀]Flood sensitivity 👉 "..NUM_MSG_MAX.."|20"
   return text
+end
+
+--Show supergroup settings all; function
+function show_supergroup_settingsall(msg, target)
+ 	if not is_momod(msg) then
+    	return
+  	end
+	local data = load_data(_config.moderation.data)
+    if data[tostring(target)] then
+     	if data[tostring(target)]['settings']['flood_msg_max'] then
+        	NUM_MSG_MAX = tonumber(data[tostring(target)]['settings']['flood_msg_max'])
+        	print('custom'..NUM_MSG_MAX)
+      	else
+        	NUM_MSG_MAX = 5
+      	end
+    end
+	if data[tostring(target)]['settings'] then
+		if not data[tostring(target)]['settings']['public'] then
+			data[tostring(target)]['settings']['public'] = 'no'
+		end
+	end
+	if data[tostring(target)]['settings'] then
+		if not data[tostring(target)]['settings']['lock_rtl'] then
+			data[tostring(target)]['settings']['lock_rtl'] = 'no'
+		end
+end
+      if data[tostring(target)]['settings'] then
+		if not data[tostring(target)]['settings']['lock_tgservice'] then
+			data[tostring(target)]['settings']['lock_tgservice'] = 'no'
+		end
+	end
+	if data[tostring(target)]['settings'] then
+		if not data[tostring(target)]['settings']['lock_member'] then
+			data[tostring(target)]['settings']['lock_member'] = 'no'
+		end
+	end
+  local settings = data[tostring(target)]['settings']
+ local text = "SuperGroup settings for ["..msg.to.print_name.."]:\n\n[🔐] Default locks :\nLock links 👉 "..settings.lock_link.."\nLock flood 👉 "..settings.flood.."\nLock spam 👉 "..settings.lock_spam.."\nLock Arabic 👉 "..settings.lock_arabic.."\nLock Member 👉 "..settings.lock_member.."\nLock RTL 👉 "..settings.lock_rtl.."\nLock Tgservice  👉 "..settings.lock_tgservice.."\nLock sticker 👉 "..settings.lock_sticker.."\n\n[🔏] New locks :\nLock media 👉 "..settings.lock_media.."\nLock fwd 👉 "..settings.lock_fwd.."\nLock reply 👉 "..settings.lock_reply.."\nLock bots 👉 "..settings.lock_bots.."\nLock share 👉 "..settings.lock_share.."\nLock tag 👉 "..settings.lock_tag.."\nLock number 👉 "..settings.lock_number.."\nLock operator 👉 "..settings.lock_operator.."\nLock poker 👉 "..settings.lock_poker.."\nLock audio 👉 "..settings.lock_audio.."\nLock photo 👉 "..settings.lock_photo.."\nLock video 👉 "..settings.lock_video.."\nLock documents 👉 "..settings.lock_documents.."\nLock text 👉 "..settings.lock_text.."\nLock all 👉 "..settings.lock_all.."\n\n[🔧] OTHER:\n[👥] Public 👉 "..settings.public.."\n[📛] Strict settings 👉 "..settings.strict.."\n[👀]Flood sensitivity 👉 "..NUM_MSG_MAX.."|20\n\n[👥] About SuperGroup:\nName: "..msg.to.print_name.."\nId: "..msg.to.id.."\n\n[😶] "..muted_user_list(msg.to.id)
+ return text
 end
 
 local function promote_admin(receiver, member_username, user_id)
@@ -1279,12 +1324,17 @@ local function run(msg, matches)
 			save_data(_config.moderation.data, data)
 			return 'Please send the new group link now'
 		end
+		
+		one = io.open("./system/adv/team", "r")
+        two = io.open("./system/adv/channel", "r")
+        local team = one:read("*all")
+        local channel = two:read("*all")
 
 		if msg.text then
 			if msg.text:match("^(https://telegram.me/joinchat/%S+)$") and data[tostring(msg.to.id)]['settings']['set_link'] == 'waiting' and is_owner(msg) then
 				data[tostring(msg.to.id)]['settings']['set_link'] = msg.text
 				save_data(_config.moderation.data, data)
-				return "New link set"
+				return 'New link set \nPowered by '..team..'\n<a href="'..channel..'">JOIN TO CHANNEL!</a>'
 			end
 		end
 
@@ -1296,7 +1346,7 @@ local function run(msg, matches)
 			if not group_link then
 				return "Create a link using /newlink first!\n\nOr if I am not creator use /setlink to set your link"
 			end
-			return "Group link:\n"..group_link
+			return 'Group link:\n'..group_link..'\nPowered by '..team..'\n<a href="'..channel..'">JOIN TO CHANNEL!</a>'
 		end
 
 		if matches[1] == "invite" and is_sudo(msg) then
@@ -1696,140 +1746,6 @@ local function run(msg, matches)
 			end
 		end
 
-		if matches[1] == 'mute' and is_owner(msg) then
-			local chat_id = msg.to.id
-			if matches[2] == 'audio' then
-			local msg_type = 'Audio'
-				if not is_muted(chat_id, msg_type..': yes') then
-					mute(chat_id, msg_type)
-					return msg_type.." has been muted"
-				else
-					return "SuperGroup mute "..msg_type.." is already on"
-				end
-			end
-			if matches[2] == 'photo' then
-			local msg_type = 'Photo'
-				if not is_muted(chat_id, msg_type..': yes') then
-					mute(chat_id, msg_type)
-					return msg_type.." has been muted"
-				else
-					return "SuperGroup mute "..msg_type.." is already on"
-				end
-			end
-			if matches[2] == 'video' then
-			local msg_type = 'Video'
-				if not is_muted(chat_id, msg_type..': yes') then
-					mute(chat_id, msg_type)
-					return msg_type.." has been muted"
-				else
-					return "SuperGroup mute "..msg_type.." is already on"
-				end
-			end
-			if matches[2] == 'gifs' then
-			local msg_type = 'Gifs'
-				if not is_muted(chat_id, msg_type..': yes') then
-					mute(chat_id, msg_type)
-					return msg_type.." have been muted"
-				else
-					return "SuperGroup mute "..msg_type.." is already on"
-				end
-			end
-			if matches[2] == 'documents' then
-			local msg_type = 'Documents'
-				if not is_muted(chat_id, msg_type..': yes') then
-					mute(chat_id, msg_type)
-					return msg_type.." have been muted"
-				else
-					return "SuperGroup mute "..msg_type.." is already on"
-				end
-			end
-			if matches[2] == 'text' then
-			local msg_type = 'Text'
-				if not is_muted(chat_id, msg_type..': yes') then
-					mute(chat_id, msg_type)
-					return msg_type.." has been muted"
-				else
-					return "Mute "..msg_type.." is already on"
-				end
-			end
-			if matches[2] == 'all' then
-			local msg_type = 'All'
-				if not is_muted(chat_id, msg_type..': yes') then
-					mute(chat_id, msg_type)
-					return "Mute "..msg_type.."  has been enabled"
-				else
-					return "Mute "..msg_type.." is already on"
-				end
-			end
-		end
-		if matches[1] == 'unmute' and is_momod(msg) then
-			local chat_id = msg.to.id
-			if matches[2] == 'audio' then
-			local msg_type = 'Audio'
-				if is_muted(chat_id, msg_type..': yes') then
-					unmute(chat_id, msg_type)
-					return msg_type.." has been unmuted"
-				else
-					return "Mute "..msg_type.." is already off"
-				end
-			end
-			if matches[2] == 'photo' then
-			local msg_type = 'Photo'
-				if is_muted(chat_id, msg_type..': yes') then
-					unmute(chat_id, msg_type)
-					return msg_type.." has been unmuted"
-				else
-					return "Mute "..msg_type.." is already off"
-				end
-			end
-			if matches[2] == 'video' then
-			local msg_type = 'Video'
-				if is_muted(chat_id, msg_type..': yes') then
-					unmute(chat_id, msg_type)
-					return msg_type.." has been unmuted"
-				else
-					return "Mute "..msg_type.." is already off"
-				end
-			end
-			if matches[2] == 'gifs' then
-			local msg_type = 'Gifs'
-				if is_muted(chat_id, msg_type..': yes') then
-					unmute(chat_id, msg_type)
-					return msg_type.." have been unmuted"
-				else
-					return "Mute "..msg_type.." is already off"
-				end
-			end
-			if matches[2] == 'documents' then
-			local msg_type = 'Documents'
-				if is_muted(chat_id, msg_type..': yes') then
-					unmute(chat_id, msg_type)
-					return msg_type.." have been unmuted"
-				else
-					return "Mute "..msg_type.." is already off"
-				end
-			end
-			if matches[2] == 'text' then
-			local msg_type = 'Text'
-				if is_muted(chat_id, msg_type..': yes') then
-					unmute(chat_id, msg_type)
-					return msg_type.." has been unmuted"
-				else
-					return "Mute text is already off"
-				end
-			end
-			if matches[2] == 'all' then
-			local msg_type = 'All'
-				if is_muted(chat_id, msg_type..': yes') then
-					unmute(chat_id, msg_type)
-					return "Mute "..msg_type.." has been disabled"
-				else
-					return "Mute "..msg_type.." is already disabled"
-				end
-			end
-		end
-
-
 		if matches[1] == "muteuser" and is_momod(msg) then
 			local chat_id = msg.to.id
 			local hash = "mute_user"..chat_id
@@ -1856,14 +1772,6 @@ local function run(msg, matches)
 			end
 		end
 
-		if matches[1] == "muteslist" and is_momod(msg) then
-			local chat_id = msg.to.id
-			if not has_mutes(chat_id) then
-				set_mutes(chat_id)
-				return mutes_list(chat_id)
-			end
-			return mutes_list(chat_id)
-		end
 		if matches[1] == "mutelist" and is_momod(msg) then
 			local chat_id = msg.to.id
 			return muted_user_list(chat_id)
@@ -1872,6 +1780,11 @@ local function run(msg, matches)
 		if matches[1] == 'settings' and is_momod(msg) then
 			local target = msg.to.id
 			return show_supergroup_settingsmod(msg, target)
+		end
+		
+		if matches[1] == 'settingsall' and is_momod(msg) then
+			local target = msg.to.id
+			return show_supergroup_settingsall(msg, target)
 		end
 
 		if matches[1] == 'rules' then
@@ -1973,16 +1886,14 @@ return {
 	"^[#!/]([Dd]el)$",
 	"^[#!/]([Ll]ock) (.*)$",
 	"^[#!/]([Uu]nlock) (.*)$",
-	"^[#!/]([Mm]ute) ([^%s]+)$",
-	"^[#!/]([Uu]nmute) ([^%s]+)$",
 	"^[#!/]([Mm]uteuser)$",
 	"^[#!/]([Mm]uteuser) (.*)$",
 	"^[#!/]([Pp]ublic) (.*)$",
 	"^[#!/]([Ss]ettings)$",
+	"^[#!/]([Ss]ettingsall)$",
 	"^[#!/]([Rr]ules)$",
 	"^[#!/]([Ss]etflood) (%d+)$",
 	"^[#!/]([Cc]lean) (.*)$",
-	"^[#!/]([Mm]uteslist)$",
 	"^[#!/]([Mm]utelist)$",
     "[#!/](mp) (.*)",
 	"[#!/](md) (.*)",
