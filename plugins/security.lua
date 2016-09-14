@@ -488,6 +488,44 @@ local function unlock_group_all(msg, data, target)
   end
 end
 
+	local function lock_group_gifs(msg, data, target)
+		local msg_type = 'Gifs'
+		local chat_id = msg.to.id
+  if not is_momod(msg) then
+    return
+  end
+  local group_gifs_lock = data[tostring(target)]['settings']['lock_gifs']
+  if group_gifs_lock == 'yes' and is_muted(chat_id, msg_type..': yes') then
+    return 'gifs posting is already locked'
+  else
+    if not is_muted(chat_id, msg_type..': yes') then
+		mute(chat_id, msg_type)
+    data[tostring(target)]['settings']['lock_gifs'] = 'yes'
+    save_data(_config.moderation.data, data)
+    return 'gifs posting has been locked'
+    end
+  end
+end
+
+local function unlock_group_gifs(msg, data, target)
+	local chat_id = msg.to.id
+	local msg_type = 'Gifs'
+  if not is_momod(msg) then
+    return
+  end
+  local group_gifs_lock = data[tostring(target)]['settings']['lock_gifs']
+  if group_gifs_lock == 'no' and not is_muted(chat_id, msg_type..': yes') then
+    return 'gifs posting is not locked'
+  else
+  	if is_muted(chat_id, msg_type..': yes') then
+		unmute(chat_id, msg_type)
+    data[tostring(target)]['settings']['lock_gifs'] = 'no'
+    save_data(_config.moderation.data, data)
+    return 'gifs posting has been unlocked'
+    end
+  end
+end
+
     local function isABotBadWay (user)
       local username = user.username or ''
       return username:match("[Bb]ot$")
@@ -990,6 +1028,9 @@ end
 			if matches[2] == 'all' then
 				return lock_group_all(msg, data, target)
 			end
+			if matches[2] == 'gifs' then
+				return lock_group_gifs(msg, data, target)
+			end
         end
 		
 		if matches[1] == 'unlock' then
@@ -1038,6 +1079,9 @@ end
 			end
 			if matches[2] == 'all' then
 				return unlock_group_all(msg, data, target)
+			end
+			if matches[2] == 'gifs' then
+				return unlock_group_gifs(msg, data, target)
 			end
         end
 	end
