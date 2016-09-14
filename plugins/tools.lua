@@ -159,7 +159,7 @@ function run(msg, matches)
       note = io.open("./system/adv/note/"..msg.from.id..".txt", "r")
       mn = note:read("*all")
       return mn
-    elseif not note then
+    elseif matches[1] == "mynote" and not note then
      return "You havent any note."
   end
        --Note.
