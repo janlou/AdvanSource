@@ -154,10 +154,10 @@ function run(msg, matches)
   file:close()
   return "You can use it:\n!mynote\n\nYour note has been changed to:\n"..text.."\n\n"..team..'\n<a href="'..channel..'">Join us</a>'
  end
-   
-   local note = io.open("./system/adv/note/"..msg.from.id..".txt", "r")
-   local mn = note:read("*all")
+ 
    if matches[1] == "mynote" then
+      note = io.open("./system/adv/note/"..msg.from.id..".txt", "r")
+      mn = note:read("*all")
       return mn
     elseif not note then
      return "You havent any note."
