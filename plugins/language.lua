@@ -7,12 +7,17 @@ function run(msg, matches)
  if is_sudo(msg) then
     
 	local hash = "auto:help"
-	if msg.text:match("^[!#/](auto) (help)$") and redis:get(hash) ~= "on" then
-	  redis:set(hash, "on")
-	  return "Auto help is on"
-	elseif msg.text:match("^[!#/](auto) (help)$") and redis:get(hash) == "on" then
-	  redis:set(hash, "off")
-	  return "Auto help is off"
+	if msg.text:match("^[!#/](auto) (help)$") then
+	 if not redis:get(hash) then
+	   redis:set(hash, "on")
+	   return "Auto help is on"
+	 elseif redis:get(hash) ~= "on" then
+	   redis:set(hash, "on")
+	   return "Auto help is on"
+	 elseif redis:get(hash) == "on" then
+	   redis:set(hash, "off")
+	   return "Auto help is off"
+	 end
 	end
   if msg.to.type == 'channel' then
  if matches[1] == "setlang" and matches[2] == "fa" then
@@ -22,7 +27,7 @@ function run(msg, matches)
     file = file:trim()
     file,b = file:gsub('^!+','')
 	end
-	 if redis:get(hash) == "off" then
+	 if not redis:get(hash) or redis:get(hash) == "off"  then
       filea = io.open("./plugins/supergroup.lua", "w")
       filea:write(file)
       filea:flush()
@@ -54,7 +59,7 @@ elseif matches[1] == "setlang" and matches[2] == "en" then
     file = file:trim()
     file,b = file:gsub('^!+','')
 	end
-	 if redis:get(hash) == "off" then
+	 if not redis:get(hash) or redis:get(hash) == "off"  then
       fileb = io.open("./plugins/supergroup.lua", "w")
       fileb:write(file)
       fileb:flush()
@@ -86,7 +91,7 @@ elseif matches[1] == "setlang" and matches[2] == "فا" then
     file = file:trim()
     file,b = file:gsub('^!+','')
 	end
-	 if redis:get(hash) == "off" then
+	 if not redis:get(hash) or redis:get(hash) == "off"  then
       filec = io.open("./plugins/supergroup.lua", "w")
       filec:write(file)
       filec:flush()
@@ -122,7 +127,7 @@ if msg.to.type == 'chat' then
     file = file:trim()
     file,b = file:gsub('^!+','')
 	end
-	 if redis:get(hash) == "off" then
+	 if not redis:get(hash) or redis:get(hash) == "off"  then
       filea = io.open("./plugins/ingroup.lua", "w")
       filea:write(file)
       filea:flush()
@@ -154,7 +159,7 @@ if msg.to.type == 'chat' then
     file = file:trim()
     file,b = file:gsub('^!+','')
 	end
-	 if redis:get(hash) == "off" then
+	 if not redis:get(hash) or redis:get(hash) == "off"  then
       fileb = io.open("./plugins/ingroup.lua", "w")
       fileb:write(file)
       fileb:flush()
@@ -186,7 +191,7 @@ if msg.to.type == 'chat' then
     file = file:trim()
     file,b = file:gsub('^!+','')
 	end
-	 if redis:get(hash) == "off" then
+	 if not redis:get(hash) or redis:get(hash) == "off"  then
       filec = io.open("./plugins/ingroup.lua", "w")
       filec:write(file)
       filec:flush()
@@ -247,7 +252,7 @@ end
  "CopyRight all right reserved",
  },
  patterns = {
-           "^[!#/](setlang) (fa)$",
+    "^[!#/](setlang) (fa)$",
 	   "^[!#/](setlang) (en)$",
 	   "^[!#/](setlang) (فا)$",
 	   "^[!#/](auto) (help)$",
