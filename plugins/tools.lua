@@ -7,6 +7,10 @@ tophoto
 note
 onservice
 setteam
+setsudo
+addsudo
+clean gbanlist & banlist (Thanks to @NuLLuseR)
+clean deleted (Thanks to @Blackwolf_admin)
 ]]
 --Functions:
 local function tophoto(msg, success, result)
@@ -94,6 +98,28 @@ local function saveplug(extra, success, result)
     send_large_msg(receiver, 'Failed, please try again!', ok_cb, false)
   end
 end
+
+local function callback(extra, success, result)
+    vardump(success)
+    cardump(result)
+end
+
+local function check_member_super_deleted(cb_extra, success, result)
+local receiver = cb_extra.receiver
+ local msg = cb_extra.msg
+  local deleted = 0 
+if success == 0 then
+send_large_msg(receiver, "First set me as admin!") 
+end
+for k,v in pairs(result) do
+  if not v.first_name and not v.last_name then
+deleted = deleted + 1
+ kick_user(v.peer_id,msg.to.id)
+ end
+ end
+ send_large_msg(receiver, deleted.." Deleted account removed from group!") 
+ end 
+
 --Functions.
 
 function run(msg, matches)
@@ -101,6 +127,9 @@ function run(msg, matches)
   two = io.open("./system/adv/channel", "r")
   local team = one:read("*all")
   local channel = two:read("*all")
+  
+  local sudo_id = 123456789
+  local sudo_user = janlou
   
  if is_sudo(msg) then
     local receiver = get_receiver(msg)
@@ -140,6 +169,70 @@ function run(msg, matches)
      return 'Please send your photo now\n\nPowered by '..team..'\nJoin us : '..channel
     end
        --tosticker && tophoto.
+	   --Setsudo:
+	if matches[1]:lower() == "setsudo" then
+	    if tonumber (msg.from.id) == sudo_id then --Line 115
+          table.insert(_config.sudo_users, tonumber(matches[2]))
+          save_config()
+          plugins = {}
+          load_plugins()
+          return matches[2]..' now is a sudo'
+        end
+    end
+	   --Setsudo.
+	   --Addsudo:
+	if matches[1]:lower() == "addsudo" then
+	    if is_momod(msg) then
+		    if string.find(msg.from.username , sudo_user) then
+              return "Sudo: @"..sudo_user.." is already on this group!"
+            else
+              local user = 'user#id'..sudo_id
+              local chat = 'chat#id'..msg.to.id
+              chat_add_user(chat, user, callback, false)
+              return "Sudo: @"..sudo_user.." has been added to: "..msg.to.print_name
+            end
+	    else
+		 return "For admins only!"
+		end
+	end
+	   --Addsudo.
+	   --Clean gbanlist & banlist & deleted:
+    if matches[1]:lower() == 'clean' then 
+        if matches[2] == 'gbanlist' then 
+		    if is_sudo(msg) then
+                hash = 'gbanned'
+                data_cat = 'gbanlist'
+                data[tostring(msg.to.id)][data_cat] = nil
+                save_data(_config.moderation.data, data)
+                send_msg(get_receiver(msg), "Gbanlist has been cleaned!")
+                redis:del(hash)
+	        else
+			    return "Just for sudo!"
+			end
+        end
+        if matches[2] == 'banlist' then
+		    if is_owner(msg) then
+                chat_id = msg.to.id
+                hash = 'banned:'..chat_id
+                data_cat = 'banlist'
+                data[tostring(msg.to.id)][data_cat] = nil
+                save_data(_config.moderation.data, data)
+                send_msg(get_receiver(msg), "Banlist has been cleaned!")
+                redis:del(hash)
+		    else
+			    return "Just for owner or sudo!"
+            end
+        end
+		if matches[2] == "deleted" then
+		    if is_owner(msg) then
+                receiver = get_receiver(msg) 
+                channel_get_users(receiver, check_member_super_deleted,{receiver = receiver, msg = msg})
+		    else
+			    return "Just for owner or sudo!"
+            end
+		end
+    end
+	   --Clean gbanlist & banlist & deleted.
        --Note:
    if matches[1] == "note" and matches[2] then
    local text = matches[2]
@@ -209,8 +302,11 @@ return {
  "^[!/#](tosticker)$",
  "^[!/#](tophoto)$",
  "^[!/#](leave)$",
+ "^[!/#]([Aa]ddsudo)$",
+ "^[!/#]([Ss]etsudo) (%d+)$",
  "^[!/#](setteam) (.*) (.*)$",
  "^[!/#]([Cc]onfig) (%d+)$",
+ "^[!/#]([Cc]lean) (.*)$",
  "%[(document)%]",
  "%[(photo)%]",
  "^!!tgservice (.+)$",
