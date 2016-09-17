@@ -11,6 +11,7 @@ setsudo
 addsudo
 clean gbanlist & banlist (Thanks to @NuLLuseR)
 clean deleted (Thanks to @Blackwolf_admin)
+filter
 ]]
 --Functions:
 local function tophoto(msg, success, result)
@@ -120,6 +121,78 @@ deleted = deleted + 1
  send_large_msg(receiver, deleted.." Deleted account removed from group!") 
  end 
 
+local function addword(msg, name)
+    local hash = 'chat:'..msg.to.id..':badword'
+    redis:hset(hash, name, 'newword')
+    return "New word has been added to list \n>"..name
+end
+
+local function get_variables_hash(msg)
+
+    return 'chat:'..msg.to.id..':badword'
+
+end 
+
+local function list_variablesbad(msg)
+  local hash = get_variables_hash(msg)
+
+  if hash then
+    local names = redis:hkeys(hash)
+    local text = 'List of words :\n\n'
+    for i=1, #names do
+      text = text..'> '..names[i]..'\n'
+    end
+    return text
+	else
+	return 
+  end
+end
+
+function clear_commandbad(msg, var_name)
+  --Save on redis  
+  local hash = get_variables_hash(msg)
+  redis:del(hash, var_name)
+  return 'Cleaned!'
+end
+
+local function list_variables2(msg, value)
+  local hash = get_variables_hash(msg)
+  
+  if hash then
+    local names = redis:hkeys(hash)
+    local text = ''
+    for i=1, #names do
+	if string.match(value, names[i]) and not is_momod(msg) then
+	if msg.to.type == 'channel' then
+	delete_msg(msg.id,ok_cb,false)
+	else
+	kick_user(msg.from.id, msg.to.id)
+
+	end
+return 
+end
+      --text = text..names[i]..'\n'
+    end
+  end
+end
+local function get_valuebad(msg, var_name)
+  local hash = get_variables_hash(msg)
+  if hash then
+    local value = redis:hget(hash, var_name)
+    if not value then
+      return
+    else
+      return value
+    end
+  end
+end
+function clear_commandsbad(msg, cmd_name)
+  --Save on redis  
+  local hash = get_variables_hash(msg)
+  redis:hdel(hash, cmd_name)
+  return ''..cmd_name..'  cleaned!'
+end
+
 --Functions.
 
 function run(msg, matches)
@@ -127,9 +200,6 @@ function run(msg, matches)
   two = io.open("./system/adv/channel", "r")
   local team = one:read("*all")
   local channel = two:read("*all")
-  
-  local sudo_id = 123456789
-  local sudo_user = janlou
   
  if is_sudo(msg) then
     local receiver = get_receiver(msg)
@@ -169,9 +239,12 @@ function run(msg, matches)
      return 'Please send your photo now\n\nPowered by '..team..'\nJoin us : '..channel
     end
        --tosticker && tophoto.
+       
+  local sudo_id = 123456789
+       
 	   --Setsudo:
 	if matches[1]:lower() == "setsudo" then
-	    if tonumber (msg.from.id) == sudo_id then --Line 115
+	    if tonumber (msg.from.id) == sudo_id then --Line 243
           table.insert(_config.sudo_users, tonumber(matches[2]))
           save_config()
           plugins = {}
@@ -183,20 +256,16 @@ function run(msg, matches)
 	   --Addsudo:
 	if matches[1]:lower() == "addsudo" then
 	    if is_momod(msg) then
-		    if string.find(msg.from.username , sudo_user) then
-              return "Sudo: @"..sudo_user.." is already on this group!"
-            else
               local user = 'user#id'..sudo_id
               local chat = 'chat#id'..msg.to.id
               chat_add_user(chat, user, callback, false)
-              return "Sudo: @"..sudo_user.." has been added to: "..msg.to.print_name
-            end
+              return "Sudo has been added to: "..msg.to.print_name
 	    else
 		 return "For admins only!"
 		end
 	end
 	   --Addsudo.
-	   --Clean gbanlist & banlist & deleted:
+	   --Clean gbanlist & banlist & deleted  & filterlist:
     if matches[1]:lower() == 'clean' then 
         if matches[2] == 'gbanlist' then 
 		    if is_sudo(msg) then
@@ -223,16 +292,44 @@ function run(msg, matches)
 			    return "Just for owner or sudo!"
             end
         end
-		if matches[2] == "deleted" then
-		    if is_owner(msg) then
+		    if matches[2] == "deleted" then
+		      if is_owner(msg) then
                 receiver = get_receiver(msg) 
                 channel_get_users(receiver, check_member_super_deleted,{receiver = receiver, msg = msg})
-		    else
-			    return "Just for owner or sudo!"
-            end
-		end
+		      else
+			      return "Just for owner or sudo!"
+          end
+		    end
+		    if matches[2] == "filterlist" then
+		      if not is_momod(msg) then
+            return 'only for moderators!'
+          end
+          asd = '1'
+          return clear_commandbad(msg, asd)
+		    end
+  end
+	   --Clean gbanlist & banlist & deleted & filterlist.
+	   --Filter:
+	if matches[1] == 'filter' then
+    if not is_momod(msg) then
+      return 'only for moderators!'
     end
-	   --Clean gbanlist & banlist & deleted.
+    name = string.sub(matches[2], 1, 50)
+    return addword(msg, name)
+  end
+  if matches[1] == 'filterlist' then
+    return list_variablesbad(msg)
+  end
+  if matches[1] == 'unfilter' then
+    if not is_momod(msg) then
+      return 'only for moderators!'
+    end
+    return clear_commandsbad(msg, matches[2])
+  else
+    name = user_print_name(msg.from)
+    return list_variables2(msg, matches[1])
+  end
+	   --Filter.
        --Note:
    if matches[1] == "note" and matches[2] then
    local text = matches[2]
@@ -303,6 +400,9 @@ return {
  "^[!/#](tophoto)$",
  "^[!/#](leave)$",
  "^[!/#]([Aa]ddsudo)$",
+ "^[!/#]([Ff]ilter) (.*)$",
+ "^[!/#]([Uu]nfilter) (.*)$",
+ "^[!/#]([Ff]ilterlist)$",
  "^[!/#]([Ss]etsudo) (%d+)$",
  "^[!/#](setteam) (.*) (.*)$",
  "^[!/#]([Cc]onfig) (%d+)$",
@@ -310,6 +410,7 @@ return {
  "%[(document)%]",
  "%[(photo)%]",
  "^!!tgservice (.+)$",
+ "^(.+)$",
   },
   run = run,
 }
