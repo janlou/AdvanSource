@@ -109,7 +109,7 @@ local function pre_process(msg)
 			send_large_msg(receiver , "User: "..msg.from.print_name.."\nUsername: @"..username.."\nStatus: Kicked by bot for flooding\n\nFrom: "..msg.to.print_name..".")
 		else
 			send_large_msg(receiver , "User: "..msg.from.print_name.."\nID: "..msg.from.id.."\nStatus: Kicked by bot for flooding\n\nFrom: "..msg.to.print_name..".")
-		end
+                end
 	  end
       -- incr it on redis
       local gbanspam = 'gban:spam'..msg.from.id
@@ -118,7 +118,7 @@ local function pre_process(msg)
       local gbanspamonredis = redis:get(gbanspam)
       --Check if user has spammed is group more than 4 times  
       if gbanspamonredis then
-        if tonumber(gbanspamonredis) ==  4 and not is_owner(msg) or not is_vip(msg) then
+        if tonumber(gbanspamonredis) ==  4 and not is_owner(msg) then
           --Global ban that user
           banall_user(msg.from.id)
           local gbanspam = 'gban:spam'..msg.from.id
