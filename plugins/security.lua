@@ -980,7 +980,8 @@ end
 			--Poker lock.
 		end
 	--Lock or Unlock settings:
-	if is_momod(msg) or is_sudo(msg) or is_owner(msg) or is_admin1(msg) then
+	if is_momod(msg) then
+	  if is_super_group(msg) then
 	    if matches[1] == 'lock' then
 			local target = msg.to.id
 			if matches[2] == 'media' then
@@ -1083,6 +1084,7 @@ end
 			if matches[2] == 'gifs' then
 				return unlock_group_gifs(msg, data, target)
 			end
+         end
         end
 	end
 	--Lock or Unlock settings.
