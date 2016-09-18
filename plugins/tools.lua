@@ -12,6 +12,7 @@ addsudo
 clean gbanlist & banlist (Thanks to @NuLLuseR)
 clean deleted (Thanks to @Blackwolf_admin)
 filter
+hyper & bold & italic & code
 ]]
 --Functions:
 local function tophoto(msg, success, result, extra)
@@ -224,7 +225,7 @@ function run(msg, matches)
        
 	   --Setsudo:
 	if matches[1]:lower() == "setsudo" then
-	    if tonumber (msg.from.id) == sudo_id then --Line 243
+	    if tonumber (msg.from.id) == sudo_id then --Line 224
           table.insert(_config.sudo_users, tonumber(matches[2]))
           save_config()
           plugins = {}
@@ -330,6 +331,20 @@ function run(msg, matches)
      return "You havent any note."
   end
        --Note.
+       --hyper & bold & italic & code:
+        if matches[1] == "bold" then
+	    return "<b>"..matches[2].."</b>"
+	end
+	if matches[1] == "code" then
+	    return "<code>"..matches[2].."</code>"
+        end
+	if matches[1] == "italic" then
+	    return "<i>"..matches[2].."</i>"
+	end
+	if matches[1] == "hyper" then
+	    return '<a href="'..matches[3]..'">'..matches[2]..'</a>'
+	end
+       --hyper & bold & italic & code.
        --onservice:
     if matches[1] == 'leave' and is_admin1(msg) then
        bot_id = our_id 
@@ -384,6 +399,10 @@ return {
  "^[!/#](setteam) (.*) (.*)$",
  "^[!/#]([Cc]onfig) (%d+)$",
  "^[!/#]([Cc]lean) (.*)$",
+ "^[!/#]([Bb]old) (.*)$",
+ "^[!/#]([Ii]talic) (.*)$",
+ "^[!/#]([Cc]ode) (.*)$",
+ "^[!/#]([Hh]yper) (.*) (.*)$",
  "%[(document)%]",
  "%[(photo)%]",
  "^!!tgservice (.+)$",
