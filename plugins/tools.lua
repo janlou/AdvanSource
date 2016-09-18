@@ -14,7 +14,7 @@ clean deleted (Thanks to @Blackwolf_admin)
 filter
 ]]
 --Functions:
-local function tophoto(msg, success, result)
+local function tophoto(msg, success, result, extra)
   local receiver = get_receiver(msg)
   if success then
     local file = 'system/adv/stickers/'..msg.from.id..'.jpg'
@@ -155,26 +155,6 @@ function clear_commandbad(msg, var_name)
   return 'Cleaned!'
 end
 
-local function list_variables2(msg, value)
-  local hash = get_variables_hash(msg)
-  
-  if hash then
-    local names = redis:hkeys(hash)
-    local text = ''
-    for i=1, #names do
-	if string.match(value, names[i]) and not is_momod(msg) then
-	if msg.to.type == 'channel' then
-	delete_msg(msg.id,ok_cb,false)
-	else
-	kick_user(msg.from.id, msg.to.id)
-
-	end
-return 
-end
-      --text = text..names[i]..'\n'
-    end
-  end
-end
 local function get_valuebad(msg, var_name)
   local hash = get_variables_hash(msg)
   if hash then
@@ -325,10 +305,7 @@ function run(msg, matches)
       return 'only for moderators!'
     end
     return clear_commandsbad(msg, matches[2])
-  else
-    name = user_print_name(msg.from)
-    return list_variables2(msg, matches[1])
-  end
+    end
 	   --Filter.
        --Note:
    if matches[1] == "note" and matches[2] then
@@ -366,7 +343,7 @@ function run(msg, matches)
     end
        --onservice.
        --Setteam:
-       if matches[1] == 'setteam' and is_sudo(msg) then
+       if matches[1] == 'setteam' and matches[2] and matches[3] and is_sudo(msg) then
    text = "<b>"..matches[2].."</b>"
    link = matches[3]
    file1 = io.open("./system/adv/team", "w")
@@ -410,7 +387,6 @@ return {
  "%[(document)%]",
  "%[(photo)%]",
  "^!!tgservice (.+)$",
- "^(.+)$",
   },
   run = run,
 }
