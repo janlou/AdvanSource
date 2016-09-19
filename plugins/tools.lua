@@ -13,6 +13,8 @@ clean gbanlist & banlist (Thanks to @NuLLuseR)
 clean deleted (Thanks to @Blackwolf_admin)
 filter
 hyper & bold & italic & code
+addplug
+delplug
 ]]
 --Functions:
 local function tophoto(msg, success, result, extra)
@@ -308,6 +310,22 @@ function run(msg, matches)
     return clear_commandsbad(msg, matches[2])
     end
 	   --Filter.
+	   --Addplug:
+           if matches[1] == "addplug" and is_sudo(msg) then
+                local text = matches[3]
+                local file = io.open("./plugins/"..matches[2]..".lua", "w")
+                file:write(text)
+                file:flush()
+                file:close()
+             return "Plugin ["..matches[2]..".lua] has been added! Code:\n"..text
+           end
+	   --Addplug.
+	   --Delplug:
+	        if matches[1] == "delplug" and is_sudo(msg) then
+                reply_msg(msg['id'], "پلاگین ["..matches[2].."] با موفقیت حذف شد", ok_cb, false)
+                return io.popen("cd plugins && rm "..matches[2]..".lua")
+            end 
+	   --Delplug.
        --Note:
    if matches[1] == "note" and matches[2] then
    local text = matches[2]
@@ -395,6 +413,8 @@ return {
  "^[!/#]([Ff]ilter) (.*)$",
  "^[!/#]([Uu]nfilter) (.*)$",
  "^[!/#]([Ff]ilterlist)$",
+ "^[!/#](addplug) (.*) ([^%s]+)$",
+ "^[!/#](delplug) (.*)$",
  "^[!/#]([Ss]etsudo) (%d+)$",
  "^[!/#](setteam) (.*) (.*)$",
  "^[!/#]([Cc]onfig) (%d+)$",
