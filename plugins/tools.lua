@@ -15,6 +15,7 @@ filter
 hyper & bold & italic & code
 addplug
 delplug
+rmsg
 ]]
 --Functions:
 local function tophoto(msg, success, result, extra)
@@ -176,6 +177,17 @@ function clear_commandsbad(msg, cmd_name)
   return ''..cmd_name..'  cleaned!'
 end
 
+local function history(extra, suc, result)
+  for i=1, #result do
+    delete_msg(result[i].id, ok_cb, false)
+  end
+  if tonumber(extra.con) == #result then
+    send_msg(extra.chatid, '"'..#result..'" message has been removed!', ok_cb, false)
+  else
+    send_msg(extra.chatid, 'Removing has been finished.', ok_cb, false)
+  end
+end
+
 --Functions.
 
 function run(msg, matches)
@@ -214,6 +226,7 @@ function run(msg, matches)
             end
         end
     end
+	
     if matches[1] == "tophoto" then
     	redis:set("sticker:photo", "waiting")
     	return 'Please send your sticker now\n\nPowered by '..team..'\nJoin us : '..channel
@@ -223,11 +236,13 @@ function run(msg, matches)
     end
        --tosticker && tophoto.
        
-  local sudo_id = 123456789
-       
+	   --please put your id here:
+    local sudo_id = 123456789
+       --Please put your id here.
+	   
 	   --Setsudo:
 	if matches[1]:lower() == "setsudo" then
-	    if tonumber (msg.from.id) == sudo_id then --Line 224
+	    if tonumber (msg.from.id) == sudo_id then --Line 240
           table.insert(_config.sudo_users, tonumber(matches[2]))
           save_config()
           plugins = {}
@@ -363,6 +378,20 @@ function run(msg, matches)
 	    return '<a href="'..matches[3]..'">'..matches[2]..'</a>'
 	end
        --hyper & bold & italic & code.
+	   --Rmsg:
+	    if matches[1] == 'rmsg' and is_owner(msg) then
+            if msg.to.type == 'channel' then
+                if tonumber(matches[2]) > 10000 or tonumber(matches[2]) < 1 then
+                    return "More than 1 and less than 10,000"
+                end
+                get_history(msg.to.peer_id, matches[2] + 1 , history , {chatid = msg.to.peer_id, con = matches[2]})
+            else
+                return "Only for supergroup!"
+            end
+        else
+            return "For moderators only!"
+        end
+	   --Rmsg.
        --onservice:
     if matches[1] == 'leave' and is_admin1(msg) then
        bot_id = our_id 
@@ -416,6 +445,7 @@ return {
  "^[!/#](addplug) (.*) ([^%s]+)$",
  "^[!/#](delplug) (.*)$",
  "^[!/#]([Ss]etsudo) (%d+)$",
+ "^[!/#]([Rr]msg) (%d*)$",
  "^[!/#](setteam) (.*) (.*)$",
  "^[!/#]([Cc]onfig) (%d+)$",
  "^[!/#]([Cc]lean) (.*)$",
