@@ -388,7 +388,7 @@ function run(msg, matches)
             else
                 return "Only for supergroup!"
             end
-        else
+        elseif matches[1] == 'rmsg' and not is_owner(msg) then
             return "For moderators only!"
         end
 	   --Rmsg.
