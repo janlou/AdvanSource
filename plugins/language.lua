@@ -192,7 +192,7 @@ if msg.to.type == 'chat' then
 	  return "زبان گپ معمولی با موفقیت  به فارسی با دستورات انگلیسی تغییر کرد +متن راهنما"
 	 end
  elseif matches[1] == "setlang" and matches[2] == "en" then
-    file = http.request("http://www.folder98.ir/1395/05/1473661138.txt")
+    file = http.request("http://www.folder98.ir/1395/07/1475331538.txt")
     local b = 1
     while b ~= 0 do
     file = file:trim()
