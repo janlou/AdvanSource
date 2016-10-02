@@ -92,7 +92,7 @@ tmux new-session -s script "bash steady.sh -t"
 ```
 - <p align="left">Now run your bot then enter bot's phone number and join code:
 `./start.sh -q`
-- <p align="left">And you can start bot with sready script:
+- <p align="left">And you can start bot with steady script:
 
 | FREE SERVER: |
 |:-----------------------|
