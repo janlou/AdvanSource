@@ -40,7 +40,7 @@
 - <p align="left">Lock rtl
 - <p align="left">Lock strict
 - <p align="left">Lock tgservice
-- <p align="left">Public & memebers
+- <p align="left">Public & members
 - <p align="left">Show mutes list in settings
 - <p align="left">And ...
 
