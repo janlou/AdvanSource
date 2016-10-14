@@ -5,24 +5,12 @@ end
 
 function run(msg, matches)
  if is_sudo(msg) then
-    
-	local hash = "auto:help"
-	if msg.text:match("^[!#/](auto) (help)$") then
-	 if not redis:get(hash) then
-	   redis:set(hash, "on")
-	   return "Auto help is on"
-	 elseif redis:get(hash) ~= "on" then
-	   redis:set(hash, "on")
-	   return "Auto help is on"
-	 elseif redis:get(hash) == "on" then
-	   redis:set(hash, "off")
-	   return "Auto help is off"
-	 end
-	end
+ 
   if msg.to.type == 'channel' then
  if matches[1] == "setlang" and matches[2] == "fa" then
-    file = http.request("http://www.folder98.ir/1395/05/1474297498.txt")
-	security = http.request("http://www.folder98.ir/1395/05/1474283567.txt")
+    redis:set("sp:lang", "fa")
+    file = http.request("http://nahrup.ir/view/811/supergroup-fa.txt")
+	security = http.request("http://nahrup.ir/view/815/security-fa.txt")
     local b = 1
     while b ~= 0 do
     file = file:trim()
@@ -32,7 +20,6 @@ function run(msg, matches)
     security = security:trim()
     security,b = security:gsub('^!+','')
 	end
-	 if not redis:get(hash) or redis:get(hash) == "off"  then
       filea = io.open("./plugins/supergroup.lua", "w")
       filea:write(file)
       filea:flush()
@@ -43,31 +30,10 @@ function run(msg, matches)
       sysa:close()
 	  reload_plugins( )
 	  return "<i>زبان سوپرگپ با موفقیت به فارسی با دستورات انگلیسی تغییر کرد</i>"
-	 elseif redis:get(hash) == "on" then
-	 help = http.request("http://www.folder98.ir/1395/05/1473700489.txt")
-      local b = 1
-      while b ~= 0 do
-       help = help:trim()
-       help,b = help:gsub('^!+','')
-	  end
-	  filea1 = io.open("./plugins/supergroup.lua", "w")
-      filea1:write(file)
-      filea1:flush()
-      filea1:close()
-	  sysa1 = io.open("./plugins/security.lua", "w")
-      sysa1:write(security)
-      sysa1:flush()
-      sysa1:close()
-	  filea2 = io.open("./helps/HelpSuper.txt", "w")
-      filea2:write(help)
-      filea2:flush()
-      filea2:close()
-	  reload_plugins( )
-	 return "<i>زبان سوپرگپ با موفقیت به فارسی با دستورات انگلیسی تغییر کرد +متن راهنما</i>"
-	 end
 elseif matches[1] == "setlang" and matches[2] == "en" then
-    file = http.request("http://www.folder98.ir/1395/05/1473933837.txt")
-	security = http.request("http://www.folder98.ir/1395/05/1474299165.txt")
+    redis:set("sp:lang", "en")
+    file = http.request("http://nahrup.ir/view/810/supergroup-en.txt")
+	security = http.request("http://nahrup.ir/view/814/security-en.txt")
     local b = 1
     while b ~= 0 do
     file = file:trim()
@@ -77,7 +43,6 @@ elseif matches[1] == "setlang" and matches[2] == "en" then
     security = security:trim()
     security,b = security:gsub('^!+','')
 	end
-	 if not redis:get(hash) or redis:get(hash) == "off"  then
       fileb = io.open("./plugins/supergroup.lua", "w")
       fileb:write(file)
       fileb:flush()
@@ -87,32 +52,11 @@ elseif matches[1] == "setlang" and matches[2] == "en" then
       sysb:flush()
       sysb:close()
 	  reload_plugins( )
-	  return "Supergroup language has been changed"
-	 elseif redis:get(hash) == "on" then
-	 help = http.request("http://www.folder98.ir/1395/05/1473726399.txt")
-      local b = 1
-      while b ~= 0 do
-       help = help:trim()
-       help,b = help:gsub('^!+','')
-	  end
-	  fileb1 = io.open("./plugins/supergroup.lua", "w")
-      fileb1:write(file)
-      fileb1:flush()
-      fileb1:close()
-	  sysb2 = io.open("./plugins/security.lua", "w")
-      sysb2:write(security)
-      sysb2:flush()
-      sysb2:close()
-	  fileb2 = io.open("./helps/HelpSuper.txt", "w")
-      fileb2:write(help)
-      fileb2:flush()
-      fileb2:close()
-	  reload_plugins( )
-	  return "<i>Supergroup language has been changed +help text</i>"
-	 end
+	  return "<i>Supergroup language has been changed</i>"
 elseif matches[1] == "setlang" and matches[2] == "فا" then
-    file = http.request("http://www.folder98.ir/1395/05/1473882636.txt")
-	security = http.request("http://www.folder98.ir/1395/05/1474303544.txt")
+    redis:set("sp:lang", "فا")
+    file = http.request("http://nahrup.ir/view/802/supergroup-farsi.txt")
+	security = http.request("http://nahrup.ir/view/809/security-farsi.txt")
     local b = 1
     while b ~= 0 do
     file = file:trim()
@@ -122,7 +66,6 @@ elseif matches[1] == "setlang" and matches[2] == "فا" then
     security = security:trim()
     security,b = security:gsub('^!+','')
 	end
-	 if not redis:get(hash) or redis:get(hash) == "off"  then
       filec = io.open("./plugins/supergroup.lua", "w")
       filec:write(file)
       filec:flush()
@@ -133,128 +76,52 @@ elseif matches[1] == "setlang" and matches[2] == "فا" then
       sysc:close()
 	  reload_plugins( )
       return "<i>زبان سوپرگپ با موفقیت به فارسی با دستورات فارسی تغییر کرد</i>"
-	 elseif redis:get(hash) == "on" then
-	 help = http.request("http://www.folder98.ir/1395/05/1473703817.txt")
-      local b = 1
-      while b ~= 0 do
-       help = help:trim()
-       help,b = help:gsub('^!+','')
-	  end
-	  filec1 = io.open("./plugins/supergroup.lua", "w")
-      filec1:write(file)
-      filec1:flush()
-      filec1:close()
-	  sysc3 = io.open("./plugins/security.lua", "w")
-      sysc3:write(security)
-      sysc3:flush()
-      sysc3:close()
-	  filec2 = io.open("./helps/HelpSuper.txt", "w")
-      filec2:write(help)
-      filec2:flush()
-      filec2:close()
-	  reload_plugins( )
-	  return "زبان سوپرگپ با موفقیت به فارسی با دستورات فارسی تغییر کرد +متن راهنما"
-	 end
 end
 end
 
 if msg.to.type == 'chat' then
  if matches[1] == "setlang" and matches[2] == "fa" then
+    redis:set("gp:lang", "fa")
     file = http.request("http://www.folder98.ir/1395/05/1471088420.txt")
     local b = 1
     while b ~= 0 do
     file = file:trim()
     file,b = file:gsub('^!+','')
 	end
-	 if not redis:get(hash) or redis:get(hash) == "off"  then
       filea = io.open("./plugins/ingroup.lua", "w")
       filea:write(file)
       filea:flush()
       filea:close()
 	  reload_plugins( )
-	 return "زبان گپ معمولی با موفقیت  به فارسی با دستورات انگلیسی تغییر کرد"
-	 elseif redis:get(hash) == "on" then
-	 help = http.request("http://www.folder98.ir/1395/05/1473685968.txt")
-      local b = 1
-      while b ~= 0 do
-       help = help:trim()
-       help,b = help:gsub('^!+','')
-	  end
-	  filea1 = io.open("./plugins/ingroup.lua", "w")
-      filea1:write(file)
-      filea1:flush()
-      filea1:close()
-	  filea2 = io.open("./helps/HelpChat.txt", "w")
-      filea2:write(help)
-      filea2:flush()
-      filea2:close()
-	  reload_plugins( )
-	  return "زبان گپ معمولی با موفقیت  به فارسی با دستورات انگلیسی تغییر کرد +متن راهنما"
-	 end
+	 return "<i>زبان گپ معمولی با موفقیت  به فارسی با دستورات انگلیسی تغییر کرد</i>"
  elseif matches[1] == "setlang" and matches[2] == "en" then
+    redis:set("gp:lang", "en")
     file = http.request("http://www.folder98.ir/1395/07/1475331538.txt")
     local b = 1
     while b ~= 0 do
     file = file:trim()
     file,b = file:gsub('^!+','')
 	end
-	 if not redis:get(hash) or redis:get(hash) == "off"  then
       fileb = io.open("./plugins/ingroup.lua", "w")
       fileb:write(file)
       fileb:flush()
       fileb:close()
 	  reload_plugins( )
-	 return "Chat language has been changed"
-	 elseif redis:get(hash) == "on" then
-	 help = http.request("http://www.folder98.ir/1395/05/1473743959.txt")
-      local b = 1
-      while b ~= 0 do
-       help = help:trim()
-       help,b = help:gsub('^!+','')
-	  end
-	  fileb1 = io.open("./plugins/ingroup.lua", "w")
-      fileb1:write(file)
-      fileb1:flush()
-      fileb1:close()
-	  fileb2 = io.open("./helps/HelpChat.txt", "w")
-      fileb2:write(help)
-      fileb2:flush()
-      fileb2:close()
-	  reload_plugins( )
-	  return "Chat language has been changed +help text"
-	 end
+	 return "<i>Chat language has been changed</i>"
  elseif matches[1] == "setlang" and matches[2] == "فا" then
+    redis:set("gp:lang", "فا")
     file = http.request("http://www.folder98.ir/1395/05/1471124062.txt")
     local b = 1
     while b ~= 0 do
     file = file:trim()
     file,b = file:gsub('^!+','')
 	end
-	 if not redis:get(hash) or redis:get(hash) == "off"  then
       filec = io.open("./plugins/ingroup.lua", "w")
       filec:write(file)
       filec:flush()
       filec:close()
 	  reload_plugins( )
-       return "زبان گپ معمولی با موفقیت به فارسی با دستورات فارسی تغییر کرد"
-	 elseif redis:get(hash) == "on" then
-	 help = http.request("http://www.folder98.ir/1395/05/1473704736.txt")
-      local b = 1
-      while b ~= 0 do
-       help = help:trim()
-       help,b = help:gsub('^!+','')
-	  end
-	  filec1 = io.open("./plugins/ingroup.lua", "w")
-      filec1:write(file)
-      filec1:flush()
-      filec1:close()
-	  filec2 = io.open("./helps/HelpChat.txt", "w")
-      filec2:write(help)
-      filec2:flush()
-      filec2:close()
-	  reload_plugins( )
-	  return "زبان گپ معمولی با موفقیت به فارسی با دستورات فارسی تغییر کرد +متن راهنما"
-	 end
+       return "<i>زبان گپ معمولی با موفقیت به فارسی با دستورات فارسی تغییر کرد</i>"
 end
  end
 
@@ -275,9 +142,6 @@ Change language to English
  	
 ⚓️ !setlang فا
 تغییر زبان به فارسی با دستورات فارسی
- 	
-⚓️ !auto help 
-on/off auto set help
 ]]
 end
   elseif not is_sudo(msg) then
@@ -294,7 +158,6 @@ end
     "^[!#/](setlang) (fa)$",
 	   "^[!#/](setlang) (en)$",
 	   "^[!#/](setlang) (فا)$",
-	   "^[!#/](auto) (help)$",
 	   "^[!#/](lang) (list)$",
 	   "^[!#/](update)$",
  },
