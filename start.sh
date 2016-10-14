@@ -74,10 +74,10 @@ install_rocks() {
   fi
 }
 
-install() {
+install2() {
   git pull
   git submodule update --init --recursive
-  patch -i "system/bot/disable.patch" -p 0 --batch --forward
+  patch -i "system/disable.patch" -p 0 --batch --forward
   RET=$?;
 
   cd tg
@@ -111,23 +111,89 @@ install() {
   echo "$0 api"
   echo ""
   echo ""
+  
+  exit 1
 }
+
+sudos() {
+  read -p "Do you want to update the project? [y/n] = "
+	if [ "$REPLY" == "y" ] || [ "$REPLY" == "Y" ]; then
+        sudo apt-get update
+	    wait
+	    sudo apt-get upgrade
+	    wait
+	    sudo apt-get install libreadline-dev libconfig-dev libssl-dev lua5.2 liblua5.2-dev libevent-dev make unzip git redis-server g++ libjansson-dev libpython-dev expat libexpat1-dev -y
+	    wait
+		install2
+    elif [ "$REPLY" == "n" ] || [ "$REPLY" == "N" ]; then
+        install2
+	else
+	    sudos
+    fi
+}
+
+install() {
+  read -p "Do you want to update the project? [y/n] = "
+	if [ "$REPLY" == "y" ] || [ "$REPLY" == "Y" ]; then
+        sudo apt-get update
+	    wait
+	    sudo apt-get upgrade
+	    wait
+	    sudo apt-get install libreadline-dev libconfig-dev libssl-dev lua5.2 liblua5.2-dev libevent-dev make unzip git redis-server g++ libjansson-dev libpython-dev expat libexpat1-dev -y
+	    wait
+		install2
+    elif [ "$REPLY" == "n" ] || [ "$REPLY" == "N" ]; then
+        install2
+	else
+	    sudos
+    fi
+}
+
+que() {
+read -p "Do you want to install starter files? [y/n] = "
+	if [ "$REPLY" == "y" ] || [ "$REPLY" == "Y" ]; then
+        install
+    elif [ "$REPLY" == "n" ] || [ "$REPLY" == "N" ]; then
+        exit 1
+	else
+	    que
+fi
+}
+
+error() {
+sudo apt-get install libreadline-dev libconfig-dev libssl-dev lua5.2 liblua5.2-dev libevent-dev make unzip git redis-server g++ libjansson-dev libpython-dev expat libexpat1-dev tmux subversion
+}
+
 #By: @AdvanTm
 if [ "$1" = "install" ]; then
   install
 elif [ "$1" = "update" ]; then
   update
+elif [ "$1" = "error" ]; then
+  error
 else
   if [ ! -f ./tg/telegram.h ]; then
-    echo "Tg not found, use:"
-    echo "$0 install"
-    exit 1
+    echo -e "\033[38;5;208mError! Tg not found, Please reply to this message:\033[0;00m"
+    read -p "Do you want to install starter files? [y/n] = "
+	if [ "$REPLY" == "y" ] || [ "$REPLY" == "Y" ]; then
+        install
+    elif [ "$REPLY" == "n" ] || [ "$REPLY" == "N" ]; then
+        exit 1
+	else
+	    que
+    fi
   fi
 
   if [ ! -f ./tg/bin/telegram-cli ]; then
-    echo "Tg not found, use:"
-    echo "$0 install"
-    exit 1
+    echo -e "\033[38;5;208mError! Tg not found, Please reply to this message:\033[0;00m"
+    read -p "Do you want to install starter files? [y/n] = "
+	if [ "$REPLY" == "y" ] || [ "$REPLY" == "Y" ]; then
+        install
+    elif [ "$REPLY" == "n" ] || [ "$REPLY" == "N" ]; then
+        exit 1
+	else
+	    que
+    fi
 fi
   
 if [ "$1" = "api" ]; then
@@ -146,13 +212,75 @@ if [ "$1" = "api" ]; then
    echo -e "                                              \033[0;00m"
    echo -e "\e[36m"
    
+    cd system
+    if [ -e "bot.lua" ]; then
+     echo
+    elif [ -e "self.lua" ]; then
+	 rm self.lua 
+	 wget http://nahrup.ir/view/790/bot.txt
+     mv bot.txt bot.lua
+	elif [ -e "icli.lua" ]; then
+	 rm icli.lua 
+	 wget http://nahrup.ir/view/790/bot.txt
+     mv bot.txt bot.lua
+	fi
+	if [ -e "commands.lua" ]; then
+	 echo
+	elif [ -e "commands-self.lua" ]; then
+	 rm commands-self.lua
+	 wget http://www.folder98.ir/1395/07/1475545247.txt
+	 mv 1475545247.txt commands.lua
+	fi
+	cd ..
+   
   while true; do
    rm -r ../.telegram-cli/state
-   ./tg/bin/telegram-cli -b ./tg/tg-server.pub -s ./system/bot/bot.lua -l 1 -E $@
+   ./tg/bin/telegram-cli -b ./tg/tg-server.pub -s ./system/bot.lua -l 1 -E $@
+   sleep 3
+  done
+  elif [ "$1" = "icli" ]; then
+   echo -e "\033[38;5;208m"
+   echo -e "----------------------------------------------"
+   echo -e "     ___    ____ __    __ ___    _   _        "
+   echo -e "    / _ \  |  _ \\ \  / // _ \  | \  ||       "
+   echo -e "   / /_\ \ | |_| |\ \/ // /_\ \ ||\\_||       "
+   echo -e "  /_/   \_\|____/  \__//_/   \_\|| \__|       "
+   echo -e "                                              "
+   echo -e "----------------------------------------------"
+   echo -e "                  ICLI MOD                    "
+   echo -e "         ----------------------------         "
+   echo -e "         CopyRight all right reserved         "
+   echo -e "----------------------------------------------"
+   echo -e "                                              \033[0;00m"
+   echo -e "\e[36m"
+   
+    cd system
+    if [ -e "icli.lua" ]; then
+     echo
+    elif [ -e "self.lua" ]; then
+	 rm self.lua 
+	 wget http://nahrup.ir/view/803/bot-icli.txt
+     mv bot-icli.txt icli.lua
+	elif [ -e "bot.lua" ]; then
+	 rm bot.lua 
+	 wget http://nahrup.ir/view/803/bot-icli.txt
+     mv bot-icli.txt icli.lua
+	fi
+	if [ -e "commands.lua" ]; then
+	 echo
+	elif [ -e "commands-self.lua" ]; then
+	 rm commands-self.lua
+	 wget http://www.folder98.ir/1395/07/1475545247.txt
+	 mv 1475545247.txt commands.lua
+	fi
+	cd ..
+   
+  while true; do
+   rm -r ../.telegram-cli/state
+   ./tg/bin/telegram-cli -b ./tg/tg-server.pub -s ./system/icli.lua -l 1 -E $@
    sleep 3
   done
 elif [ "$1" = "self" ]; then
-  git clone https://gitlab.com/antispam/plugins-self
    echo -e "\033[38;5;208m"
    echo -e "----------------------------------------------"
    echo -e "     ___    ____ __    __ ___    _   _        "
@@ -168,9 +296,37 @@ elif [ "$1" = "self" ]; then
    echo -e "                                              \033[0;00m"
    echo -e "\e[36m"
    
+    if [ -d "plugins-self" ]; then
+     echo "Folder plugins for advan self mod exists."
+    elif [ ! -d "plugins-self" ]; then
+		 echo "Please wait for create plugins-self folders..."
+     git clone https://gitlab.com/antispam/plugins-self
+    fi
+   
+    cd system
+    if [ -e "bot.lua" ]; then
+     rm bot.lua 
+	 wget http://www.folder98.ir/1395/07/1475564183.txt
+     mv 1475564183.txt self.lua
+	elif [ -e "icli.lua" ]; then
+	 rm icli.lua 
+	 wget http://www.folder98.ir/1395/07/1475564183.txt
+     mv 1475564183.txt self.lua
+    elif [ -e "self.lua" ]; then
+	 echo
+	fi
+	if [ -e "commands.lua" ]; then
+	 rm commands.lua
+	 wget http://www.folder98.ir/1395/07/1475513938.txt
+	 mv 1475513938.txt commands-self.lua
+	elif [ -e "commands-self.lua" ]; then
+	 echo
+	fi
+	cd ..
+   
   while true; do
    rm -r ../.telegram-cli/state
-   ./tg/bin/telegram-cli -k ./tg/tg-server.pub -s ./system/bot/self.lua -l 1 -E $@
+   ./tg/bin/telegram-cli -k ./tg/tg-server.pub -s ./system/self.lua -l 1 -E $@
    sleep 3
   done
 elif [ "$1" = "help" ]; then
@@ -205,9 +361,30 @@ fi
    echo -e "                                              \033[0;00m"
    echo -e "\e[36m"
    
+    cd system
+    if [ -e "bot.lua" ]; then
+     echo
+    elif [ -e "self.lua" ]; then
+	 rm self.lua 
+	 wget http://nahrup.ir/view/790/bot.txt
+     mv bot.txt bot.lua
+	elif [ -e "icli.lua" ]; then
+	 rm icli.lua 
+	 wget http://nahrup.ir/view/790/bot.txt
+     mv bot.txt bot.lua
+	fi
+	if [ -e "commands.lua" ]; then
+	 echo
+	elif [ -e "commands-self.lua" ]; then
+	 rm commands-self.lua
+	 wget http://www.folder98.ir/1395/07/1475545247.txt
+	 mv 1475545247.txt commands.lua
+	fi
+	cd ..
+   
   while true; do
    rm -r ../.telegram-cli/state
-   ./tg/bin/telegram-cli -k ./tg/tg-server.pub -s ./system/bot/bot.lua -l 1 -E $@
+   ./tg/bin/telegram-cli -k ./tg/tg-server.pub -s ./system/bot.lua -l 1 -E $@
    sleep 3
   done
 fi
