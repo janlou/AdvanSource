@@ -204,34 +204,6 @@ local function unlock_group_number(msg, data, target)
   end
 end
 
-local function lock_group_operator(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_operator_lock = data[tostring(target)]['settings']['lock_operator']
-  if group_operator_lock == 'yes' then
-    return 'operator posting is already locked'
-  else
-    data[tostring(target)]['settings']['lock_operator'] = 'yes'
-    save_data(_config.moderation.data, data)
-    return 'operator posting has been locked'
-  end
-end
-
-local function unlock_group_operator(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_operator_lock = data[tostring(target)]['settings']['lock_operator']
-  if group_operator_lock == 'no' then
-    return 'operator posting is not locked'
-  else
-    data[tostring(target)]['settings']['lock_operator'] = 'no'
-    save_data(_config.moderation.data, data)
-    return 'operator posting has been unlocked'
-  end
-end
-
 local function lock_group_poker(msg, data, target)
   if not is_momod(msg) then
     return
@@ -526,10 +498,115 @@ local function unlock_group_gifs(msg, data, target)
   end
 end
 
+local function lock_group_inline(msg, data, target)
+  if not is_momod(msg) then
+    return
+  end
+  local group_inline_lock = data[tostring(target)]['settings']['lock_inline']
+  if group_inline_lock == 'yes' then
+    return 'inline posting is already locked'
+  else
+    data[tostring(target)]['settings']['lock_inline'] = 'yes'
+    save_data(_config.moderation.data, data)
+    return 'inline posting has been locked'
+  end
+end
+
+local function unlock_group_inline(msg, data, target)
+  if not is_momod(msg) then
+    return
+  end
+  local group_inline_lock = data[tostring(target)]['settings']['lock_inline']
+  if group_inline_lock == 'no' then
+    return 'inline posting is not locked'
+  else
+    data[tostring(target)]['settings']['lock_inline'] = 'no'
+    save_data(_config.moderation.data, data)
+    return 'inline posting has been unlocked'
+  end
+end
+
+local function lock_group_cmd(msg, data, target)
+  if not is_momod(msg) then
+    return
+  end
+  local group_cmd_lock = data[tostring(target)]['settings']['lock_cmd']
+  if group_cmd_lock == 'yes' then
+    return 'cmd posting is already locked'
+  else
+    data[tostring(target)]['settings']['lock_cmd'] = 'yes'
+    save_data(_config.moderation.data, data)
+    return 'cmd posting has been locked'
+  end
+end
+
+local function unlock_group_cmd(msg, data, target)
+  if not is_momod(msg) then
+    return
+  end
+  local group_cmd_lock = data[tostring(target)]['settings']['lock_cmd']
+  if group_cmd_lock == 'no' then
+    return 'cmd posting is not locked'
+  else
+    data[tostring(target)]['settings']['lock_cmd'] = 'no'
+    save_data(_config.moderation.data, data)
+    return 'cmd posting has been unlocked'
+  end
+end
+
+local function is_cmd(jtext)
+    if jtext:match("^[/#!](.*)$") then
+        return true
+    end
+    return false
+end
+
     local function isABotBadWay (user)
       local username = user.username or ''
       return username:match("[Bb]ot$")
     end
+	
+	local function get_variables_hash(msg)
+
+    return 'chat:'..msg.to.id..':badword'
+
+end 
+
+local function list_variablesbad(msg)
+  local hash = get_variables_hash(msg)
+
+  if hash then
+    local names = redis:hkeys(hash)
+    local text = 'List of words :\n\n'
+    for i=1, #names do
+      text = text..'> '..names[i]..'\n'
+    end
+    return text
+	else
+	return 
+  end
+end
+
+local function list_variables2(msg, value)
+  local hash = get_variables_hash(msg)
+  
+  if hash then
+    local names = redis:hkeys(hash)
+    local text = ''
+    for i=1, #names do
+	if string.match(value, names[i]) and not is_momod(msg) then
+	if msg.to.type == 'channel' then
+	delete_msg(msg.id,ok_cb,false)
+	else
+	kick_user(msg.from.id, msg.to.id)
+
+	end
+return 
+end
+      --text = text..names[i]..'\n'
+    end
+  end
+end
 	--Prerequisite.
 --Begin pre_process function
 local function pre_process(msg)
@@ -681,7 +758,7 @@ if is_chat_msg(msg) or is_super_group(msg) then
 				end
 			end
 			if msg.media.caption then -- msg.media.caption checks
-				local is_link_caption = msg.media.caption:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.media.caption:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/")
+				local is_link_caption = msg.media.caption:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.media.caption:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/") or msg.media.caption:match("@[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz][_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz][_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz][_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz][ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]")
 				if is_link_caption and lock_link == "yes" then
 					delete_msg(msg.id, ok_cb, false)
 					if strict == "yes" or to_chat then
@@ -829,161 +906,221 @@ if is_chat_msg(msg) or is_super_group(msg) then
 		        end
             end	
    end
-end
-             --Fwd lock:
-    hash = 'fwd:'..msg.to.id
-    if redis:get(hash) and msg.fwd_from and not is_sudo(msg) and not is_owner(msg) and not is_momod(msg) and not is_admin1(msg)  then
-            delete_msg(msg.id, ok_cb, true)
-            return
-        end
-    --Fwd lock.
-    --Reply lock:
-    hash2 = 'reply:'..msg.to.id
-    if redis:get(hash2) and msg.reply_id and not is_sudo(msg) and not is_owner(msg) and not is_momod(msg) and not is_admin1(msg) then
-            delete_msg(msg.id, ok_cb, true)
-            return
-        end
-    --Reply lock.
--- End 'RondoMsgChecks' text checks by @Rondoozle
-	return msg
-end
-
- function run(msg, matches)
-      if msg.text:match("^[!/#][Aa][Dd][Vv][Aa][Nn]$") then
+   if msg.text:match("/[Ss][Tt][Aa][Rr][Tt]") then
+		if msg.to.type == "user" then
+			return "Hello dear ["..msg.from.print_name.."], welcome to "..msg.to.print_name.."\nThanks for /start me :)\n"
+	    end
+    end
+    if msg.text:match("^[!/#][Aa][Dd][Vv][Aa][Nn]$") then
     	txt = _config.about_text
-    	return txt
-      end
-          if msg.text:match("^[!/#][Rr][Aa][Tt][Ee]$") then
+    	send_msg(get_receiver(msg), txt, ok_cb, false)
+    end
+	if msg.text:match("^[!/#][Rr][Aa][Tt][Ee]$") then
           Group_rate = _config.Group_rate
     	    Supergroup_rate = _config.Supergroup_rate
-    	    price = "Rial"
 		if Group_rate ~= "" or Supergroup_rate ~= "" then
-    	         rate = "Rate of:\n\nChat: "..Group_rate.." "..price.."\nSuperGroup: "..Supergroup_rate.." "..price
+    	         rate = "Rate of:\n\nChat: "..Group_rate.."\nSuperGroup: "..Supergroup_rate
     	         send_msg(get_receiver(msg), rate, ok_cb, false)
 		else
 		 rate = "Erore: Rate is not set!"
     	         send_msg(get_receiver(msg), rate, ok_cb, false)
                 end
-	  end
-	  
-	  	receiver = get_receiver(msg)
+	end
+	if is_chat_msg(msg) or is_super_group(msg) then
+	receiver = get_receiver(msg)
 	user = "user"
 	chat =  "chat"
 	channel = "channel"
-	
-	local data = load_data(_config.moderation.data)
-	
-    if data[tostring(msg.to.id)] then
-    if data[tostring(msg.to.id)]['settings'] then
-    if data[tostring(msg.to.id)]['settings']['lock_media'] then
-	 lock_media = data[tostring(msg.to.id)]['settings']['lock_media']
-    end
-    if data[tostring(msg.to.id)]['settings']['lock_fwd'] then
-	 lock_fwd = data[tostring(msg.to.id)]['settings']['lock_fwd']
-	end
-	if data[tostring(msg.to.id)]['settings']['lock_reply'] then
-	 lock_reply = data[tostring(msg.to.id)]['settings']['lock_reply']
-	end
-	if data[tostring(msg.to.id)]['settings']['lock_share'] then
-	 lock_share = data[tostring(msg.to.id)]['settings']['lock_share']
-	end
-	if data[tostring(msg.to.id)]['settings']['lock_tag'] then
-	 lock_tag = data[tostring(msg.to.id)]['settings']['lock_tag']
-    end
-    if data[tostring(msg.to.id)]['settings']['lock_bots'] then
-	 lock_bots = data[tostring(msg.to.id)]['settings']['lock_bots']
-	end
-	if data[tostring(msg.to.id)]['settings']['lock_number'] then
-	 lock_number = data[tostring(msg.to.id)]['settings']['lock_number']
-	end
-	if data[tostring(msg.to.id)]['settings']['lock_operator'] then
-	 lock_operator = data[tostring(msg.to.id)]['settings']['lock_operator']
-	end
-	if data[tostring(msg.to.id)]['settings']['lock_poker'] then
-	 lock_poker = data[tostring(msg.to.id)]['settings']['lock_poker']
-	end
-	end
-	end
-		
-    if is_chat_msg(msg) or is_super_group(msg) then
 	    if not is_momod(msg) and not is_whitelisted(msg.from.id) and not is_sudo(msg) and not is_owner(msg) and not is_admin1(msg) then
-            --Media lock:
-		 if matches[1]:lower() == "photo" or "document" or "video" or "audio" or "unsupported" or "gif" then
-          if lock_media == "yes" then
-		   if msg.to.type == channel then
-           delete_msg(msg.id, ok_cb, true)
-		   end
-          end
-		 end
+		local data = load_data(_config.moderation.data)
+		if data[tostring(msg.to.id)] then
+        if data[tostring(msg.to.id)]['settings'] then
+		if data[tostring(msg.to.id)]['settings']['lock_media'] then
+	        lock_media = data[tostring(msg.to.id)]['settings']['lock_media']
+        end
+		if data[tostring(msg.to.id)]['settings']['lock_number'] then
+	        lock_number = data[tostring(msg.to.id)]['settings']['lock_number']
+	    end
+		if data[tostring(msg.to.id)]['settings']['lock_poker'] then
+	        lock_poker = data[tostring(msg.to.id)]['settings']['lock_poker']
+	    end
+		if data[tostring(msg.to.id)]['settings']['lock_tag'] then
+	        lock_tag = data[tostring(msg.to.id)]['settings']['lock_tag']
+        end
+		if data[tostring(msg.to.id)]['settings']['lock_fwd'] then
+	        lock_fwd = data[tostring(msg.to.id)]['settings']['lock_fwd']
+	    end
+	    if data[tostring(msg.to.id)]['settings']['lock_reply'] then
+	        lock_reply = data[tostring(msg.to.id)]['settings']['lock_reply']
+	    end
+	    if data[tostring(msg.to.id)]['settings']['lock_share'] then
+	        lock_share = data[tostring(msg.to.id)]['settings']['lock_share']
+	    end
+        if data[tostring(msg.to.id)]['settings']['lock_bots'] then
+	        lock_bots = data[tostring(msg.to.id)]['settings']['lock_bots']
+	    end
+		if data[tostring(msg.to.id)]['settings']['lock_inline'] then
+	        lock_inline = data[tostring(msg.to.id)]['settings']['lock_inline']
+	    end
+		if data[tostring(msg.to.id)]['settings']['strict'] then
+	        lock_strict = data[tostring(msg.to.id)]['settings']['strict']
+	    end
+		if data[tostring(msg.to.id)]['settings']['lock_cmd'] then
+	        lock_cmd = data[tostring(msg.to.id)]['settings']['lock_cmd']
+	    end
+		end
+		end
+		    --Media lock:
+		if msg.text:match("%[(photo)%]") or msg.text:match("%[(video)%]") or msg.text:match("%[(document)%]") or msg.text:match("%[(gif)%]") or msg.text:match("%[(unsupported)%]") or msg.text:match("%[(audio)%]") then
+            if lock_media == "yes" then
+		        if msg.to.type == channel then
+                    if lock_strict == "no" then
+				        delete_msg(msg.id, ok_cb, true)
+				    elseif lock_strict == "yes" then
+						delete_msg(msg.id, ok_cb, true)
+			            kick_user(msg.from.id, msg.to.id)
+				    end
+		        end
+            end
+		end
 	        --Media lock.
 			--Share lock:
-		 if matches[1]:lower() == "contact" then
-          if lock_share == "yes" then
-		   if msg.to.type == channel then
-           delete_msg(msg.id, ok_cb, true)
-		   end
-          end
-		 end
+		if msg.text:match("%[(contact)%]") then
+            if lock_share == "yes" then
+		        if msg.to.type == channel then
+                    if lock_strict == "no" then
+				        delete_msg(msg.id, ok_cb, true)
+				    elseif lock_strict == "yes" then
+						delete_msg(msg.id, ok_cb, true)
+			            kick_user(msg.from.id, msg.to.id)
+				    end
+		        end
+            end
+		end
 			--Share lock.
+	        --Number lock:
+		if msg.text:match("%d+") then
+            if lock_number == "yes" then
+		        if msg.to.type == channel then
+                    if lock_strict == "no" then
+				        delete_msg(msg.id, ok_cb, true)
+				    elseif lock_strict == "yes" then
+						delete_msg(msg.id, ok_cb, true)
+			            kick_user(msg.from.id, msg.to.id)
+				    end
+		        end
+            end
+		end
+			--Number lock.
+			--Poker lock:
+		if msg.text:match("😐") then
+            if lock_poker == "yes" then
+		        if msg.to.type == channel then
+                    if lock_strict == "no" then
+				        delete_msg(msg.id, ok_cb, true)
+				    elseif lock_strict == "yes" then
+						delete_msg(msg.id, ok_cb, true)
+			            kick_user(msg.from.id, msg.to.id)
+				    end
+		        end
+            end
+		end
+			--Poker lock.
 			--Tag lock:
-	     if msg.text:match("#") then
-          if lock_tag == "yes" then
-		   if msg.to.type == channel then
-           delete_msg(msg.id, ok_cb, true)
-		   end
-          end
-		 end
+	    if msg.text:match("#") then
+            if lock_tag == "yes" then
+		        if msg.to.type == channel then
+				    if lock_strict == "no" then
+				        delete_msg(msg.id, ok_cb, true)
+				    elseif lock_strict == "yes" then
+						delete_msg(msg.id, ok_cb, true)
+			            kick_user(msg.from.id, msg.to.id)
+				    end
+		        end
+            end
+		end
 			--Tag lock.
 			--Bots lock:
-	     if matches[1] == "chat_add_user" or matches[1] == "chat_add_user_link" then
-		  if lock_bots == "yes" then
-             local user = msg.action.user or msg.from
-           if isABotBadWay(user) then
-              userId = user.id
-			  chatId = msg.to.id
-		     if msg.to.type == channel then
-              kickUser("user#id"..userId, "channel#id"..chatId)
-              channel_kick_user("channel#id"..msg.to.id, 'user#id'..userId, ok_cb, false)
-		   --elseif msg.to.type == chat then
-		      --chat_del_user(userId, chatId)
-		     end
-           end
-		  end
-         end
+	    if msg.text:match("^!!tgservice (chat_add_user)$") or msg.text:match("^!!tgservice (chat_add_user_link)$") then
+		    if lock_bots == "yes" then
+                local user = msg.action.user or msg.from
+                if isABotBadWay(user) then
+                    userId = user.id
+			        chatId = msg.to.id
+		            if msg.to.type == channel then
+                        kickUser("user#id"..userId, "channel#id"..chatId)
+                        channel_kick_user("channel#id"..msg.to.id, 'user#id'..userId, ok_cb, false)
+		            end
+                end
+		    end
+        end
 			--Bots lock.
-			--Number lock:
-		 if msg.text:match("%d+") then
-          if lock_number == "yes" then
-		   if msg.to.type == channel then
-           delete_msg(msg.id, ok_cb, true)
-		   end
-          end
-		 end
-			--Number lock.
-			--Operator lock:
-	     if matches[1]:lower() == "شارژ" or "ایرانسل" or "irancell" or "ir-mci" or "همراه اول" or "رایتل" or "تالیا" then
-          if lock_operator == "yes" then
-		   if msg.to.type == channel then
-           delete_msg(msg.id, ok_cb, true)
-		   end
-          end
-		 end
-			--Operator lock.
-			--Poker lock:
-		 if msg.text:match("😐") then
-          if lock_poker == "yes" then
-		   if msg.to.type == channel then
-           delete_msg(msg.id, ok_cb, true)
-		   end
-          end
-		 end
-			--Poker lock.
+			--Inline lock:
+			if msg.text == "[unsupported]" then
+			    if msg.to.type == channel then
+			        if lock_inline == "yes" then
+					    if lock_strict == "no" then
+				            delete_msg(msg.id, ok_cb, true)
+						elseif lock_strict == "yes" then
+						    delete_msg(msg.id, ok_cb, true)
+			                kick_user(msg.from.id, msg.to.id)
+						end
+					end
+				end
+			end
+			--Inline lock.
+			--Remove filter word:
+		if msg.text:match("^(.+)$") then
+            name = user_print_name(msg.from)
+            return list_variables2(msg, msg.text)
+        end
+		    --Remove filter word.
 		end
+	end
+	
+end
+            --Fwd lock:
+        if redis:get('fwd:'..msg.to.id) and msg.fwd_from and not is_sudo(msg) and not is_owner(msg) and not is_momod(msg) and not is_admin1(msg) then
+            if lock_strict == "no" then
+				delete_msg(msg.id, ok_cb, true)
+		    elseif lock_strict == "yes" then
+				delete_msg(msg.id, ok_cb, true)
+			    kick_user(msg.from.id, msg.to.id)
+			end
+        end
+            --Fwd lock.
+            --Reply lock:
+        if redis:get('reply:'..msg.to.id) and msg.reply_id and not is_sudo(msg) and not is_owner(msg) and not is_momod(msg) and not is_admin1(msg) then
+            if lock_strict == "no" then
+				delete_msg(msg.id, ok_cb, true)
+		    elseif lock_strict == "yes" then
+				delete_msg(msg.id, ok_cb, true)
+			    kick_user(msg.from.id, msg.to.id)
+			end
+        end
+            --Reply lock.
+			--Cmd Lock:
+		if lock_cmd == "yes" and is_cmd(msg.text) and not is_momod(msg) then
+            if lock_strict == "no" then
+				delete_msg(msg.id, ok_cb, true)
+		    elseif lock_strict == "yes" then
+				delete_msg(msg.id, ok_cb, true)
+			    kick_user(msg.from.id, msg.to.id)
+			end
+        end
+			--Cmd Lock.
+-- End 'RondoMsgChecks' text checks by @Rondoozle
+	return msg
+end
+--End pre_process function
+
+ function run(msg, matches) 
 	--Lock or Unlock settings:
 	if is_momod(msg) then
 	  if is_super_group(msg) then
 	    if matches[1] == 'lock' then
 			local target = msg.to.id
+			local data = load_data(_config.moderation.data)
 			if matches[2] == 'media' then
 				return lock_group_media(msg, data, target)
 			end
@@ -1004,9 +1141,6 @@ end
 			end
 			if matches[2] == 'number' then
 				return lock_group_number(msg, data, target)
-			end
-			if matches[2] == 'operator' then
-				return lock_group_operator(msg, data, target)
 			end
 			if matches[2] == 'poker' then
 				return lock_group_poker(msg, data, target)
@@ -1032,10 +1166,17 @@ end
 			if matches[2] == 'gifs' then
 				return lock_group_gifs(msg, data, target)
 			end
+			if matches[2] == 'inline' then
+				return lock_group_inline(msg, data, target)
+			end
+			if matches[2] == 'cmd' then
+				return lock_group_cmd(msg, data, target)
+			end
         end
 		
 		if matches[1] == 'unlock' then
 			local target = msg.to.id
+			local data = load_data(_config.moderation.data)
 			if matches[2] == 'media' then
 				return unlock_group_media(msg, data, target)
 			end
@@ -1056,9 +1197,6 @@ end
 			end
 			if matches[2] == 'number' then
 				return unlock_group_number(msg, data, target)
-			end
-			if matches[2] == 'operator' then
-				return unlock_group_operator(msg, data, target)
 			end
 			if matches[2] == 'poker' then
 				return unlock_group_poker(msg, data, target)
@@ -1084,41 +1222,22 @@ end
 			if matches[2] == 'gifs' then
 				return unlock_group_gifs(msg, data, target)
 			end
+			if matches[2] == 'inline' then
+				return unlock_group_inline(msg, data, target)
+			end
+			if matches[2] == 'cmd' then
+				return unlock_group_cmd(msg, data, target)
+			end
          end
         end
 	end
 	--Lock or Unlock settings.
-  end
  end
---End pre_process function
+ --End run function
 return {
 	patterns = {
-"@[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz][_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz][_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz][_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz][ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]",
-"[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/",
-"?[Ss][Tt][Aa][Rr][Tt]=",
-"^[!/#][Aa][Dd][Vv][Aa][Nn]$",
-"^[!/#][Rr][Aa][Tt][Ee]$",
-"😐",
-"(شارژ)",
-"(ایرانسل)",
-"(irancell)",
-"(ir-mci)",
-"(همراه اول)",
-"(رایتل)",
-"(تالیا)",
-"#",
-"%d+",
 "^[!/#](lock) (.*)$",
 "^[!/#](unlock) (.*)$",
-"%[(photo)%]",
-"%[(document)%]",
-"%[(video)%]",
-"%[(audio)%]",
-"%[(unsupported)%]",
-"%[(gif)%]",
-"%[(contact)%]",
-"^!!tgservice (chat_add_user)$",
-"^!!tgservice (chat_add_user_link)$",
 	},
 	pre_process = pre_process,
 	run = run
