@@ -277,7 +277,7 @@ if [ "$1" = "api" ]; then
    
   while true; do
    rm -r ../.telegram-cli/state
-   ./tg/bin/telegram-cli -b ./tg/tg-server.pub -s ./system/icli.lua -l 1 -E $@
+   ./tg/bin/telegram-cli -k ./tg/tg-server.pub -s ./system/icli.lua -l 1 -E $@
    sleep 3
   done
 elif [ "$1" = "self" ]; then
