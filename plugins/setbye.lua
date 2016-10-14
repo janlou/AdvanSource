@@ -5,31 +5,29 @@ local function run(msg, matches)
   if not is_momod(msg) then
    return "فقط مخصوص ادمین ها"
   end
-   local b = 1
-  while b ~= 0 do
-    text = text:trim()
-    text,b = text:gsub('^!+','')
-  end
-  local file = io.open("./system/chats/logs/"..msg.to.id..".txt", "w")
-  file:write(text)
-  file:flush()
-  file:close()
+   redis:set("bye:"..msg.to.id, text)
   return "متن خروج کاربر تغییر کرد به:\n"..text
  end
 end
    
-   local bye = io.open("./system/chats/logs/"..msg.to.id..".txt", "r")
-   local send = bye:read("*all")
    if matches[1] == "chat_del_user" or matches[1] == "channel_kick" or matches[1] == "kick_user" then
+      send = redis:get("bye:"..msg.to.id)
+      if send then
       return send
+      elseif not send then
+      return
+      end
    end
    
   if is_momod(msg) or is_owner(msg) or is_sudo(msg) then
    local say = "متن خروج با موفقیت حذف شد"
    if matches[1] == "delbye" then
-    del = io.popen("cd system/chats/logs && rm "..msg.to.id..".txt")
-    send_msg(get_receiver(msg), say, ok_cb, false)
-   return del
+       if redis:get("bye:"..msg.to.id) then
+          redis:del("bye:"..msg.to.id)
+          send_msg(get_receiver(msg), say, ok_cb, false)
+       else
+          return "متن خروج کاربر تنظیم نشده است"
+       end
    end
    
   elseif not is_momod(msg) or not is_owner(msg) or not is_sudo(msg) then
