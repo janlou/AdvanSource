@@ -21,7 +21,7 @@ rmsg
 local function tophoto(msg, success, result, extra)
   local receiver = get_receiver(msg)
   if success then
-    local file = 'system/adv/stickers/'..msg.from.id..'.jpg'
+    local file = 'data/tmp/image.jpg'
     print('File downloaded to:', result)
     os.rename(result, file)
     print('File moved to:', file)
@@ -36,7 +36,7 @@ end
 local function tosticker(msg, success, result)
   local receiver = get_receiver(msg)
   if success then
-    local file = 'system/adv/stickers/sticker.webp'
+    local file = 'data/tmp/sticker.webp'
     print('File downloaded to:', result)
     os.rename(result, file)
     print('File moved to:', file)
@@ -191,8 +191,8 @@ end
 --Functions.
 
 function run(msg, matches)
-  one = io.open("./system/adv/team", "r")
-  two = io.open("./system/adv/channel", "r")
+  one = io.open("./system/team", "r")
+  two = io.open("./system/channel", "r")
   local team = one:read("*all")
   local channel = two:read("*all")
   
@@ -215,7 +215,7 @@ function run(msg, matches)
  end
          --tosticker && tophoto:
          if msg.media then
-      	if msg.media.type == 'document' and is_momod(msg) and redis:get("sticker:photo") then
+      	if msg.media.type == 'document' and redis:get("sticker:photo") then
       		if redis:get("sticker:photo") == 'waiting' then
         		load_document(msg.id, tophoto, msg)
       		end
@@ -228,11 +228,25 @@ function run(msg, matches)
     end
 	
     if matches[1] == "tophoto" then
+		  if not redis:get("wait:"..msg.from.id) then
+			   if not is_momod(msg) then
+				   redis:setex("wait:"..msg.from.id, 30, true)
+				 end
     	redis:set("sticker:photo", "waiting")
     	return 'Please send your sticker now\n\nPowered by '..team..'\nJoin us : '..channel
+			elseif redis:get("wait:"..msg.from.id) then
+			return "Please wait for 30 second."
+			end
     elseif matches[1] == "tosticker" then
-     redis:set("photo:sticker", "waiting")
-     return 'Please send your photo now\n\nPowered by '..team..'\nJoin us : '..channel
+		  if not redis:get("wait:"..msg.from.id) then
+			   if not is_momod(msg) then
+				   redis:setex("wait:"..msg.from.id, 30, true)
+				 end
+      redis:set("photo:sticker", "waiting")
+      return 'Please send your photo now\n\nPowered by '..team..'\nJoin us : '..channel
+		  elseif redis:get("wait:"..msg.from.id) then
+			return "Please wait for 30 second."
+			end
     end
        --tosticker && tophoto.
        
@@ -349,7 +363,7 @@ function run(msg, matches)
     text = text:trim()
     text,b = text:gsub('^!+','')
   end
-  local file = io.open("./system/adv/note/"..msg.from.id..".txt", "w")
+  local file = io.open("./data/tmp/"..msg.from.id..".txt", "w")
   file:write(text)
   file:flush()
   file:close()
@@ -357,7 +371,7 @@ function run(msg, matches)
  end
  
    if matches[1] == "mynote" then
-      note = io.open("./system/adv/note/"..msg.from.id..".txt", "r")
+      note = io.open("./data/tmp/"..msg.from.id..".txt", "r")
       mn = note:read("*all")
       return mn
     elseif matches[1] == "mynote" and not note then
@@ -408,11 +422,11 @@ function run(msg, matches)
        if matches[1] == 'setteam' and matches[2] and matches[3] and is_sudo(msg) then
    text = "<b>"..matches[2].."</b>"
    link = matches[3]
-   file1 = io.open("./system/adv/team", "w")
+   file1 = io.open("./system/team", "w")
    file1:write(text)
    file1:flush()
    file1:close()
-   file2 = io.open("./system/adv/channel", "w")
+   file2 = io.open("./system/channel", "w")
    file2:write(link)
    file2:flush()
    file2:close()
