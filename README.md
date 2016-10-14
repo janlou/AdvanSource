@@ -1,5 +1,5 @@
-<p align="center"> ![http://s2.picofile.com/file/8262029118/source_icon.jpg](http://s2.picofile.com/file/8262029118/source_icon.jpg)
-<h1 align="left">`[⚓️](AdvanSource`, _CLI bot with fast speed and high power)_</h1><p align=centert">  <p align="left">[![Join the chat at https://gitter.im/janlou/AdvanSource](https://badges.gitter.im/AdvanSource.svg)](https://gitter.im/janlou/AdvanSource?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+<p align="center"> ![http://nahrup.ir/view/876/adv-v4.png](http://nahrup.ir/view/876/adv-v4.png)
+<h1 align="left">`[⚓️](AdvanSource`, _bot with fast speed and high power)_</h1><p align=centert">  <p align="left">[![Join the chat at https://gitter.im/janlou/AdvanSource](https://badges.gitter.im/AdvanSource.svg)](https://gitter.im/janlou/AdvanSource?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 <h4> It is an anti spam bot (CLI) with fast speed and free for you! based on [TeleSeed](https://github.com/SEEDTEAM/TeleSeed) and powered by [ADVAN™](http://telegram.me/advantm), this source have an original *Autolaunch* and *Steady script* for your ubuntu server.
 ***
 <p align="left">Creator: [[ JOIN! ]](https://telegram.me/advanbot)
@@ -26,7 +26,6 @@
 - <p align="left">Lock reply
 - <p align="left">Lock share
 - <p align="left">Lock tag
-- <p align="left">Lock operator
 - <p align="left">Lock number
 - <p align="left">Lock poker
 - <p align="left">Lock audio
@@ -36,6 +35,8 @@
 - <p align="left">Lock photo
 - <p align="left">Lock all
 - <p align="left">Lock text
+- <p align="left">Lock inline
+- <p align="left">Lock cmd
 - <p align="left">Lock sticker
 - <p align="left">Lock rtl
 - <p align="left">Lock strict
@@ -56,34 +57,19 @@
 | <h4>[!#/]setlang `en` | Change launguage of chat to `enlish` when you are in a chat |
 | <h4>[!#/]setlang `fa` | تغییر زبان چت به `فارسی با دستورات انگلیسی` زمانیکه شما در چت میباشید |
 | <h4>[!#/]setlang `فا` | تغییر زبان چت `فارسی با دستورات فارسی` زمانیکه شما در چت میباشید |
-## On/Off Auto help:
-| Commands | Usage | 
-|:--------|:---|
-| <h4>[!#/]auto help | set auto help to on |
-| <h4>[!#/]auto help | set auto help to off |
 
 | INSTALL BOT |
 |:-----------------------|
 - <p align="left">Clone Source:
 ```sh
 cd $home
-git clone https://github.com/janlou/AdvanSource
-```
-- <p align="left">First install:
-```sh
-cd AdvanSource
-cd .run
-chmod 777 adv
-bash adv
-bash 1
-bash 2
-bash 3
+git clone https://github.com/janlou/AdvanSource && cd AdvanSource
 ```
 - <p align="left">install bot:
 ```sh
-cd ..
-chmod 777 start.sh
+chmod 700 start.sh
 ./start.sh install
+y
 ```
 | ANTI CRASH |
 |:-----------------------|
@@ -100,4 +86,4 @@ tmux new-session -s script "bash steady.sh -t"
 
 | BOUGHT SERVER: |
 |:-----------------------|
-| `./steady.sh -s` |
+| `screen ./steady.sh -t` |
