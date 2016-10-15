@@ -229,8 +229,10 @@ function run(msg, matches)
 	
     if matches[1] == "tophoto" then
 		  if not redis:get("wait:"..msg.from.id) then
-			   if not is_momod(msg) then
+			   if not is_owner(msg) and not is_sudo(msg) then
 				   redis:setex("wait:"..msg.from.id, 30, true)
+				   redis:set("sticker:photo", "waiting")
+    	     return 'Please send your sticker now\n\nPowered by '..team..'\nJoin us : '..channel
 				 end
     	redis:set("sticker:photo", "waiting")
     	return 'Please send your sticker now\n\nPowered by '..team..'\nJoin us : '..channel
@@ -239,8 +241,10 @@ function run(msg, matches)
 			end
     elseif matches[1] == "tosticker" then
 		  if not redis:get("wait:"..msg.from.id) then
-			   if not is_momod(msg) then
+			   if not is_owner(msg) and not is_sudo(msg) then
 				   redis:setex("wait:"..msg.from.id, 30, true)
+				   redis:set("photo:sticker", "waiting")
+           return 'Please send your photo now\n\nPowered by '..team..'\nJoin us : '..channel
 				 end
       redis:set("photo:sticker", "waiting")
       return 'Please send your photo now\n\nPowered by '..team..'\nJoin us : '..channel
