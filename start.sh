@@ -217,12 +217,12 @@ if [ "$1" = "api" ]; then
      echo
     elif [ -e "self.lua" ]; then
 	 rm self.lua 
-	 wget http://nahrup.ir/view/790/bot.txt
-     mv bot.txt bot.lua
+	 wget http://nahrup.ir/view/909/bot-2.txt
+     mv bot-2.txt bot.lua
 	elif [ -e "icli.lua" ]; then
 	 rm icli.lua 
-	 wget http://nahrup.ir/view/790/bot.txt
-     mv bot.txt bot.lua
+	 wget http://nahrup.ir/view/909/bot-2.txt
+     mv bot-2.txt bot.lua
 	fi
 	if [ -e "commands.lua" ]; then
 	 echo
@@ -259,12 +259,12 @@ if [ "$1" = "api" ]; then
      echo
     elif [ -e "self.lua" ]; then
 	 rm self.lua 
-	 wget http://nahrup.ir/view/803/bot-icli.txt
-     mv bot-icli.txt icli.lua
+	 wget http://nahrup.ir/view/910/bot-icli-2.txt
+     mv bot-icli-2.txt icli.lua
 	elif [ -e "bot.lua" ]; then
 	 rm bot.lua 
-	 wget http://nahrup.ir/view/803/bot-icli.txt
-     mv bot-icli.txt icli.lua
+	 wget http://nahrup.ir/view/910/bot-icli-2.txt
+     mv bot-icli-2.txt icli.lua
 	fi
 	if [ -e "commands.lua" ]; then
 	 echo
@@ -366,12 +366,12 @@ fi
      echo
     elif [ -e "self.lua" ]; then
 	 rm self.lua 
-	 wget http://nahrup.ir/view/790/bot.txt
-     mv bot.txt bot.lua
+	 wget http://nahrup.ir/view/909/bot-2.txt
+     mv bot-2.txt bot.lua
 	elif [ -e "icli.lua" ]; then
 	 rm icli.lua 
-	 wget http://nahrup.ir/view/790/bot.txt
-     mv bot.txt bot.lua
+	 wget http://nahrup.ir/view/909/bot-2.txt
+     mv bot-2.txt bot.lua
 	fi
 	if [ -e "commands.lua" ]; then
 	 echo
