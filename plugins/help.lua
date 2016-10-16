@@ -77,8 +77,6 @@ function run(msg, matches)
             local two = io.open("./system/channel", "r")
             local team = one:read("*all")
             local channel = two:read("*all")
-			local sp_lang = redis:get("sp:lang")
-			local gp_lang = redis:get("gp:lang")
 			local is_hash1 = redis:get(hash1)
 			local is_hash2 = redis:get(hash2)
 			if is_hash1 and not is_hash2 then
@@ -91,30 +89,33 @@ function run(msg, matches)
 			    help = redis:get(hash2)
 				return help.."\n\n⚡️ [👉 Powered by "..team.." ] ⚡️\n📎 [👉 Join: "..channel.." ]"
 			elseif not is_hash1 and not is_hash2 then
-			    if sp_lang and type == channel then
-				    if sp_lang == "fa" then
+			    local error = "Error! help text not found! please use /sethelp (text) or /setlang [en/fa/فا] for fix it."
+			    if msg.to.type == "channel" then
+				    if not redis:get("sp:lang") then
+					    return error
+				    elseif redis:get("sp:lang") == "fa" then
 					    help = http.request("http://www.folder98.ir/1395/05/1473700489.txt")
 						return help
-					elseif sp_lang == "en" then
+					elseif redis:get("sp:lang") == "en" then
 					    help = http.request("http://www.folder98.ir/1395/05/1473726399.txt")
 						return help
-				    elseif sp_lang == "فا" then
+				    elseif redis:get("sp:lang") == "فا" then
 					    help = http.request("http://www.folder98.ir/1395/05/1473703817.txt")
 						return help
 					end
-				elseif gp_lang and type == chat then
-				    if gp_lang == "fa" then
+				elseif msg.to.type == "chat" then
+				    if not redis:get("gp:lang") then
+					    return error
+				    elseif redis:get("gp:lang") == "fa" then
 					    help = http.request("http://www.folder98.ir/1395/05/1473685968.txt")
 						return help
-					elseif gp_lang == "en" then
+					elseif redis:get("gp:lang") == "en" then
 					    help = http.request("http://www.folder98.ir/1395/05/1473743959.txt")
 						return help
-				    elseif gp_lang == "فا" then
+				    elseif redis:get("gp:lang") == "فا" then
 					    help = http.request("http://www.folder98.ir/1395/05/1473704736.txt")
 						return help
 					end
-				elseif not gp_lang or not sp_lang then
-                        return "Error! help text not found! please use /sethelp (text) or /setlang [en/fa/فا] for fix it."
 				end
 			end
 	end
