@@ -350,7 +350,7 @@ function run(msg, matches)
                 file:write(text)
                 file:flush()
                 file:close()
-             return "Plugin ["..matches[2]..".lua] has been added! Code:\n"..text
+             return "Plugin ["..matches[2]..".lua] has been added!"
            end
 	   --Addplug.
 	   --Delplug:
