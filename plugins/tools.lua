@@ -9,13 +9,13 @@ onservice
 setteam
 setsudo
 addsudo
-clean gbanlist & banlist (Thanks to @NuLLuseR)
 clean deleted (Thanks to @Blackwolf_admin)
 filter
 hyper & bold & italic & code
 addplug
 delplug
 rmsg
+version
 ]]
 --Functions:
 local function tophoto(msg, success, result, extra)
@@ -189,13 +189,11 @@ local function history(extra, suc, result)
 end
 
 --Functions.
-
 function run(msg, matches)
   one = io.open("./system/team", "r")
   two = io.open("./system/channel", "r")
   local team = one:read("*all")
   local channel = two:read("*all")
-  
  if is_sudo(msg) then
     local receiver = get_receiver(msg)
     local group = msg.to.id
@@ -226,7 +224,6 @@ function run(msg, matches)
             end
         end
     end
-	
     if matches[1] == "tophoto" then
 		  if not redis:get("wait:"..msg.from.id) then
 			   if not is_owner(msg) and not is_sudo(msg) then
@@ -253,14 +250,18 @@ function run(msg, matches)
 			end
     end
        --tosticker && tophoto.
-       
+       --Version:
+	    if matches[1] == "version" then
+	        txt = _config.about_text
+    	    send_msg(get_receiver(msg), txt, ok_cb, false)
+	    end
+	   --Version.
 	   --please put your id here:
     local sudo_id = 123456789
        --Please put your id here.
-	   
 	   --Setsudo:
 	if matches[1]:lower() == "setsudo" then
-	    if tonumber (msg.from.id) == sudo_id then --Line 240
+	    if tonumber (msg.from.id) == sudo_id then --Line 260
           table.insert(_config.sudo_users, tonumber(matches[2]))
           save_config()
           plugins = {}
@@ -281,33 +282,8 @@ function run(msg, matches)
 		end
 	end
 	   --Addsudo.
-	   --Clean gbanlist & banlist & deleted  & filterlist:
+	   --Clean deleted  & filterlist:
     if matches[1]:lower() == 'clean' then 
-        if matches[2] == 'gbanlist' then 
-		    if is_sudo(msg) then
-                hash = 'gbanned'
-                data_cat = 'gbanlist'
-                data[tostring(msg.to.id)][data_cat] = nil
-                save_data(_config.moderation.data, data)
-                send_msg(get_receiver(msg), "Gbanlist has been cleaned!")
-                redis:del(hash)
-	        else
-			    return "Just for sudo!"
-			end
-        end
-        if matches[2] == 'banlist' then
-		    if is_owner(msg) then
-                chat_id = msg.to.id
-                hash = 'banned:'..chat_id
-                data_cat = 'banlist'
-                data[tostring(msg.to.id)][data_cat] = nil
-                save_data(_config.moderation.data, data)
-                send_msg(get_receiver(msg), "Banlist has been cleaned!")
-                redis:del(hash)
-		    else
-			    return "Just for owner or sudo!"
-            end
-        end
 		    if matches[2] == "deleted" then
 		      if is_owner(msg) then
                 receiver = get_receiver(msg) 
@@ -323,8 +299,8 @@ function run(msg, matches)
           asd = '1'
           return clear_commandbad(msg, asd)
 		    end
-  end
-	   --Clean gbanlist & banlist & deleted & filterlist.
+             end
+	   --Clean deleted & filterlist.
 	   --Filter:
 	if matches[1] == 'filter' then
     if not is_momod(msg) then
@@ -465,6 +441,7 @@ return {
  "^[!/#]([Ss]etsudo) (%d+)$",
  "^[!/#]([Rr]msg) (%d*)$",
  "^[!/#](setteam) (.*) (.*)$",
+ "^[!/#]([Vv]ersion)$",
  "^[!/#]([Cc]onfig) (%d+)$",
  "^[!/#]([Cc]lean) (.*)$",
  "^[!/#]([Bb]old) (.*)$",
