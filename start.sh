@@ -100,6 +100,7 @@ install2() {
   echo ""
   echo "RUN BOT WITH CLI MOD:"
   echo "$0"
+  echo ""
   sleep 0.9
   echo ""
   echo "RUN BOT WITH SELF MOD:"
@@ -109,6 +110,11 @@ install2() {
   echo ""
   echo "RUN BOT WITH API MOD:"
   echo "$0 api"
+  echo ""
+  sleep 0.9
+  echo ""
+  echo "RUN BOT WITH ICLI MOD:"
+  echo "$0 icli"
   echo ""
   echo ""
   
