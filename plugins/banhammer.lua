@@ -31,10 +31,10 @@ local function pre_process(msg)
         local banhash = 'addedbanuser:'..msg.to.id..':'..msg.from.id
         local banaddredis = redis:get(banhash)
         if banaddredis then
-          if tonumber(banaddredis) >= 4 and not is_owner(msg) or not is_vip(msg) then
+          if tonumber(banaddredis) >= 4 and not is_owner(msg) then
             kick_user(msg.from.id, msg.to.id)-- Kick user who adds ban ppl more than 3 times
           end
-          if tonumber(banaddredis) >=  8 and not is_owner(msg) or not is_vip(msg) then
+          if tonumber(banaddredis) >=  8 and not is_owner(msg) then
             ban_user(msg.from.id, msg.to.id)-- Kick user who adds ban ppl more than 7 times
             local banhash = 'addedbanuser:'..msg.to.id..':'..msg.from.id
             redis:set(banhash, 0)-- Reset the Counter
@@ -114,6 +114,10 @@ local function kick_ban_res(extra, success, result)
         end
         send_large_msg(receiver, 'User @'..member..' ['..member_id..'] banned')
 		ban_user(member_id, chat_id)
+local bannedhash = 'banned:'..msg.from.id..':'..msg.to.id
+        redis:incr(bannedhash)
+        local bannedhash = 'banned:'..msg.from.id..':'..msg.to.id
+        local banned = redis:get(bannedhash)
       elseif get_cmd == 'unban' then
         send_large_msg(receiver, 'User @'..member..' ['..member_id..'] unbanned')
         local hash =  'banned:'..chat_id
@@ -163,6 +167,24 @@ local support_id = msg.from.id
     end
     return ban_list(chat_id)
   end
+if matches[1]:lower() == "clean" and matches[2]:lower() == "banlist" then
+ if not is_owner(msg) then
+return nil
+end
+local chat_id = msg.to.id
+local hash = 'banned:'..chat_id
+send_large_msg(get_receiver(msg), "banlist has been cleaned")
+redis:del(hash)
+end
+if matches[1]:lower() == "clean" and matches[2]:lower() == "gbanlist" then
+ if not is_sudo(msg) then
+return nil
+end
+local chat_id = msg.to.id
+local hash = 'gbanned'
+send_large_msg(get_receiver(msg), "globall banlist  has been cleaned")
+redis:del(hash)
+end
   if matches[1]:lower() == 'ban' then-- /ban
     if type(msg.reply_id)~="nil" and is_momod(msg) then
       if is_admin1(msg) then
@@ -186,7 +208,15 @@ local support_id = msg.from.id
 	    local name = print_name:gsub("_", "")
 		local receiver = get_receiver(msg)
         ban_user(matches[2], msg.to.id)
-		send_large_msg(receiver, 'User ['..matches[2]..'] banned')
+local bannedhash = 'banned:'..msg.from.id..':'..msg.to.id
+        redis:incr(bannedhash)
+        local bannedhash = 'banned:'..msg.from.id..':'..msg.to.id
+        local banned = redis:get(bannedhash)
+	send_large_msg(receiver, 'User ['..matches[2]..'] banned')
+local bannedhash = 'banned:'..msg.from.id..':'..msg.to.id
+        redis:incr(bannedhash)
+        local bannedhash = 'banned:'..msg.from.id..':'..msg.to.id
+        local banned = redis:get(bannedhash)
       else
 		local cbres_extra = {
 		chat_id = msg.to.id,
@@ -316,21 +346,23 @@ end
 
 return {
   patterns = {
-    "^[#!/]([Bb]anall) (.*)$",
-    "^[#!/]([Bb]anall)$",
-    "^[#!/]([Bb]anlist) (.*)$",
-    "^[#!/]([Bb]anlist)$",
-    "^[#!/]([Gg]banlist)$",
-	"^[#!/]([Kk]ickme)",
-    "^[#!/]([Kk]ick)$",
-	"^[#!/]([Bb]an)$",
-    "^[#!/]([Bb]an) (.*)$",
-    "^[#!/]([Uu]nban) (.*)$",
-    "^[#!/]([Uu]nbanall) (.*)$",
-    "^[#!/]([Uu]nbanall)$",
-    "^[#!/]([Kk]ick) (.*)$",
-    "^[#!/]([Uu]nban)$",
-    "^[#!/]([Ii]d)$",
+    "^[#!/]([Bb][Aa][Nn][Aa][Ll][Ll]) (.*)$",
+    "^[#!/]([Bb][Aa][Nn][Aa][Ll][Ll])$",
+    "^[#!/]([Bb][Aa][Nn][Ll][Ii][Ss][Tt]) (.*)$",
+    "^[#/!]([Bb][Aa][Nn][Ll][Ii][Ss][Tt])$",
+    "^[#/!]([Cc][Ll][Ee][Aa][Nn]) ([Bb][Aa][Nn][Ll][Ii][Ss][Tt])$",
+    "^[#/!]([Cc][Ll][Ee][Aa][Nn]) ([Gg][Bb][Aa][Nn][Ll][Ii][Ss][Tt])$",
+    "^[#/!]([Gg][Bb][Aa][Nn][Ll][Ii][Ss][Tt])$",
+	"^[#!/]([Kk][Ii][Cc][Kk][Ll][Ii][Ss][Tt])",
+    "^[#!/]([Kk][Ii][Cc][Kk])$",
+	"^[#!/]([Bb][Aa][Nn])$",
+    "^[#!/]([Bb][Aa][Nn]) (.*)$",
+    "^[#!/]([Uu][Nn][Bb][Aa][Nn]) (.*)$",
+    "^[#!/]([Uu][Nn][Bb][Aa][Nn][Aa][Ll][Ll]) (.*)$",
+    "^[#!/]([Uu][Nn][Bb][Aa][Nn][Aa][Ll][Ll])$",
+    "^[#!/]([Kk][Ii][Cc][Kk]) (.*)$",
+    "^[#!/]([Uu][Nn][Bb][Aa][Nn])$",
+    "^[#!/]([Ii][Dd])$",
     "^!!tgservice (.+)$"
   },
   run = run,
