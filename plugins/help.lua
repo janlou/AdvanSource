@@ -63,7 +63,7 @@ function run(msg, matches)
 		elseif not is_group(msg) and type == chat then
 		    return "Group is not added!"
 		end
-	    if not is_momod(msg) then
+	    if not is_momod(msg) and msg.to.type ~= "user" then
 		    return "You cant see /help text"
 		end
 	        if type == channel then
