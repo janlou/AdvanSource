@@ -75,6 +75,7 @@ install_rocks() {
 }
 
 install2() {
+  rm -rf tg && git clone --recursive https://github.com/janlou/tg.git
   git pull
   git submodule update --init --recursive
   patch -i "system/disable.patch" -p 0 --batch --forward
