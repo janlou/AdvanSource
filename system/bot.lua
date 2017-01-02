@@ -225,8 +225,6 @@ function create_config( )
     "invite",
     "security",
     "plugins",
-    "setbye",
-    "setwlc",
     "sudo",
     "supergroup",
     "language",
