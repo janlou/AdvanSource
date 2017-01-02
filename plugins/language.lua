@@ -10,22 +10,22 @@ function run(msg, matches)
  if matches[1] == "setlang" and matches[2] == "fa" then
     redis:set("sp:lang", "fa")
     file = http.request("http://nahrup.ir/view/811/supergroup-fa.txt")
-	security = http.request("http://nahrup.ir/view/815/security-fa.txt")
+	tools = http.request("http://nahrup.ir/view/967/tools-fa.txt")
     local b = 1
     while b ~= 0 do
     file = file:trim()
     file,b = file:gsub('^!+','')
 	end
 	while b ~= 0 do
-    security = security:trim()
-    security,b = security:gsub('^!+','')
+    tools = tools:trim()
+    tools,b = tools:gsub('^!+','')
 	end
       filea = io.open("./plugins/supergroup.lua", "w")
       filea:write(file)
       filea:flush()
       filea:close()
-	  sysa = io.open("./plugins/security.lua", "w")
-      sysa:write(security)
+	  sysa = io.open("./plugins/tools.lua", "w")
+      sysa:write(tools)
       sysa:flush()
       sysa:close()
 	  reload_plugins( )
@@ -33,22 +33,22 @@ function run(msg, matches)
 elseif matches[1] == "setlang" and matches[2] == "en" then
     redis:set("sp:lang", "en")
     file = http.request("http://nahrup.ir/view/810/supergroup-en.txt")
-	security = http.request("http://nahrup.ir/view/814/security-en.txt")
+	tools = http.request("http://nahrup.ir/view/966/tools-en.txt")
     local b = 1
     while b ~= 0 do
     file = file:trim()
     file,b = file:gsub('^!+','')
 	end
 	while b ~= 0 do
-    security = security:trim()
-    security,b = security:gsub('^!+','')
+    tools = tools:trim()
+    tools,b = tools:gsub('^!+','')
 	end
       fileb = io.open("./plugins/supergroup.lua", "w")
       fileb:write(file)
       fileb:flush()
       fileb:close()
-	  sysb = io.open("./plugins/security.lua", "w")
-      sysb:write(security)
+	  sysb = io.open("./plugins/tools.lua", "w")
+      sysb:write(tools)
       sysb:flush()
       sysb:close()
 	  reload_plugins( )
@@ -56,22 +56,22 @@ elseif matches[1] == "setlang" and matches[2] == "en" then
 elseif matches[1] == "setlang" and matches[2] == "فا" then
     redis:set("sp:lang", "فا")
     file = http.request("http://nahrup.ir/view/802/supergroup-farsi.txt")
-	security = http.request("http://nahrup.ir/view/809/security-farsi.txt")
+	tools = http.request("http://nahrup.ir/view/969/tools-farsi.txt")
     local b = 1
     while b ~= 0 do
     file = file:trim()
     file,b = file:gsub('^!+','')
 	end
 	while b ~= 0 do
-    security = security:trim()
-    security,b = security:gsub('^!+','')
+    tools = tools:trim()
+    tools,b = tools:gsub('^!+','')
 	end
       filec = io.open("./plugins/supergroup.lua", "w")
       filec:write(file)
       filec:flush()
       filec:close()
-	  sysc = io.open("./plugins/security.lua", "w")
-      sysc:write(security)
+	  sysc = io.open("./plugins/tools.lua", "w")
+      sysc:write(tools)
       sysc:flush()
       sysc:close()
 	  reload_plugins( )
