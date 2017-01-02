@@ -1,566 +1,5 @@
 --Begin security.lua
 --Prerequisite:
-	local function lock_group_media(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_media_lock = data[tostring(target)]['settings']['lock_media']
-  if group_media_lock == 'yes' then
-    return 'Media posting is already locked'
-  else
-    data[tostring(target)]['settings']['lock_media'] = 'yes'
-    save_data(_config.moderation.data, data)
-    return 'Media posting has been locked'
-  end
-end
-
-local function unlock_group_media(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_media_lock = data[tostring(target)]['settings']['lock_media']
-  if group_media_lock == 'no' then
-    return 'Media posting is not locked'
-  else
-    data[tostring(target)]['settings']['lock_media'] = 'no'
-    save_data(_config.moderation.data, data)
-    return 'Media posting has been unlocked'
-  end
-end
-    
-	local function lock_group_fwd(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_fwd_lock = data[tostring(target)]['settings']['lock_fwd']
-  if group_fwd_lock == 'yes' then
-    return 'Forward is already locked'
-  else
-    data[tostring(target)]['settings']['lock_fwd'] = 'yes'
-    save_data(_config.moderation.data, data)
-    local hash = 'fwd:'..msg.to.id
-    redis:set(hash, true)
-    return 'Forward has been locked'
-  end
-end
-
-local function unlock_group_fwd(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_fwd_lock = data[tostring(target)]['settings']['lock_fwd']
-  if group_fwd_lock == 'no' then
-    return 'Forward is not locked'
-  else
-    data[tostring(target)]['settings']['lock_fwd'] = 'no'
-    save_data(_config.moderation.data, data)
-    local hash = 'fwd:'..msg.to.id
-    redis:del(hash)
-    return 'Forward has been unlocked'
-  end
-end
-
-local function lock_group_reply(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_reply_lock = data[tostring(target)]['settings']['lock_reply']
-  if group_reply_lock == 'yes' then
-    return 'reply posting is already locked'
-  else
-    data[tostring(target)]['settings']['lock_reply'] = 'yes'
-    save_data(_config.moderation.data, data)
-    local hash2 = 'reply:'..msg.to.id
-    redis:set(hash2, true)
-    return 'reply posting has been locked'
-  end
-end
-
-local function unlock_group_reply(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_reply_lock = data[tostring(target)]['settings']['lock_reply']
-  if group_reply_lock == 'no' then
-    return 'reply posting is not locked'
-  else
-    data[tostring(target)]['settings']['lock_reply'] = 'no'
-    save_data(_config.moderation.data, data)
-    local hash2 = 'reply:'..msg.to.id
-    redis:del(hash2)
-    return 'reply posting has been unlocked'
-  end
-end
-
-local function lock_group_share(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_share_lock = data[tostring(target)]['settings']['lock_share']
-  if group_share_lock == 'yes' then
-    return 'share posting is already locked'
-  else
-    data[tostring(target)]['settings']['lock_share'] = 'yes'
-    save_data(_config.moderation.data, data)
-    return 'share posting has been locked'
-  end
-end
-
-local function unlock_group_share(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_share_lock = data[tostring(target)]['settings']['lock_share']
-  if group_share_lock == 'no' then
-    return 'share posting is not locked'
-  else
-    data[tostring(target)]['settings']['lock_share'] = 'no'
-    save_data(_config.moderation.data, data)
-    return 'share posting has been unlocked'
-  end
-end
-
-local function lock_group_tag(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_tag_lock = data[tostring(target)]['settings']['lock_tag']
-  if group_tag_lock == 'yes' then
-    return 'tag posting is already locked'
-  else
-    data[tostring(target)]['settings']['lock_tag'] = 'yes'
-    save_data(_config.moderation.data, data)
-    return 'tag posting has been locked'
-  end
-end
-
-local function unlock_group_tag(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_tag_lock = data[tostring(target)]['settings']['lock_tag']
-  if group_tag_lock == 'no' then
-    return 'tag posting is not locked'
-  else
-    data[tostring(target)]['settings']['lock_tag'] = 'no'
-    save_data(_config.moderation.data, data)
-    return 'tag posting has been unlocked'
-  end
-end
-
-local function lock_group_bots(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_bots_lock = data[tostring(target)]['settings']['lock_bots']
-  if group_bots_lock == 'yes' then
-    return 'bots is already locked'
-  else
-    data[tostring(target)]['settings']['lock_bots'] = 'yes'
-    save_data(_config.moderation.data, data)
-    return 'bots has been locked'
-  end
-end
-
-local function unlock_group_bots(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_bots_lock = data[tostring(target)]['settings']['lock_bots']
-  if group_bots_lock == 'no' then
-    return 'bots is not locked'
-  else
-    data[tostring(target)]['settings']['lock_bots'] = 'no'
-    save_data(_config.moderation.data, data)
-    return 'bots has been unlocked'
-  end
-end
-
-local function lock_group_number(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_number_lock = data[tostring(target)]['settings']['lock_number']
-  if group_number_lock == 'yes' then
-    return 'number posting is already locked'
-  else
-    data[tostring(target)]['settings']['lock_number'] = 'yes'
-    save_data(_config.moderation.data, data)
-    return 'number posting has been locked'
-  end
-end
-
-local function unlock_group_number(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_number_lock = data[tostring(target)]['settings']['lock_number']
-  if group_number_lock == 'no' then
-    return 'number posting is not locked'
-  else
-    data[tostring(target)]['settings']['lock_number'] = 'no'
-    save_data(_config.moderation.data, data)
-    return 'number posting has been unlocked'
-  end
-end
-
-local function lock_group_poker(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_poker_lock = data[tostring(target)]['settings']['lock_poker']
-  if group_poker_lock == 'yes' then
-    return 'poker posting is already locked'
-  else
-    data[tostring(target)]['settings']['lock_poker'] = 'yes'
-    save_data(_config.moderation.data, data)
-    return 'poker posting has been locked'
-  end
-end
-
-local function unlock_group_poker(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_poker_lock = data[tostring(target)]['settings']['lock_poker']
-  if group_poker_lock == 'no' then
-    return 'poker posting is not locked'
-  else
-    data[tostring(target)]['settings']['lock_poker'] = 'no'
-    save_data(_config.moderation.data, data)
-    return 'poker posting has been unlocked'
-  end
-end
-
-	local function lock_group_audio(msg, data, target)
-		local msg_type = 'Audio'
-		local chat_id = msg.to.id
-  if not is_momod(msg) then
-    return
-  end
-  local group_audio_lock = data[tostring(target)]['settings']['lock_audio']
-  if group_audio_lock == 'yes' and is_muted(chat_id, msg_type..': yes') then
-    return 'audio posting is already locked'
-  else
-    if not is_muted(chat_id, msg_type..': yes') then
-		mute(chat_id, msg_type)
-    data[tostring(target)]['settings']['lock_audio'] = 'yes'
-    save_data(_config.moderation.data, data)
-    return 'audio posting has been locked'
-    end
-  end
-end
-
-local function unlock_group_audio(msg, data, target)
-	local chat_id = msg.to.id
-	local msg_type = 'Audio'
-  if not is_momod(msg) then
-    return
-  end
-  local group_audio_lock = data[tostring(target)]['settings']['lock_audio']
-  if group_audio_lock == 'no' and not is_muted(chat_id, msg_type..': yes') then
-    return 'audio posting is not locked'
-  else
-  	if is_muted(chat_id, msg_type..': yes') then
-		unmute(chat_id, msg_type)
-    data[tostring(target)]['settings']['lock_audio'] = 'no'
-    save_data(_config.moderation.data, data)
-    return 'audio posting has been unlocked'
-    end
-  end
-end
-
-	local function lock_group_photo(msg, data, target)
-		local msg_type = 'Photo'
-		local chat_id = msg.to.id
-  if not is_momod(msg) then
-    return
-  end
-  local group_photo_lock = data[tostring(target)]['settings']['lock_photo']
-  if group_photo_lock == 'yes' and is_muted(chat_id, msg_type..': yes') then
-    return 'photo posting is already locked'
-  else
-    if not is_muted(chat_id, msg_type..': yes') then
-		mute(chat_id, msg_type)
-    data[tostring(target)]['settings']['lock_photo'] = 'yes'
-    save_data(_config.moderation.data, data)
-    return 'photo posting has been locked'
-    end
-  end
-end
-
-local function unlock_group_photo(msg, data, target)
-	local chat_id = msg.to.id
-	local msg_type = 'Photo'
-  if not is_momod(msg) then
-    return
-  end
-  local group_photo_lock = data[tostring(target)]['settings']['lock_photo']
-  if group_photo_lock == 'no' and not is_muted(chat_id, msg_type..': yes') then
-    return 'photo posting is not locked'
-  else
-  	if is_muted(chat_id, msg_type..': yes') then
-		unmute(chat_id, msg_type)
-    data[tostring(target)]['settings']['lock_photo'] = 'no'
-    save_data(_config.moderation.data, data)
-    return 'photo posting has been unlocked'
-    end
-  end
-end
-
-	local function lock_group_video(msg, data, target)
-		local msg_type = 'Video'
-		local chat_id = msg.to.id
-  if not is_momod(msg) then
-    return
-  end
-  local group_video_lock = data[tostring(target)]['settings']['lock_video']
-  if group_video_lock == 'yes' and is_muted(chat_id, msg_type..': yes') then
-    return 'video posting is already locked'
-  else
-    if not is_muted(chat_id, msg_type..': yes') then
-		mute(chat_id, msg_type)
-    data[tostring(target)]['settings']['lock_video'] = 'yes'
-    save_data(_config.moderation.data, data)
-    return 'video posting has been locked'
-    end
-  end
-end
-
-local function unlock_group_video(msg, data, target)
-	local chat_id = msg.to.id
-	local msg_type = 'Video'
-  if not is_momod(msg) then
-    return
-  end
-  local group_video_lock = data[tostring(target)]['settings']['lock_video']
-  if group_video_lock == 'no' and not is_muted(chat_id, msg_type..': yes') then
-    return 'video posting is not locked'
-  else
-  	if is_muted(chat_id, msg_type..': yes') then
-		unmute(chat_id, msg_type)
-    data[tostring(target)]['settings']['lock_video'] = 'no'
-    save_data(_config.moderation.data, data)
-    return 'video posting has been unlocked'
-    end
-  end
-end
-
-	local function lock_group_documents(msg, data, target)
-		local msg_type = 'Documents'
-		local chat_id = msg.to.id
-  if not is_momod(msg) then
-    return
-  end
-  local group_documents_lock = data[tostring(target)]['settings']['lock_documents']
-  if group_documents_lock == 'yes' and is_muted(chat_id, msg_type..': yes') then
-    return 'documents posting is already locked'
-  else
-    if not is_muted(chat_id, msg_type..': yes') then
-		mute(chat_id, msg_type)
-    data[tostring(target)]['settings']['lock_documents'] = 'yes'
-    save_data(_config.moderation.data, data)
-    return 'documents posting has been locked'
-    end
-  end
-end
-
-local function unlock_group_documents(msg, data, target)
-	local chat_id = msg.to.id
-	local msg_type = 'Documents'
-  if not is_momod(msg) then
-    return
-  end
-  local group_documents_lock = data[tostring(target)]['settings']['lock_documents']
-  if group_documents_lock == 'no' and not is_muted(chat_id, msg_type..': yes') then
-    return 'documents posting is not locked'
-  else
-  	if is_muted(chat_id, msg_type..': yes') then
-		unmute(chat_id, msg_type)
-    data[tostring(target)]['settings']['lock_documents'] = 'no'
-    save_data(_config.moderation.data, data)
-    return 'documents posting has been unlocked'
-    end
-  end
-end
-
-	local function lock_group_text(msg, data, target)
-		local msg_type = 'Text'
-		local chat_id = msg.to.id
-  if not is_momod(msg) then
-    return
-  end
-  local group_text_lock = data[tostring(target)]['settings']['lock_text']
-  if group_text_lock == 'yes' and is_muted(chat_id, msg_type..': yes') then
-    return 'text posting is already locked'
-  else
-    if not is_muted(chat_id, msg_type..': yes') then
-		mute(chat_id, msg_type)
-    data[tostring(target)]['settings']['lock_text'] = 'yes'
-    save_data(_config.moderation.data, data)
-    return 'text posting has been locked'
-    end
-  end
-end
-
-local function unlock_group_text(msg, data, target)
-	local chat_id = msg.to.id
-	local msg_type = 'Text'
-  if not is_momod(msg) then
-    return
-  end
-  local group_text_lock = data[tostring(target)]['settings']['lock_text']
-  if group_text_lock == 'no' and not is_muted(chat_id, msg_type..': yes') then
-    return 'text posting is not locked'
-  else
-  	if is_muted(chat_id, msg_type..': yes') then
-		unmute(chat_id, msg_type)
-    data[tostring(target)]['settings']['lock_text'] = 'no'
-    save_data(_config.moderation.data, data)
-    return 'text posting has been unlocked'
-    end
-  end
-end
-
-	local function lock_group_all(msg, data, target)
-		local msg_type = 'All'
-		local chat_id = msg.to.id
-  if not is_momod(msg) then
-    return
-  end
-  local group_all_lock = data[tostring(target)]['settings']['lock_all']
-  if group_all_lock == 'yes' and is_muted(chat_id, msg_type..': yes') then
-    return 'all posting is already locked'
-  else
-    if not is_muted(chat_id, msg_type..': yes') then
-		mute(chat_id, msg_type)
-    data[tostring(target)]['settings']['lock_all'] = 'yes'
-    save_data(_config.moderation.data, data)
-    return 'all posting has been locked'
-    end
-  end
-end
-
-local function unlock_group_all(msg, data, target)
-	local chat_id = msg.to.id
-	local msg_type = 'All'
-  if not is_momod(msg) then
-    return
-  end
-  local group_all_lock = data[tostring(target)]['settings']['lock_all']
-  if group_all_lock == 'no' and not is_muted(chat_id, msg_type..': yes') then
-    return 'all posting is not locked'
-  else
-  	if is_muted(chat_id, msg_type..': yes') then
-		unmute(chat_id, msg_type)
-    data[tostring(target)]['settings']['lock_all'] = 'no'
-    save_data(_config.moderation.data, data)
-    return 'all posting has been unlocked'
-    end
-  end
-end
-
-	local function lock_group_gifs(msg, data, target)
-		local msg_type = 'Gifs'
-		local chat_id = msg.to.id
-  if not is_momod(msg) then
-    return
-  end
-  local group_gifs_lock = data[tostring(target)]['settings']['lock_gifs']
-  if group_gifs_lock == 'yes' and is_muted(chat_id, msg_type..': yes') then
-    return 'gifs posting is already locked'
-  else
-    if not is_muted(chat_id, msg_type..': yes') then
-		mute(chat_id, msg_type)
-    data[tostring(target)]['settings']['lock_gifs'] = 'yes'
-    save_data(_config.moderation.data, data)
-    return 'gifs posting has been locked'
-    end
-  end
-end
-
-local function unlock_group_gifs(msg, data, target)
-	local chat_id = msg.to.id
-	local msg_type = 'Gifs'
-  if not is_momod(msg) then
-    return
-  end
-  local group_gifs_lock = data[tostring(target)]['settings']['lock_gifs']
-  if group_gifs_lock == 'no' and not is_muted(chat_id, msg_type..': yes') then
-    return 'gifs posting is not locked'
-  else
-  	if is_muted(chat_id, msg_type..': yes') then
-		unmute(chat_id, msg_type)
-    data[tostring(target)]['settings']['lock_gifs'] = 'no'
-    save_data(_config.moderation.data, data)
-    return 'gifs posting has been unlocked'
-    end
-  end
-end
-
-local function lock_group_inline(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_inline_lock = data[tostring(target)]['settings']['lock_inline']
-  if group_inline_lock == 'yes' then
-    return 'inline posting is already locked'
-  else
-    data[tostring(target)]['settings']['lock_inline'] = 'yes'
-    save_data(_config.moderation.data, data)
-    return 'inline posting has been locked'
-  end
-end
-
-local function unlock_group_inline(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_inline_lock = data[tostring(target)]['settings']['lock_inline']
-  if group_inline_lock == 'no' then
-    return 'inline posting is not locked'
-  else
-    data[tostring(target)]['settings']['lock_inline'] = 'no'
-    save_data(_config.moderation.data, data)
-    return 'inline posting has been unlocked'
-  end
-end
-
-local function lock_group_cmd(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_cmd_lock = data[tostring(target)]['settings']['lock_cmd']
-  if group_cmd_lock == 'yes' then
-    return 'cmd posting is already locked'
-  else
-    data[tostring(target)]['settings']['lock_cmd'] = 'yes'
-    save_data(_config.moderation.data, data)
-    return 'cmd posting has been locked'
-  end
-end
-
-local function unlock_group_cmd(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_cmd_lock = data[tostring(target)]['settings']['lock_cmd']
-  if group_cmd_lock == 'no' then
-    return 'cmd posting is not locked'
-  else
-    data[tostring(target)]['settings']['lock_cmd'] = 'no'
-    save_data(_config.moderation.data, data)
-    return 'cmd posting has been unlocked'
-  end
-end
-
-local function is_cmd(jtext)
-    if jtext:match("^[/#!](.*)$") then
-        return true
-    end
-    return false
-end
-
     local function isABotBadWay (user)
       local username = user.username or ''
       return username:match("[Bb]ot$")
@@ -611,10 +50,9 @@ end
 --Begin pre_process function
 local function pre_process(msg)
 -- Begin 'RondoMsgChecks' text checks by @rondoozle and Edited by @janlou
--- Powered by @AdvanTm
+-- Powered by @AdvanTeam
 -- CopyRight all right reserved
 if is_chat_msg(msg) or is_super_group(msg) then
-	if msg and not is_momod(msg) and not is_whitelisted(msg.from.id) then --if regular user
 	local data = load_data(_config.moderation.data)
 	local print_name = user_print_name(msg.from):gsub("‮", "") -- get rid of rtl in names
 	local name_log = print_name:gsub("_", " ") -- name for log
@@ -670,6 +108,7 @@ if is_chat_msg(msg) or is_super_group(msg) then
 	else
 		strict = 'no'
 	end
+	if not is_momod(msg) and not is_whitelisted(msg.from.id) then --if regular user
 		if msg and not msg.service and is_muted(msg.to.id, 'All: yes') or is_muted_user(msg.to.id, msg.from.id) and not msg.service then
 			delete_msg(msg.id, ok_cb, false)
 			if to_chat then
@@ -686,14 +125,16 @@ if is_chat_msg(msg) or is_super_group(msg) then
 					kick_user(msg.from.id, msg.to.id)
 				end
 			end
-			local is_link_msg = msg.text:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.text:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/")
+			local is_link_msg = msg.text:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.text:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/") or msg.text:match("^([https?://w]*.?telegram.me/joinchat/%S+)$") or msg.text:match("[Hh][Tt][Tt][Pp][Ss]://(.*)") or msg.text:match("[Hh][Tt][Tt][Pp]://(.*)") or msg.text:match("(.*)(.[([Cc][Oo][Mm])([Ii][Rr])([Nn][Ee][Tt])([Oo][Rr][Gg])([Ii][Oo])([Cc][Ff])([Cc][Oo])])")
 			local is_bot = msg.text:match("?[Ss][Tt][Aa][Rr][Tt]=")
 			if is_link_msg and lock_link == "yes" and not is_bot then
+				delete_msg(msg.id, ok_cb, false)
+				delete_msg(msg.id, ok_cb, false)
 				delete_msg(msg.id, ok_cb, false)
 				if strict == "yes" or to_chat then
 					kick_user(msg.from.id, msg.to.id)
 				end
-		end
+            end
 		if msg.service then 
 			if lock_tgservice == "yes" then
 				delete_msg(msg.id, ok_cb, false)
@@ -728,6 +169,8 @@ if is_chat_msg(msg) or is_super_group(msg) then
 			if msg.media.title then
 				local is_link_title = msg.media.title:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.media.title:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/")
 				if is_link_title and lock_link == "yes" then
+					delete_msg(msg.id, ok_cb, false)
+					delete_msg(msg.id, ok_cb, false)
 					delete_msg(msg.id, ok_cb, false)
 					if strict == "yes" or to_chat then
 						kick_user(msg.from.id, msg.to.id)
@@ -888,9 +331,7 @@ if is_chat_msg(msg) or is_super_group(msg) then
 				end
 			end
 		end
-   end
-   if not is_momod(msg) and not is_whitelisted(msg.from.id) and not is_sudo(msg) and not is_owner(msg) and not is_vip(msg) then
-            if msg.text:match("@[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz][_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz][_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz][_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz][ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]") then
+            --[[if msg.text:match("@[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz][_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz][_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz][_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz][ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]") then
 	            if lock_link == 'yes' then
 	                if msg.to.type == 'channel' then
 	                    if strict == 'no' then
@@ -904,8 +345,7 @@ if is_chat_msg(msg) or is_super_group(msg) then
 		                 kick_user(msg.from.id, msg.to.id)
 	                  end
 		        end
-            end	
-   end
+            end]]
    if msg.text:match("/[Ss][Tt][Aa][Rr][Tt]") then
 		if msg.to.type == "user" then
 			return "Hello dear ["..msg.from.print_name.."], welcome to "..msg.to.print_name.."\nThanks for /start me :)\n"
@@ -931,7 +371,6 @@ if is_chat_msg(msg) or is_super_group(msg) then
 	user = "user"
 	chat =  "chat"
 	channel = "channel"
-	    if not is_momod(msg) and not is_whitelisted(msg.from.id) and not is_sudo(msg) and not is_owner(msg) and not is_admin1(msg) then
 		local data = load_data(_config.moderation.data)
 		if data[tostring(msg.to.id)] then
         if data[tostring(msg.to.id)]['settings'] then
@@ -1069,178 +508,52 @@ if is_chat_msg(msg) or is_super_group(msg) then
 				end
 			end
 			--Inline lock.
-			--Remove filter word:
-		if msg.text:match("^(.+)$") then
-            name = user_print_name(msg.from)
-            return list_variables2(msg, msg.text)
-        end
-		    --Remove filter word.
 		end
-	end
 	
-end
             --Fwd lock:
-        if redis:get('fwd:'..msg.to.id) and msg.fwd_from and not is_sudo(msg) and not is_owner(msg) and not is_momod(msg) and not is_admin1(msg) then
-            if lock_strict == "no" then
-				delete_msg(msg.id, ok_cb, true)
-		    elseif lock_strict == "yes" then
-				delete_msg(msg.id, ok_cb, true)
-			    kick_user(msg.from.id, msg.to.id)
+		if msg.fwd_from then
+            if redis:get('fwd:'..msg.to.id) then
+                if lock_strict == "no" then
+				    delete_msg(msg.id, ok_cb, true)
+		        elseif lock_strict == "yes" then
+				    delete_msg(msg.id, ok_cb, true)
+			        kick_user(msg.from.id, msg.to.id)
+			    end
 			end
         end
             --Fwd lock.
             --Reply lock:
-        if redis:get('reply:'..msg.to.id) and msg.reply_id and not is_sudo(msg) and not is_owner(msg) and not is_momod(msg) and not is_admin1(msg) then
-            if lock_strict == "no" then
-				delete_msg(msg.id, ok_cb, true)
-		    elseif lock_strict == "yes" then
-				delete_msg(msg.id, ok_cb, true)
-			    kick_user(msg.from.id, msg.to.id)
+		if msg.reply_id then
+            if redis:get('reply:'..msg.to.id) then
+                if lock_strict == "no" then
+				    delete_msg(msg.id, ok_cb, true)
+		        elseif lock_strict == "yes" then
+				    delete_msg(msg.id, ok_cb, true)
+			        kick_user(msg.from.id, msg.to.id)
+			    end
 			end
         end
             --Reply lock.
 			--Cmd Lock:
-		if lock_cmd == "yes" and is_cmd(msg.text) and not is_momod(msg) then
+	    if msg.text:match("^[/#!](.*)$") and lock_cmd == "yes" then
             if lock_strict == "no" then
 				delete_msg(msg.id, ok_cb, true)
 		    elseif lock_strict == "yes" then
 				delete_msg(msg.id, ok_cb, true)
 			    kick_user(msg.from.id, msg.to.id)
 			end
+		return false
         end
 			--Cmd Lock.
 -- End 'RondoMsgChecks' text checks by @Rondoozle
+   end
+   end
 	return msg
 end
 --End pre_process function
-
- function run(msg, matches) 
-	--Lock or Unlock settings:
-	if is_momod(msg) then
-	  if is_super_group(msg) then
-	    if matches[1] == 'lock' then
-			local target = msg.to.id
-			local data = load_data(_config.moderation.data)
-			if matches[2] == 'media' then
-				return lock_group_media(msg, data, target)
-			end
-			if matches[2] == 'fwd' then
-				return lock_group_fwd(msg, data, target)
-			end
-			if matches[2] == 'reply' then
-				return lock_group_reply(msg, data, target)
-			end
-			if matches[2] == 'share' then
-				return lock_group_share(msg, data, target)
-			end
-			if matches[2] == 'tag' then
-				return lock_group_tag(msg, data, target)
-			end
-			if matches[2] == 'bots' then
-				return lock_group_bots(msg, data, target)
-			end
-			if matches[2] == 'number' then
-				return lock_group_number(msg, data, target)
-			end
-			if matches[2] == 'poker' then
-				return lock_group_poker(msg, data, target)
-			end
-			if matches[2] == 'audio' then
-				return lock_group_audio(msg, data, target)
-			end
-			if matches[2] == 'photo' then
-				return lock_group_photo(msg, data, target)
-			end
-			if matches[2] == 'video' then
-				return lock_group_video(msg, data, target)
-			end
-			if matches[2] == 'documents' then
-				return lock_group_documents(msg, data, target)
-			end
-			if matches[2] == 'text' then
-				return lock_group_text(msg, data, target)
-			end
-			if matches[2] == 'all' then
-				return lock_group_all(msg, data, target)
-			end
-			if matches[2] == 'gifs' then
-				return lock_group_gifs(msg, data, target)
-			end
-			if matches[2] == 'inline' then
-				return lock_group_inline(msg, data, target)
-			end
-			if matches[2] == 'cmd' then
-				return lock_group_cmd(msg, data, target)
-			end
-        end
-		
-		if matches[1] == 'unlock' then
-			local target = msg.to.id
-			local data = load_data(_config.moderation.data)
-			if matches[2] == 'media' then
-				return unlock_group_media(msg, data, target)
-			end
-			if matches[2] == 'fwd' then
-				return unlock_group_fwd(msg, data, target)
-			end
-			if matches[2] == 'reply' then
-				return unlock_group_reply(msg, data, target)
-			end
-			if matches[2] == 'share' then
-				return unlock_group_share(msg, data, target)
-			end
-			if matches[2] == 'tag' then
-				return unlock_group_tag(msg, data, target)
-			end
-			if matches[2] == 'bots' then
-				return unlock_group_bots(msg, data, target)
-			end
-			if matches[2] == 'number' then
-				return unlock_group_number(msg, data, target)
-			end
-			if matches[2] == 'poker' then
-				return unlock_group_poker(msg, data, target)
-			end
-			if matches[2] == 'audio' then
-				return unlock_group_audio(msg, data, target)
-			end
-			if matches[2] == 'photo' then
-				return unlock_group_photo(msg, data, target)
-			end
-			if matches[2] == 'video' then
-				return unlock_group_video(msg, data, target)
-			end
-			if matches[2] == 'documents' then
-				return unlock_group_documents(msg, data, target)
-			end
-			if matches[2] == 'text' then
-				return unlock_group_text(msg, data, target)
-			end
-			if matches[2] == 'all' then
-				return unlock_group_all(msg, data, target)
-			end
-			if matches[2] == 'gifs' then
-				return unlock_group_gifs(msg, data, target)
-			end
-			if matches[2] == 'inline' then
-				return unlock_group_inline(msg, data, target)
-			end
-			if matches[2] == 'cmd' then
-				return unlock_group_cmd(msg, data, target)
-			end
-         end
-        end
-	end
-	--Lock or Unlock settings.
- end
- --End run function
 return {
-	patterns = {
-"^[!/#](lock) (.*)$",
-"^[!/#](unlock) (.*)$",
-	},
+	patterns = {},
 	pre_process = pre_process,
-	run = run
 }
 --End security.lua
 --By @Rondoozle
