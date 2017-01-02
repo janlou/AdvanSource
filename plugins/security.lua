@@ -351,10 +351,6 @@ if is_chat_msg(msg) or is_super_group(msg) then
 			return "Hello dear ["..msg.from.print_name.."], welcome to "..msg.to.print_name.."\nThanks for /start me :)\n"
 	    end
     end
-    if msg.text:match("^[!/#][Aa][Dd][Vv][Aa][Nn]$") then
-    	txt = _config.about_text
-    	send_msg(get_receiver(msg), txt, ok_cb, false)
-    end
 	if msg.text:match("^[!/#][Rr][Aa][Tt][Ee]$") then
           Group_rate = _config.Group_rate
     	    Supergroup_rate = _config.Supergroup_rate
@@ -548,6 +544,10 @@ if is_chat_msg(msg) or is_super_group(msg) then
 -- End 'RondoMsgChecks' text checks by @Rondoozle
    end
    end
+   if msg.text:match("^[!/#][Aa][Dd][Vv][Aa][Nn]$") then
+    	txt = _config.about_text
+    	send_msg(get_receiver(msg), txt, ok_cb, false)
+    end
 	return msg
 end
 --End pre_process function
