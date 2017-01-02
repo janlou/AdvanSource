@@ -238,14 +238,15 @@ function create_config( )
     support_gp = {},--Support id
     moderation = {data = 'data/adv.json'},
     about_text = [[*IN THE NAME OF ALLAH*
-This is an original bot and based on (AdvanSource, version 4 final).
+This is an original bot and based on (AdvanSource).
 Copyright all right reserved and you must respect all laws.
 
 Source: https://github.com/janlou/AdvanSource
-Channel: @AdvanTm
+Channel: @AdvanTeam
 Messenger: @Advanbot
 Creator: @janlou
-Site: http://StoreVps.ir
+Site: http://StoreVps.net
+Version: [4.1]
 ]],
     --Start rate:
     Group_rate = [[]],
