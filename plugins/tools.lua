@@ -1177,48 +1177,27 @@ function run(msg, matches, callback, extra)
         end
 	   --Setbye.
 	   --Setwlc:
-       if res ~= 200 then return end
-       local jdat = json:decode(urlwlc)
 	    if matches[1] == 'setwlc' and matches[2] then
 	        if not is_owner(msg) then
 			    return "فقط مخصوص مدیر گروه"
 			end
-			redis:hset('wlc:'..msg.to.id, 'welcome', matches[2])
+			redis:set('wlc:'..msg.to.id, matches[2])
             return 'متن خوش آمد گویی گروه تنظیم شد به : \n'..matches[2]
 	    end
 		if matches[1] == 'delwlc' then
 		    if not is_owner(msg) then
 			    return "فقط مخصوص مدیر گروه"
 			end	
-			redis:hdel('wlc:'..msg.to.id,'welcome')
+			redis:del('wlc:'..msg.to.id)
             return 'متن خوش آمد گویی با موفقیت حذف شد'
 		end
-		if matches[1] == 'chat_add_user' or 'chat_add_user_link' or 'channel_invite' and msg.service then
-				data = load_data(_config.moderation.data)
-				rules = data[tostring(msg.to.id)]['rules']
-				about = data[tostring(msg.to.id)]['description']
-				wlc = 'wlc:'..msg.to.id
-	            urlwlc , res = http.request('http://api.gpmod.ir/time/')
-				group_welcome = redis:hget(wlc,'welcome')
-                --[[group_welcome = string.gsub(group_welcome, '{gpname}', msg.to.title)
-                group_welcome = string.gsub(group_welcome, '{firstname}', ""..(msg.from.first_name or '').."")
-                group_welcome = string.gsub(group_welcome, '{lastname}', ""..(msg.from.last_name or '').."")
-                group_welcome = string.gsub(group_welcome, '{username}', "@"..(msg.from.username or '').."")
-                group_welcome = string.gsub(group_welcome, '{fatime}', ""..(jdat.FAtime).."")
-                group_welcome = string.gsub(group_welcome, '{entime}', ""..(jdat.ENtime).."")
-                group_welcome = string.gsub(group_welcome, '{fadate}', ""..(jdat.FAdate).."")
-                group_welcome = string.gsub(group_welcome, '{endate}', ""..(jdat.ENdate).."")
-                group_welcome = string.gsub(group_welcome, '{rules}', ""..(rules or '').."")
-                group_welcome = string.gsub(group_welcome, '{about}', ""..(about or '').."")
-                group_welcome = string.gsub(group_welcome, '{نام گروه}', msg.to.title)
-                group_welcome = string.gsub(group_welcome, '{نام اول}', ""..(msg.from.first_name or '').."")
-                group_welcome = string.gsub(group_welcome, '{نام آخر}', ""..(msg.from.last_name or '').."")
-                group_welcome = string.gsub(group_welcome, '{نام کاربری}', "@"..(msg.from.username or '').."")
-                group_welcome = string.gsub(group_welcome, '{ساعت فارسی}', ""..(jdat.FAtime).."")
-                group_welcome = string.gsub(group_welcome, '{ساعت انگلیسی}', ""..(jdat.ENtime).."")
-                group_welcome = string.gsub(group_welcome, '{تاریخ فارسی}', ""..(jdat.FAdate).."")
-                group_welcome = string.gsub(group_welcome, '{تاریخ انگلیسی}', ""..(jdat.ENdate).."")]]
-				return group_welcome
+		if matches[1] == 'chat_add_user' or matches[1] == 'chat_add_user_link' or matches[1] == 'channel_invite' then
+		    send = redis:get("wlc:"..msg.to.id)
+			if send then
+                return send
+            elseif not send then
+                return
+            end
 	    end
 	   --Setwlc.
 end
