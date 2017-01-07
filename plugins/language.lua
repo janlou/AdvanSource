@@ -10,7 +10,7 @@ function run(msg, matches)
  if matches[1] == "setlang" and matches[2] == "fa" then
     redis:set("sp:lang", "fa")
     file = http.request("http://nahrup.ir/view/811/supergroup-fa.txt")
-	tools = http.request("http://nahrup.ir/view/972/tools-fa.txt")
+	tools = http.request("http://nahrup.ir/view/975/tools-fa4.txt")
     local b = 1
     while b ~= 0 do
     file = file:trim()
@@ -33,7 +33,7 @@ function run(msg, matches)
 elseif matches[1] == "setlang" and matches[2] == "en" then
     redis:set("sp:lang", "en")
     file = http.request("http://nahrup.ir/view/810/supergroup-en.txt")
-	tools = http.request("http://nahrup.ir/view/971/tools-en.txt")
+	tools = http.request("http://nahrup.ir/view/974/tools-en4.txt")
     local b = 1
     while b ~= 0 do
     file = file:trim()
@@ -56,7 +56,7 @@ elseif matches[1] == "setlang" and matches[2] == "en" then
 elseif matches[1] == "setlang" and matches[2] == "فا" then
     redis:set("sp:lang", "فا")
     file = http.request("http://nahrup.ir/view/802/supergroup-farsi.txt")
-	tools = http.request("http://nahrup.ir/view/973/tools-farsi.txt")
+	tools = http.request("http://nahrup.ir/view/976/tools-farsi4.txt")
     local b = 1
     while b ~= 0 do
     file = file:trim()
