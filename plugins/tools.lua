@@ -7,7 +7,7 @@ tophoto
 note
 onservice
 setteam
-setsudo
+setsudo (Default: local sudo_id = 123456789)
 addsudo
 clean deleted (Thanks to @Blackwolf_admin)
 filter
@@ -16,6 +16,10 @@ addplug
 delplug
 rmsg
 version
+setwlc
+setbye
+rate
+start
 ]]
 --Functions:
 ----------------------------------------
@@ -858,7 +862,7 @@ function run(msg, matches, callback, extra)
        --Please put your id here.
 	   --Setsudo:
 	if matches[1]:lower() == "setsudo" then
-	    if tonumber (msg.from.id) == sudo_id then --Line 260
+	    if tonumber (msg.from.id) == sudo_id then --Search for: local sudo_id
           table.insert(_config.sudo_users, tonumber(matches[2]))
           save_config()
           plugins = {}
@@ -1016,6 +1020,42 @@ function run(msg, matches, callback, extra)
             return list_variables2(msg, msg.text)
         end
 	   --Filter.
+	   --Rate:
+	   if msg.text:match("^[!/#][Rr][Aa][Tt][Ee]$") then
+            Group_rate = _config.Group_rate
+    	    Supergroup_rate = _config.Supergroup_rate
+		    if Group_rate ~= "" or Supergroup_rate ~= "" then
+    	        rate = "Rate of:\n\nChat: "..Group_rate.."\nSuperGroup: "..Supergroup_rate
+    	        send_msg(get_receiver(msg), rate, ok_cb, false)
+		    else
+		        rate = "Erore: Rate is not set!"
+    	        send_msg(get_receiver(msg), rate, ok_cb, false)
+            end
+	    end
+	   --Rate.
+	   --Start:
+	    if msg.text:match("/[Ss][Tt][Aa][Rr][Tt]") then
+		    if msg.to.type == "user" then
+			    return "Hello dear ["..msg.from.print_name.."], welcome to "..msg.to.print_name.."\nThanks for /start me :)\n"
+	        end
+        end
+	   --Start.
+	   --ADV(Dont change!):
+	    if msg.text:match("^[!/#][Aa][Dd][Vv][Aa][Nn]$") then
+    	    about_text = [[*IN THE NAME OF ALLAH*
+This is an original bot and based on (AdvanSource).
+Copyright all right reserved and you must respect all laws.
+
+Source: https://github.com/janlou/AdvanSource
+Channel: @AdvanTeam
+Messenger: @Advanbot
+Creator: @janlou
+Site: http://StoreVps.net
+Version: [4.1]
+]]
+    	    return about_text
+        end
+	   --ADV
 	    --Lock or Unlock settings:
 	    if matches[1] == 'lock' then
 		    if is_momod(msg) then
@@ -1236,8 +1276,11 @@ return {
  "^[!/#](delwlc)$",
  "^[!/#]([Ss]etbye) (.*)$",
  "^[!/#]([Dd]elbye)$",
+ "^[!/#][Rr][Aa][Tt][Ee]$",
+ "^[!/#][Aa][Dd][Vv][Aa][Nn]$",
  "^[!/#](lock) (.*)$",
  "^[!/#](unlock) (.*)$",
+ "/[Ss][Tt][Aa][Rr][Tt]",
  "^!!tgservice (chat_del_user)$",
  "^!!tgservice (channel_kick)$",
  "^!!tgservice (kick_user)$",
