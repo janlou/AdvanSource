@@ -179,11 +179,9 @@ if is_chat_msg(msg) or is_super_group(msg) then
 					kick_user(msg.from.id, msg.to.id)
 				end
 			end
-			local is_link_msg = msg.text:match("[Tt].[Mm][Ee]/") or msg.text:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.text:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/") or msg.text:match("^([https?://w]*.?telegram.me/joinchat/%S+)$") or msg.text:match("[Hh][Tt][Tt][Pp][Ss]://(.*)") or msg.text:match("[Hh][Tt][Tt][Pp]://(.*)") or msg.text:match("(.*).[Cc][Oo][Mm]") or msg.text:match("(.*).[Ii][Rr]") or msg.text:match("(.*).[Nn][Ee][Tt]") or msg.text:match("(.*).[Oo][Rr][Gg]") or msg.text:match("(.*).[Ii][Oo]") or msg.text:match("(.*).[Cc][Ff]") or msg.text:match("(.*).[Cc][Oo]") or msg.text:match("(.*).[Mm][Ee]") or msg.text:match("(.*).[Ii][Nn][Ff][Oo]") or msg.text:match("(.*).[Jj][Pp]") or msg.text:match("(.*).[Ii][Tt]")
+			local is_link_msg = msg.text:match("[Tt].[Mm][Ee]/") or msg.text:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.text:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/") or msg.text:match("^([https?://w]*.?telegram.me/joinchat/%S+)$") or msg.text:match("[Hh][Tt][Tt][Pp][Ss]://(.*)") or msg.text:match("[Hh][Tt][Tt][Pp]://(.*)")
 			local is_bot = msg.text:match("?[Ss][Tt][Aa][Rr][Tt]=")
 			if is_link_msg and lock_link == "yes" and not is_bot then
-				delete_msg(msg.id, ok_cb, false)
-				delete_msg(msg.id, ok_cb, false)
 				delete_msg(msg.id, ok_cb, false)
 				if strict == "yes" or to_chat then
 					kick_user(msg.from.id, msg.to.id)
@@ -197,6 +195,13 @@ if is_chat_msg(msg) or is_super_group(msg) then
 				end
 			end
 		end
+			local is_squig_msg = msg.text:match("[\216-\219][\128-\191]")
+			if is_squig_msg and lock_arabic == "yes" then
+				delete_msg(msg.id, ok_cb, false)
+				if strict == "yes" or to_chat then
+					kick_user(msg.from.id, msg.to.id)
+				end
+			end
 			local print_name = msg.from.print_name
 			local is_rtl = print_name:match("‮") or msg.text:match("‮")
 			if is_rtl and lock_rtl == "yes" then
@@ -214,7 +219,7 @@ if is_chat_msg(msg) or is_super_group(msg) then
 		end
 		if msg.media then -- msg.media checks
 			if msg.media.title then
-			    local is_link_title = msg.media.title:match("[Tt].[Mm][Ee]/") or msg.media.title:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.media.title:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/") or msg.media.title:match("^([https?://w]*.?telegram.me/joinchat/%S+)$") or msg.media.title:match("[Hh][Tt][Tt][Pp][Ss]://(.*)") or msg.media.title:match("[Hh][Tt][Tt][Pp]://(.*)") or msg.media.title:match("(.*).[Cc][Oo][Mm]") or msg.media.title:match("(.*).[Ii][Rr]") or msg.media.title:match("(.*).[Nn][Ee][Tt]") or msg.media.title:match("(.*).[Oo][Rr][Gg]") or msg.media.title:match("(.*).[Ii][Oo]") or msg.media.title:match("(.*).[Cc][Ff]") or msg.media.title:match("(.*).[Cc][Oo]") or msg.media.title:match("(.*).[Mm][Ee]") or msg.media.title:match("(.*).[Ii][Nn][Ff][Oo]") or msg.media.title:match("(.*).[Jj][Pp]") or msg.media.title:match("(.*).[Ii][Tt]")
+				local is_link_title = msg.media.title:match("[Tt].[Mm][Ee]/") or msg.media.title:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.media.title:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/")
 				if is_link_title and lock_link == "yes" then
 					delete_msg(msg.id, ok_cb, false)
 					delete_msg(msg.id, ok_cb, false)
@@ -223,10 +228,24 @@ if is_chat_msg(msg) or is_super_group(msg) then
 						kick_user(msg.from.id, msg.to.id)
 					end
 				end
+				local is_squig_title = msg.media.title:match("[\216-\219][\128-\191]")
+				if is_squig_title and lock_arabic == "yes" then
+					delete_msg(msg.id, ok_cb, false)
+					if strict == "yes" or to_chat then
+						kick_user(msg.from.id, msg.to.id)
+					end
+				end
 			end
 			if msg.media.description then
-			    local is_link_desc = msg.media.description:match("[Tt].[Mm][Ee]/") or msg.media.description:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.media.description:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/") or msg.media.description:match("^([https?://w]*.?telegram.me/joinchat/%S+)$") or msg.media.description:match("[Hh][Tt][Tt][Pp][Ss]://(.*)") or msg.media.description:match("[Hh][Tt][Tt][Pp]://(.*)") or msg.media.description:match("(.*).[Cc][Oo][Mm]") or msg.media.description:match("(.*).[Ii][Rr]") or msg.media.description:match("(.*).[Nn][Ee][Tt]") or msg.media.description:match("(.*).[Oo][Rr][Gg]") or msg.media.description:match("(.*).[Ii][Oo]") or msg.media.description:match("(.*).[Cc][Ff]") or msg.media.description:match("(.*).[Cc][Oo]") or msg.media.description:match("(.*).[Mm][Ee]") or msg.media.description:match("(.*).[Ii][Nn][Ff][Oo]") or msg.media.description:match("(.*).[Jj][Pp]") or msg.media.description:match("(.*).[Ii][Tt]")
+				local is_link_desc = msg.media.description:match("[Tt].[Mm][Ee]/") or msg.media.description:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.media.description:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/")
 				if is_link_desc and lock_link == "yes" then
+					delete_msg(msg.id, ok_cb, false)
+					if strict == "yes" or to_chat then
+						kick_user(msg.from.id, msg.to.id)
+					end
+				end
+				local is_squig_desc = msg.media.description:match("[\216-\219][\128-\191]")
+				if is_squig_desc and lock_arabic == "yes" then
 					delete_msg(msg.id, ok_cb, false)
 					if strict == "yes" or to_chat then
 						kick_user(msg.from.id, msg.to.id)
@@ -234,13 +253,20 @@ if is_chat_msg(msg) or is_super_group(msg) then
 				end
 			end
 			if msg.media.caption then -- msg.media.caption checks
-			    local is_link_caption = msg.media.caption:match("[Tt].[Mm][Ee]/") or msg.media.caption:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.media.caption:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/") or msg.media.caption:match("^([https?://w]*.?telegram.me/joinchat/%S+)$") or msg.media.caption:match("[Hh][Tt][Tt][Pp][Ss]://(.*)") or msg.media.caption:match("[Hh][Tt][Tt][Pp]://(.*)") or msg.media.caption:match("(.*).[Cc][Oo][Mm]") or msg.media.caption:match("(.*).[Ii][Rr]") or msg.media.caption:match("(.*).[Nn][Ee][Tt]") or msg.media.caption:match("(.*).[Oo][Rr][Gg]") or msg.media.caption:match("(.*).[Ii][Oo]") or msg.media.caption:match("(.*).[Cc][Ff]") or msg.media.caption:match("(.*).[Cc][Oo]") or msg.media.caption:match("(.*).[Mm][Ee]") or msg.media.caption:match("(.*).[Ii][Nn][Ff][Oo]") or msg.media.caption:match("(.*).[Jj][Pp]") or msg.media.caption:match("(.*).[Ii][Tt]")
+				local is_link_caption = msg.media.caption:match("[Tt].[Mm][Ee]/") or msg.media.caption:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.media.caption:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/")
 				if is_link_caption and lock_link == "yes" then
 					delete_msg(msg.id, ok_cb, false)
 					if strict == "yes" or to_chat then
 						kick_user(msg.from.id, msg.to.id)
 					end
 				end
+				local is_squig_caption = msg.media.caption:match("[\216-\219][\128-\191]")
+					if is_squig_caption and lock_arabic == "yes" then
+						delete_msg(msg.id, ok_cb, false)
+						if strict == "yes" or to_chat then
+							kick_user(msg.from.id, msg.to.id)
+						end
+					end
 				local is_username_caption = msg.media.caption:match("^@[%a%d]")
 				if is_username_caption and lock_link == "yes" then
 					delete_msg(msg.id, ok_cb, false)
@@ -297,8 +323,15 @@ if is_chat_msg(msg) or is_super_group(msg) then
 		end
 		if msg.fwd_from then
 			if msg.fwd_from.title then
-			    local is_link_title = msg.fwd_from.title:match("[Tt].[Mm][Ee]/") or msg.fwd_from.title:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.fwd_from.title:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/") or msg.fwd_from.title:match("^([https?://w]*.?telegram.me/joinchat/%S+)$") or msg.fwd_from.title:match("[Hh][Tt][Tt][Pp][Ss]://(.*)") or msg.fwd_from.title:match("[Hh][Tt][Tt][Pp]://(.*)") or msg.fwd_from.title:match("(.*).[Cc][Oo][Mm]") or msg.fwd_from.title:match("(.*).[Ii][Rr]") or msg.fwd_from.title:match("(.*).[Nn][Ee][Tt]") or msg.fwd_from.title:match("(.*).[Oo][Rr][Gg]") or msg.fwd_from.title:match("(.*).[Ii][Oo]") or msg.fwd_from.title:match("(.*).[Cc][Ff]") or msg.fwd_from.title:match("(.*).[Cc][Oo]") or msg.fwd_from.title:match("(.*).[Mm][Ee]") or msg.fwd_from.title:match("(.*).[Ii][Nn][Ff][Oo]") or msg.fwd_from.title:match("(.*).[Jj][Pp]") or msg.fwd_from.title:match("(.*).[Ii][Tt]")
+				local is_link_title = msg.fwd_from.title:match("[Tt].[Mm][Ee]/") or msg.fwd_from.title:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.fwd_from.title:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/")
 				if is_link_title and lock_link == "yes" then
+					delete_msg(msg.id, ok_cb, false)
+					if strict == "yes" or to_chat then
+						kick_user(msg.from.id, msg.to.id)
+					end
+				end
+				local is_squig_title = msg.fwd_from.title:match("[\216-\219][\128-\191]")
+				if is_squig_title and lock_arabic == "yes" then
 					delete_msg(msg.id, ok_cb, false)
 					if strict == "yes" or to_chat then
 						kick_user(msg.from.id, msg.to.id)
@@ -368,10 +401,8 @@ if is_chat_msg(msg) or is_super_group(msg) then
 		if msg.text:match("%[(contact)%]") then
             if lock_share == "yes" then
 		        if msg.to.type == channel then
-                    if lock_strict == "no" then
-				        delete_msg(msg.id, ok_cb, true)
-				    elseif lock_strict == "yes" then
-						delete_msg(msg.id, ok_cb, true)
+				    delete_msg(msg.id, ok_cb, true)
+                    if lock_strict == "yes" then
 			            kick_user(msg.from.id, msg.to.id)
 				    end
 		        end
@@ -382,10 +413,8 @@ if is_chat_msg(msg) or is_super_group(msg) then
 		if msg.text:match("%d+") then
             if lock_number == "yes" then
 		        if msg.to.type == channel then
-                    if lock_strict == "no" then
-				        delete_msg(msg.id, ok_cb, true)
-				    elseif lock_strict == "yes" then
-						delete_msg(msg.id, ok_cb, true)
+				    delete_msg(msg.id, ok_cb, true)
+                    if lock_strict == "yes" then
 			            kick_user(msg.from.id, msg.to.id)
 				    end
 		        end
@@ -395,28 +424,20 @@ if is_chat_msg(msg) or is_super_group(msg) then
 			--Poker lock:
 		if msg.text:match("😐") then
             if lock_poker == "yes" then
-		        if msg.to.type == channel then
-                    if lock_strict == "no" then
-				        delete_msg(msg.id, ok_cb, true)
-				    elseif lock_strict == "yes" then
-						delete_msg(msg.id, ok_cb, true)
-			            kick_user(msg.from.id, msg.to.id)
-				    end
-		        end
+			    delete_msg(msg.id, ok_cb, true)
+                if lock_strict == "yes" then
+			        kick_user(msg.from.id, msg.to.id)
+				end
             end
 		end
 			--Poker lock.
 			--Tag lock:
 	    if msg.text:match("#") then
             if lock_tag == "yes" then
-		        if msg.to.type == channel then
-				    if lock_strict == "no" then
-				        delete_msg(msg.id, ok_cb, true)
-				    elseif lock_strict == "yes" then
-						delete_msg(msg.id, ok_cb, true)
-			            kick_user(msg.from.id, msg.to.id)
-				    end
-		        end
+		        delete_msg(msg.id, ok_cb, true)
+				if lock_strict == "yes" then
+			        kick_user(msg.from.id, msg.to.id)
+				end
             end
 		end
 			--Tag lock.
@@ -439,37 +460,31 @@ if is_chat_msg(msg) or is_super_group(msg) then
 			if msg.text == "[unsupported]" then
 			    if msg.to.type == channel then
 			        if lock_inline == "yes" then
-					    if lock_strict == "no" then
-				            delete_msg(msg.id, ok_cb, true)
-						elseif lock_strict == "yes" then
-						    delete_msg(msg.id, ok_cb, true)
+					    delete_msg(msg.id, ok_cb, true)
+					    if lock_strict == "yes" then
 			                kick_user(msg.from.id, msg.to.id)
 						end
 					end
 				end
 			end
-			--Inline lock.
+			--Inline lock.	
             --Fwd lock:
 		if msg.fwd_from then
-		    if msg.text or msg.media then
+		if msg.media or not msg.media then
             if redis:get('fwd:'..msg.to.id) then
-                if lock_strict == "no" then
-				    delete_msg(msg.id, ok_cb, true)
-		        elseif lock_strict == "yes" then
-				    delete_msg(msg.id, ok_cb, true)
+			    delete_msg(msg.id, ok_cb, true)
+                if lock_strict == "yes" then
 			        kick_user(msg.from.id, msg.to.id)
 			    end
 			end
-			end
+		end
         end
             --Fwd lock.
             --Reply lock:
 		if msg.reply_id then
             if redis:get('reply:'..msg.to.id) then
-                if lock_strict == "no" then
-				    delete_msg(msg.id, ok_cb, true)
-		        elseif lock_strict == "yes" then
-				    delete_msg(msg.id, ok_cb, true)
+			    delete_msg(msg.id, ok_cb, true)
+                if lock_strict == "yes" then
 			        kick_user(msg.from.id, msg.to.id)
 			    end
 			end
@@ -477,10 +492,8 @@ if is_chat_msg(msg) or is_super_group(msg) then
             --Reply lock.
 			--Cmd Lock:
 	    if msg.text:match("^[/#!](.*)$") and lock_cmd == "yes" then
-            if lock_strict == "no" then
-				delete_msg(msg.id, ok_cb, true)
-		    elseif lock_strict == "yes" then
-				delete_msg(msg.id, ok_cb, true)
+			delete_msg(msg.id, ok_cb, true)
+		    if lock_strict == "yes" then
 			    kick_user(msg.from.id, msg.to.id)
 			end
 		return false
