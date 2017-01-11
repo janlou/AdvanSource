@@ -2,7 +2,7 @@
 --Prerequisite:
     local function isABotBadWay (user)
       local username = user.username or ''
-      return username:match("[Bb]ot$")
+      return username:match("bot$")
     end
 	
 	local function get_variables_hash(msg)
@@ -45,13 +45,19 @@ end
       --text = text..names[i]..'\n'
     end
   end
+  local function kickUser(userId, chatId)
+  local chat = 'chat#id'..chatId
+  local user = 'user#id'..userId
+  chat_del_user(chat, user, function (data, success, result)
+    if success ~= 1 then
+    end
+  end, {chat=chat, user=user})
 end
 	--Prerequisite.
 --Begin pre_process function
 local function pre_process(msg)
 -- Begin 'RondoMsgChecks' text checks by @rondoozle and Edited by @janlou
--- Powered by @AdvanTeam
--- CopyRight all right reserved
+-- Powered by @AdvanTeam & CopyRight all right reserved
 if is_chat_msg(msg) or is_super_group(msg) then
 	local data = load_data(_config.moderation.data)
 	local print_name = user_print_name(msg.from):gsub("‮", "") -- get rid of rtl in names
@@ -66,11 +72,6 @@ if is_chat_msg(msg) or is_super_group(msg) then
 		settings = data[tostring(msg.to.id)]['settings']
 	else
 		return
-	end
-	if settings.lock_arabic then
-		lock_arabic = settings.lock_arabic
-	else
-		lock_arabic = 'no'
 	end
 	if settings.lock_rtl then
 		lock_rtl = settings.lock_rtl
@@ -179,7 +180,7 @@ if is_chat_msg(msg) or is_super_group(msg) then
 					kick_user(msg.from.id, msg.to.id)
 				end
 			end
-			local is_link_msg = msg.text:match("[Tt].[Mm][Ee]/") or msg.text:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.text:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/") or msg.text:match("^([https?://w]*.?telegram.me/joinchat/%S+)$") or msg.text:match("[Hh][Tt][Tt][Pp][Ss]://(.*)") or msg.text:match("[Hh][Tt][Tt][Pp]://(.*)")
+			local is_link_msg = msg.text:match("[Hh][Tt][Tt][Pp]://[Tt].[Mm][Ee]/") or msg.text:match("[Tt].[Mm][Ee]") or msg.text:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.text:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/") or msg.text:match("^([https?://w]*.?telegram.me/joinchat/%S+)$") or msg.text:match("[Hh][Tt][Tt][Pp][Ss]://(.*)") or msg.text:match("[Hh][Tt][Tt][Pp]://(.*)")
 			local is_bot = msg.text:match("?[Ss][Tt][Aa][Rr][Tt]=")
 			if is_link_msg and lock_link == "yes" and not is_bot then
 				delete_msg(msg.id, ok_cb, false)
@@ -195,13 +196,6 @@ if is_chat_msg(msg) or is_super_group(msg) then
 				end
 			end
 		end
-			local is_squig_msg = msg.text:match("[\216-\219][\128-\191]")
-			if is_squig_msg and lock_arabic == "yes" then
-				delete_msg(msg.id, ok_cb, false)
-				if strict == "yes" or to_chat then
-					kick_user(msg.from.id, msg.to.id)
-				end
-			end
 			local print_name = msg.from.print_name
 			local is_rtl = print_name:match("‮") or msg.text:match("‮")
 			if is_rtl and lock_rtl == "yes" then
@@ -219,7 +213,7 @@ if is_chat_msg(msg) or is_super_group(msg) then
 		end
 		if msg.media then -- msg.media checks
 			if msg.media.title then
-				local is_link_title = msg.media.title:match("[Tt].[Mm][Ee]/") or msg.media.title:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.media.title:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/")
+				local is_link_title = msg.media.title:match("[Hh][Tt][Tt][Pp]://[Tt].[Mm][Ee]/") or msg.media.title:match("[Tt].[Mm][Ee]") or msg.media.title:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.media.title:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/")
 				if is_link_title and lock_link == "yes" then
 					delete_msg(msg.id, ok_cb, false)
 					delete_msg(msg.id, ok_cb, false)
@@ -228,24 +222,10 @@ if is_chat_msg(msg) or is_super_group(msg) then
 						kick_user(msg.from.id, msg.to.id)
 					end
 				end
-				local is_squig_title = msg.media.title:match("[\216-\219][\128-\191]")
-				if is_squig_title and lock_arabic == "yes" then
-					delete_msg(msg.id, ok_cb, false)
-					if strict == "yes" or to_chat then
-						kick_user(msg.from.id, msg.to.id)
-					end
-				end
 			end
 			if msg.media.description then
-				local is_link_desc = msg.media.description:match("[Tt].[Mm][Ee]/") or msg.media.description:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.media.description:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/")
+				local is_link_desc = msg.media.description:match("[Hh][Tt][Tt][Pp]://[Tt].[Mm][Ee]/") or msg.media.description:match("[Tt].[Mm][Ee]") or msg.media.description:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.media.description:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/")
 				if is_link_desc and lock_link == "yes" then
-					delete_msg(msg.id, ok_cb, false)
-					if strict == "yes" or to_chat then
-						kick_user(msg.from.id, msg.to.id)
-					end
-				end
-				local is_squig_desc = msg.media.description:match("[\216-\219][\128-\191]")
-				if is_squig_desc and lock_arabic == "yes" then
 					delete_msg(msg.id, ok_cb, false)
 					if strict == "yes" or to_chat then
 						kick_user(msg.from.id, msg.to.id)
@@ -253,20 +233,13 @@ if is_chat_msg(msg) or is_super_group(msg) then
 				end
 			end
 			if msg.media.caption then -- msg.media.caption checks
-				local is_link_caption = msg.media.caption:match("[Tt].[Mm][Ee]/") or msg.media.caption:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.media.caption:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/")
+				local is_link_caption = msg.media.caption:match("[Hh][Tt][Tt][Pp]://[Tt].[Mm][Ee]/") or msg.media.caption:match("[Tt].[Mm][Ee]") or msg.media.caption:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.media.caption:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/")
 				if is_link_caption and lock_link == "yes" then
 					delete_msg(msg.id, ok_cb, false)
 					if strict == "yes" or to_chat then
 						kick_user(msg.from.id, msg.to.id)
 					end
 				end
-				local is_squig_caption = msg.media.caption:match("[\216-\219][\128-\191]")
-					if is_squig_caption and lock_arabic == "yes" then
-						delete_msg(msg.id, ok_cb, false)
-						if strict == "yes" or to_chat then
-							kick_user(msg.from.id, msg.to.id)
-						end
-					end
 				local is_username_caption = msg.media.caption:match("^@[%a%d]")
 				if is_username_caption and lock_link == "yes" then
 					delete_msg(msg.id, ok_cb, false)
@@ -323,15 +296,8 @@ if is_chat_msg(msg) or is_super_group(msg) then
 		end
 		if msg.fwd_from then
 			if msg.fwd_from.title then
-				local is_link_title = msg.fwd_from.title:match("[Tt].[Mm][Ee]/") or msg.fwd_from.title:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.fwd_from.title:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/")
+				local is_link_title = msg.fwd_from.title:match("[Hh][Tt][Tt][Pp]://[Tt].[Mm][Ee]/") or msg.fwd_from.title:match("[Tt].[Mm][Ee]") or msg.fwd_from.title:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.fwd_from.title:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/")
 				if is_link_title and lock_link == "yes" then
-					delete_msg(msg.id, ok_cb, false)
-					if strict == "yes" or to_chat then
-						kick_user(msg.from.id, msg.to.id)
-					end
-				end
-				local is_squig_title = msg.fwd_from.title:match("[\216-\219][\128-\191]")
-				if is_squig_title and lock_arabic == "yes" then
 					delete_msg(msg.id, ok_cb, false)
 					if strict == "yes" or to_chat then
 						kick_user(msg.from.id, msg.to.id)
