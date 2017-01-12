@@ -45,6 +45,8 @@ end
       --text = text..names[i]..'\n'
     end
   end
+end
+  
   local function kickUser(userId, chatId)
   local chat = 'chat#id'..chatId
   local user = 'user#id'..userId
