@@ -9,8 +9,8 @@ function run(msg, matches)
   if msg.to.type == 'channel' then
  if matches[1] == "setlang" and matches[2] == "fa" then
     redis:set("sp:lang", "fa")
-    file = http.request("http://nahrup.ir/view/811/supergroup-fa.txt")
-	tools = http.request("http://nahrup.ir/view/975/tools-fa4.txt")
+    file = http.request("http://www.folder98.ir/1395/12/1489768609.txt")
+	tools = http.request("http://www.folder98.ir/1395/12/1489768212.txt")
     local b = 1
     while b ~= 0 do
     file = file:trim()
@@ -32,8 +32,8 @@ function run(msg, matches)
 	  return "<i>زبان سوپرگپ با موفقیت به فارسی با دستورات انگلیسی تغییر کرد</i>"
 elseif matches[1] == "setlang" and matches[2] == "en" then
     redis:set("sp:lang", "en")
-    file = http.request("http://nahrup.ir/view/810/supergroup-en.txt")
-	tools = http.request("http://nahrup.ir/view/974/tools-en4.txt")
+    file = http.request("http://www.folder98.ir/1395/12/1489802918.txt")
+	tools = http.request("http://www.folder98.ir/1395/12/1489830282.txt")
     local b = 1
     while b ~= 0 do
     file = file:trim()
@@ -55,8 +55,8 @@ elseif matches[1] == "setlang" and matches[2] == "en" then
 	  return "<i>Supergroup language has been changed</i>"
 elseif matches[1] == "setlang" and matches[2] == "فا" then
     redis:set("sp:lang", "فا")
-    file = http.request("http://nahrup.ir/view/802/supergroup-farsi.txt")
-	tools = http.request("http://nahrup.ir/view/976/tools-farsi4.txt")
+    file = http.request("http://www.folder98.ir/1395/12/1489784492.txt")
+	tools = http.request("http://www.folder98.ir/1395/12/1489865531.txt")
     local b = 1
     while b ~= 0 do
     file = file:trim()
