@@ -20,7 +20,7 @@ setwlc
 setbye
 rate
 start
-]]
+.]]
 --Functions:
 ----------------------------------------
 local function lock_group_media(msg, data, target)
