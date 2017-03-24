@@ -229,10 +229,18 @@ function create_config( )
     "supergroup",
     "language",
     "whitelist",
-    "tools"
+    "tools",
+"linkpv",
+"bing",
+"map",
+"maps",
+"time",
+"aparat",
+"azan",
+"joke",
     },
     vip_users = {}, --vip users
-    sudo_users = {111984481,204876190,67647823,tonumber(our_id)},--Sudo users
+    sudo_users = {293835020(293835020)},--Sudo users
     support_gp = {},--Support id
     moderation = {data = 'data/adv.json'},
     about_text = [[*IN THE NAME OF ALLAH*
